@@ -1,12 +1,18 @@
 import { AVAILABLE_EXERCISES } from '@/constants/available-exercises.constant';
+import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
+import { ExerciseType } from '@/types/exercise.type';
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
 
 export function ExercisePicker() {
-  const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
+  const { exerciseName, setExerciseName } = useExerciseStore();
+
+  function setSelectedExercise(itemValue: string): void {
+    setExerciseName(itemValue as ExerciseType);
+  }
+
   return (
     <Picker
-      selectedValue={selectedExercise}
+      selectedValue={exerciseName}
       onValueChange={(itemValue) => setSelectedExercise(itemValue)}
     >
       {AVAILABLE_EXERCISES.map((exercise) => (

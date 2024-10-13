@@ -1,6 +1,6 @@
 import SignOutButton from '@/components/auth/SignOut/SignOutButton';
 import { useSession } from '@/providers/SessionProvider';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function ProfileScreen() {
   const session = useSession();
@@ -8,7 +8,6 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
       <SignOutButton />
     </View>
   );

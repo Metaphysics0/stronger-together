@@ -1,13 +1,15 @@
+import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
 
 export function RepsCountPicker() {
-  const [selectedRepsCount, setSelectedRepsCount] = useState<number>(1);
+  const { repsCount, setRepsCount } = useExerciseStore();
+
+  function setSelectedRepsCount(itemValue: number): void {
+    setRepsCount(Number(itemValue));
+  }
+
   return (
-    <Picker
-      selectedValue={selectedRepsCount}
-      onValueChange={(itemValue) => setSelectedRepsCount(itemValue)}
-    >
+    <Picker selectedValue={repsCount} onValueChange={setSelectedRepsCount}>
       {Array.from({ length: 100 }, (_, index) => (
         <Picker.Item
           key={index + 1}

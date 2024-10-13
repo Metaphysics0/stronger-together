@@ -1,21 +1,17 @@
-// import { create } from 'zustand'
-// import { devtools, persist } from 'zustand/middleware'
+import { AVAILABLE_EXERCISES } from '@/constants/available-exercises.constant';
+import { ExerciseType } from '@/types/exercise.type';
+import { create } from 'zustand';
 
-// interface SelectedExercise {
-//   selectedExercise: number
-//   increase: (by: number) => void
-// }
+interface ExerciseState {
+  exerciseName: string;
+  repsCount: number;
+  setExerciseName: (name: ExerciseType) => void;
+  setRepsCount: (count: number) => void;
+}
 
-// export const useSelectedExerciseStore = create<SelectedExercise >()(
-//   devtools(
-//     persist(
-//       (set) => ({
-//         selectedExercise: 0,
-//         : (by) => set((ex) => ({ bears: state.bears + by })),
-//       }),
-//       {
-//         name: 'bear-storage',
-//       },
-//     ),
-//   ),
-// )
+export const useExerciseStore = create<ExerciseState>((set) => ({
+  exerciseName: AVAILABLE_EXERCISES[0].name,
+  repsCount: 1,
+  setExerciseName: (exerciseName) => set({ exerciseName }),
+  setRepsCount: (repsCount) => set({ repsCount }),
+}));

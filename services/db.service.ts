@@ -1,5 +1,14 @@
 import { db } from '@/firebaseConfig';
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { ExerciseType } from '@/types/exercise.type';
+import { UserWorkout } from '@/types/user-workout.type';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 export async function createUser({
   uid,
@@ -14,6 +23,40 @@ export async function createUser({
     });
   } catch (error) {
     console.error('error creating user', error);
+  }
+}
+
+export async function submitWorkout({
+  uid,
+  exercise,
+  count,
+}: {
+  uid: string;
+  exercise: ExerciseType;
+  count: number;
+}) {
+  try {
+    console.log('submitting workout', uid, exercise, count);
+
+    const userDoc = await getDoc(doc(db, 'users', uid));
+    if (!userDoc.exists()) {
+      throw new Error('User not found');
+    }
+
+    const user = userDoc.data();
+    const { workouts: existingWorkouts = [] } = user;
+
+    const workout: UserWorkout = {
+      exercise,
+      count,
+      timestamp: new Date(),
+    };
+
+    await updateDoc(doc(db, 'users', uid), {
+      workouts: [...existingWorkouts, workout],
+    });
+  } catch (error) {
+    console.error('error submitting workout', error);
   }
 }
 
