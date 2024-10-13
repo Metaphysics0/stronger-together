@@ -1,4 +1,4 @@
-import SignInWithEmail from '@/components/auth/SignIn/SignInWithEmail';
+import SignInWithEmailAndPassword from '@/components/auth/SignIn/SignInWithEmailAndPassword';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function SignIn() {
@@ -12,7 +12,7 @@ export default function SignIn() {
       }}
     >
       <Text style={styles.title}>Stronger Together 💪</Text>
-      <SignInWithEmail />
+      <SignInWithEmailAndPassword />
     </View>
   );
 }
