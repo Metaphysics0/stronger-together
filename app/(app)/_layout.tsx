@@ -11,14 +11,11 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { session, isLoading } = useSession();
 
-  // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
 
   if (!session) {
-    // On web, static rendering will stop here as the user is not authenticated
-    // in the headless Node process that the pages are rendered in.
     return <Redirect href="/sign-in" />;
   }
 
@@ -48,6 +45,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? 'trophy' : 'trophy-outline'}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? 'person' : 'person-outline'}
               color={color}
             />
           ),
