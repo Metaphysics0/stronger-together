@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.metaphysics.strongtogetherv2"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,6 +30,11 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "92981b5d-1188-407d-948a-f5889b6ce42b"
+      }
     }
   }
 }

@@ -1,11 +1,17 @@
-import GoogleSignInButton from '@/components/SignIn/GoogleSignInButton';
-import { View, Text } from 'react-native';
+import SignInWithEmail from '@/components/SignIn/SignInWithEmail';
+import { View } from 'react-native';
 
 export default function SignIn() {
   return (
-    <View>
-      <Text>Sign In</Text>
-      <GoogleSignInButton />
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 35,
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <SignInWithEmail />
     </View>
   );
 }

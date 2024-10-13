@@ -1,5 +1,9 @@
 import { Slot } from 'expo-router';
-
+import { SessionProvider } from '@/providers/SessionProvider';
 export default function RootLayout() {
-  return <Slot />;
+  return (
+    <SessionProvider>
+      <Slot />
+    </SessionProvider>
+  );
 }

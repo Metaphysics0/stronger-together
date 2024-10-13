@@ -1,13 +1,8 @@
 import { initializeApp } from 'firebase/app';
 
-// Optionally import the services that you want to use
-import { getAuth } from 'firebase/auth';
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Initialize Firebase
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -19,9 +14,29 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
+export const actionCodeSettings = {
+  // URL you want to redirect back to. The domain (www.example.com) for this
+  // URL must be in the authorized domains list in the Firebase Console.
+  url: 'https://www.example.com/finishSignUp?cartId=1234',
+  // This must be true.
+  handleCodeInApp: true,
+  iOS: {
+    bundleId: 'com.metaphysics.strongtogetherv2',
+  },
+  android: {
+    packageName: 'com.metaphysics.strongtogetherv2',
+    installApp: true,
+    minimumVersion: '12',
+  },
+  dynamicLinkDomain: 'example.page.link',
+};
+
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-auth.useDeviceLanguage();
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+export { app, auth };
 
 // getRedirectResult(auth)
 //   .then((result) => {
