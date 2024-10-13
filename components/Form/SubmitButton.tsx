@@ -15,10 +15,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    marginTop: 20,
   },
   text: {
-    fontSize: 28,
-    lineHeight: 32,
+    fontSize: 45,
   },
 });
