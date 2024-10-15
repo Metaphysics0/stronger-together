@@ -1,6 +1,7 @@
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
+import Scoreboard from '@/components/Scoreboard';
 
 export default function Index() {
   const { data: users, isLoading } = useQuery({
@@ -15,18 +16,24 @@ export default function Index() {
   console.log(users);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 35,
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <Text>Scoreboard</Text>
-      {users?.map((user) => (
-        <Text key={user.uid}>{user.displayName}</Text>
-      ))}
+    <View style={styles.container}>
+      <View style={styles.scoreboardContainer}>
+        <Scoreboard />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: '100%',
+    paddingHorizontal: 35,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  scoreboardContainer: {
+    flex: 1,
+    marginTop: 30,
+  },
+});

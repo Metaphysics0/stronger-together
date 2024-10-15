@@ -6,8 +6,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 
 export async function createUser({
@@ -73,9 +75,37 @@ export async function getUser({ uid }: { uid: string }) {
 export async function getAllUsers() {
   try {
     const snapshot = await getDocs(collection(db, 'users'));
-    return snapshot.docs.map((doc) => doc.data());
+    return snapshot.docs.map((doc) => {
+      const json = doc.data();
+      return { ...json, displayName: json.displayName, uid: doc.id };
+    });
   } catch (error) {
     console.error('error getting all users', error);
+    return [];
+  }
+}
+
+export async function getAllWeeklyWorkouts(start: Date, end: Date) {
+  try {
+    const usersSnapshot = await getDocs(collection(db, 'users'));
+    const workoutsPromises = usersSnapshot.docs.map(async (userDoc) => {
+      const userWorkoutsSnapshot = await getDocs(
+        query(
+          collection(db, 'users', userDoc.id, 'workouts'),
+          where('timestamp', '>=', start),
+          where('timestamp', '<=', end)
+        )
+      );
+      return userWorkoutsSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        userId: userDoc.id,
+      }));
+    });
+
+    const allWorkouts = await Promise.all(workoutsPromises);
+    return allWorkouts.flat();
+  } catch (error) {
+    console.error('error getting all weekly workouts', error);
     return [];
   }
 }

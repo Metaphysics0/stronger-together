@@ -77,7 +77,7 @@ export default function SignInWithEmail() {
         placeholder="myemail@example.com"
         keyboardType="email-address"
         inputMode="email"
-        textContentType="username"
+        textContentType="emailAddress"
         numberOfLines={1}
         value={email}
         onChangeText={onEmailChange}
