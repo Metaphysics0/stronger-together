@@ -1,13 +1,24 @@
-import SignInWithEmailAndPassword from '@/components/auth/SignIn/SignInWithEmailAndPassword';
+import GoogleSignInButton from '@/components/auth/SignIn/Providers/Google/Button';
+import SignInWithEmailAndPasswordButton from '@/components/auth/SignIn/Providers/Email/Button';
 import { Footer } from '@/components/Footer';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSignInWithEmailFormStore } from '@/hooks/stores/useSignInWithEmailFormStore';
 
 export default function SignIn() {
+  const { isSignInWithEmailFormActive, isSignUpWithEmailFormActive } =
+    useSignInWithEmailFormStore();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Stronger Together 💪</Text>
-        <SignInWithEmailAndPassword />
+
+        {!isSignInWithEmailFormActive && !isSignUpWithEmailFormActive && (
+          <GoogleSignInButton />
+        )}
+
+        <Text style={styles.orText}>Or</Text>
+
+        <SignInWithEmailAndPasswordButton />
       </View>
       <View style={styles.footerContainer}>
         <Footer />
@@ -32,6 +43,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,
+  },
+  orText: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#A9A9A9',
+    marginVertical: 5,
   },
   footerContainer: {
     alignItems: 'center',
