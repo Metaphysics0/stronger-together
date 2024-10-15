@@ -1,15 +1,38 @@
 import { Redirect, Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import React, { useState } from 'react';
+import {
+  TabBarIcon,
+  TabBarIconFontAwesome,
+} from '@/components/navigation/TabBarIcon';
 import { useSession } from '@/providers/SessionProvider';
 import { Text } from 'react-native';
+import { useRef, useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
+import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
+import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const { session, isLoading } = useSession();
+  const { setExpoPushToken } = usePushNotificationStore();
+
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync()
+      .then((token) => setExpoPushToken(token ?? ''))
+      .catch((error: any) => {
+        console.log('ERROR', error);
+      });
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+  }, []);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -22,29 +45,29 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#0a7ea4',
         headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Workout',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'rocket' : 'rocket-outline'}
+            <TabBarIconFontAwesome
+              name={focused ? 'person-running' : 'person-running'}
               color={color}
             />
           ),
         }}
       />
       <Tabs.Screen
-        name="scoreboard"
+        name="leaderboard"
         options={{
-          title: 'Scoreboard',
+          title: 'Leaderboard',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? 'trophy' : 'trophy-outline'}
+              name={focused ? 'ribbon' : 'ribbon-outline'}
               color={color}
             />
           ),
@@ -56,7 +79,7 @@ export default function TabLayout() {
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? 'person' : 'person-outline'}
+              name={focused ? 'person-circle' : 'person-circle-outline'}
               color={color}
             />
           ),

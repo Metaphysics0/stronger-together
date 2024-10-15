@@ -1,6 +1,6 @@
-import { ExercisePicker } from '@/components/Form/ExercisePicker';
-import { RepsCountPicker } from '@/components/Form/RepsCountPicker';
-import { SubmitButton } from '@/components/Form/SubmitButton';
+import { ExercisePicker } from '@/components/WorkoutForm/ExercisePicker';
+import { RepsCountPicker } from '@/components/WorkoutForm/RepsCountPicker';
+import { SubmitWorkoutButton } from '@/components/WorkoutForm/SubmitWorkoutButton';
 import { View } from 'react-native';
 
 export default function Index() {
@@ -15,7 +15,7 @@ export default function Index() {
     >
       <ExercisePicker />
       <RepsCountPicker />
-      <SubmitButton />
+      <SubmitWorkoutButton />
     </View>
   );
 }

@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 
 export default function ProfileScreen() {
   const session = useSession();
-  console.log(session);
 
   return (
     <View style={styles.container}>
