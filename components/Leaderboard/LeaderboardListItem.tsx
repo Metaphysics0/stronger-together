@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
+import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
+import UserWorkoutStatsModal from '../modals/UserWorkoutStatsModal';
 
 interface LeaderboardListItemProps {
   user: StrongerTogetherUser;
@@ -12,13 +14,21 @@ export default function LeaderboardListItem({
   user,
   rank,
 }: LeaderboardListItemProps) {
+  const { isUserStatsModalActive, setIsUserStatsModalActive } =
+    useUserStatsModalStore();
   const score = user.workouts.reduce(
     (total, workout) => total + workout.count,
     0
   );
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        setIsUserStatsModalActive(true);
+      }}
+    >
+      {isUserStatsModalActive && <UserWorkoutStatsModal user={user} />}
       <Text style={styles.rank}>#{rank}</Text>
       <View style={styles.card}>
         <Image
@@ -30,7 +40,7 @@ export default function LeaderboardListItem({
         </View>
         <Text style={styles.score}>{score} points</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

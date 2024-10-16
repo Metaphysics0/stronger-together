@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import TopThreeUsers from './TopThreeUsers';
 import { getUserScore } from '@/utils/get-user-score.util';
-import LeaderboardListItem from './LeaderboardListItem';
+import ParallaxLeaderboard from './ParallaxLeaderboard';
+import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 
 export default function LeaderboardContainer() {
   const { data: users, isLoading: isLoadingUsers } = useQuery({
@@ -20,14 +20,11 @@ export default function LeaderboardContainer() {
     (a, b) => getUserScore(b) - getUserScore(a)
   );
 
+  const { setIsUserStatsModalActive } = useUserStatsModalStore();
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TopThreeUsers users={usersSortedByScore} />
-        {users.map((user, index) => (
-          <LeaderboardListItem key={user.uid} user={user} rank={index + 1} />
-        ))}
-      </ScrollView>
+      <ParallaxLeaderboard users={usersSortedByScore} />
     </SafeAreaView>
   );
 }
@@ -36,8 +33,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f0f0',
-  },
-  scrollContent: {
-    paddingBottom: 20,
   },
 });
