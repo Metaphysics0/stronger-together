@@ -2,6 +2,8 @@ import { Slot } from 'expo-router';
 import { SessionProvider } from '@/providers/SessionProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { configureGoogleSignIn } from '@/services/google-sign-in.service';
+import Toast from 'react-native-toast-message';
+
 export default function RootLayout() {
   const queryClient = new QueryClient();
 
@@ -11,6 +13,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <Slot />
+        <Toast />
       </SessionProvider>
     </QueryClientProvider>
   );
