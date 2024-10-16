@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Animated, StyleSheet, View, ScrollView } from 'react-native';
+import { Animated, StyleSheet, View, ScrollView, Text } from 'react-native';
 import TopThreeUsers from './TopThreeUsers';
 import LeaderboardListItem from './LeaderboardListItem';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
@@ -58,6 +58,7 @@ export default function ParallaxLeaderboard({
           { useNativeDriver: false }
         )}
       >
+        <Text style={styles.leaderboardText}>Leaderboard</Text>
         {users.map((user, index) => (
           <LeaderboardListItem key={user.uid} user={user} rank={index + 1} />
         ))}
@@ -90,5 +91,13 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     paddingTop: HEADER_MAX_HEIGHT,
+  },
+  leaderboardText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 20,
+    paddingHorizontal: 20,
+    color: 'black',
   },
 });

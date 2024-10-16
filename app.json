@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "strong-together-v2",
-    "slug": "strong-together-v2",
+    "name": "Stronger Together",
+    "slug": "stronger-together",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

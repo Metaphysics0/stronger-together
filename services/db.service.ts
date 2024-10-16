@@ -7,10 +7,8 @@ import {
   doc,
   getDoc,
   getDocs,
-  query,
   setDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
 import { sendPushNotification } from './push-notifications/send-push-notification.service';
@@ -24,7 +22,7 @@ export async function createUser({
   data: Partial<StrongerTogetherUser>;
 }) {
   try {
-    console.log('creating user', uid, data);
+    console.log('upserting user', uid, data);
     await setDoc(doc(db, 'users', uid), { ...data }, { merge: true });
   } catch (error) {
     console.error('error creating user', error);
@@ -109,27 +107,12 @@ export async function getAllUsers(): Promise<
   }
 }
 
-export async function getAllWeeklyWorkouts(start: Date, end: Date) {
+export async function getGroups() {
   try {
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-    const workoutsPromises = usersSnapshot.docs.map(async (userDoc) => {
-      const userWorkoutsSnapshot = await getDocs(
-        query(
-          collection(db, 'users', userDoc.id, 'workouts'),
-          where('timestamp', '>=', start),
-          where('timestamp', '<=', end)
-        )
-      );
-      return userWorkoutsSnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        userId: userDoc.id,
-      }));
-    });
-
-    const allWorkouts = await Promise.all(workoutsPromises);
-    return allWorkouts.flat();
+    const snapshot = await getDocs(collection(db, 'groups'));
+    return snapshot.docs.map((doc) => doc.data());
   } catch (error) {
-    console.error('error getting all weekly workouts', error);
+    console.error('error getting groups', error);
     return [];
   }
 }

@@ -1,5 +1,5 @@
 import { Redirect, Tabs } from 'expo-router';
-import React, { useState } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import {
   TabBarIcon,
   TabBarIconFontAwesome,
@@ -10,6 +10,8 @@ import { useRef, useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -19,7 +21,6 @@ export default function TabLayout() {
     Notifications.Notification | undefined
   >(undefined);
   const notificationListener = useRef<Notifications.Subscription>();
-  const responseListener = useRef<Notifications.Subscription>();
 
   useEffect(() => {
     registerForPushNotificationsAsync()
@@ -42,6 +43,35 @@ export default function TabLayout() {
     return <Redirect href="/sign-in" />;
   }
 
+  const ROUTES: {
+    name: string;
+    icon: ComponentProps<typeof Ionicons>['name'];
+    path: string;
+    isFontAwesome?: boolean;
+  }[] = [
+    {
+      name: 'Workout',
+      icon: 'person-running' as ComponentProps<typeof FontAwesome6>['name'],
+      isFontAwesome: true,
+      path: 'index',
+    },
+    {
+      name: 'Groups',
+      icon: 'people',
+      path: 'groups',
+    },
+    {
+      name: 'Leaderboard',
+      icon: 'ribbon',
+      path: 'leaderboard',
+    },
+    {
+      name: 'Profile',
+      icon: 'person-circle',
+      path: 'profile',
+    },
+  ];
+
   return (
     <Tabs
       screenOptions={{
@@ -49,42 +79,25 @@ export default function TabLayout() {
         headerShown: false,
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Workout',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIconFontAwesome
-              name={focused ? 'person-running' : 'person-running'}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="leaderboard"
-        options={{
-          title: 'Leaderboard',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'ribbon' : 'ribbon-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'person-circle' : 'person-circle-outline'}
-              color={color}
-            />
-          ),
-        }}
-      />
+      {ROUTES.map((route) => (
+        <Tabs.Screen
+          key={route.name}
+          name={route.path}
+          options={{
+            title: route.name,
+            tabBarIcon: ({ color, focused }) =>
+              route.isFontAwesome ? (
+                <TabBarIconFontAwesome name={route.icon} color={color} />
+              ) : (
+                <TabBarIcon
+                  // @ts-ignore
+                  name={focused ? route.icon : `${route.icon}-outline`}
+                  color={color}
+                />
+              ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

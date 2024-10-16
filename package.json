@@ -45,7 +45,8 @@
     "react-native-web": "~0.19.10",
     "zustand": "^5.0.0-rc.2",
     "expo-notifications": "~0.28.18",
-    "expo-device": "~6.0.2"
+    "expo-device": "~6.0.2",
+    "expo-dev-client": "~4.0.28"
   },
   "resolutions": {
     "expo-constants": "14.0.2"

@@ -52,9 +52,12 @@ export default function UserWorkoutStatsModal({
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>
-              {user.displayName}'s Workout Stats
-            </Text>
+            <View style={styles.headerTextContainer}>
+              <Text style={styles.headerText}>
+                {user.displayName}'s Workout Stats
+              </Text>
+              <Text style={styles.subHeaderText}>All Time</Text>
+            </View>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setIsUserStatsModalActive(false)}
@@ -102,9 +105,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFA500',
   },
+  headerTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white',
+  },
+  subHeaderText: {
+    fontSize: 16,
     color: 'white',
   },
   closeButton: {
