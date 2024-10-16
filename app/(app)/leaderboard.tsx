@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import Scoreboard from '@/components/Scoreboard';
+import LeaderboardContainer from '@/components/Leaderboard/Container';
 
 export default function Index() {
   const { data: users, isLoading } = useQuery({
@@ -15,7 +15,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Scoreboard />
+      <LeaderboardContainer />
     </View>
   );
 }

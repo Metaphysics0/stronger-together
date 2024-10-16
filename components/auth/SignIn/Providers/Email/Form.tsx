@@ -1,4 +1,5 @@
 import { auth } from '@/firebaseConfig';
+import { useSignInWithEmailFormStore } from '@/hooks/stores/useSignInWithEmailFormStore';
 import { useSession } from '@/providers/SessionProvider';
 import { createUser } from '@/services/db.service';
 import { router } from 'expo-router';
@@ -16,13 +17,15 @@ import {
   Pressable,
 } from 'react-native';
 
-export default function SignInWithEmail() {
+export default function SignInWithEmailAndPassword() {
   const { signIn } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
 
   const [isSignUpForm, setIsSignUpForm] = useState(false);
+  const { clearSignInWithEmailFormState } = useSignInWithEmailFormStore();
+
   function onEmailChange(text: string) {
     setEmail(text.toLowerCase().trim());
   }
@@ -30,6 +33,7 @@ export default function SignInWithEmail() {
   const handleSignIn = async () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log('response', response);
 
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
@@ -50,6 +54,7 @@ export default function SignInWithEmail() {
       );
 
       if (response.user) {
+        await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
         router.replace('/');
       }
@@ -108,6 +113,15 @@ export default function SignInWithEmail() {
           </Text>
         </Pressable>
       </View>
+
+      <View style={styles.goBackContainer}>
+        <Pressable
+          style={styles.goBackButton}
+          onPress={clearSignInWithEmailFormState}
+        >
+          <Text style={styles.goBackButton}>Go Back?</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -133,5 +147,15 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: 'bold',
     color: '#007AFF',
+  },
+  goBackContainer: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  goBackButton: {
+    marginLeft: 5,
+    color: '#A9A9A9',
   },
 });

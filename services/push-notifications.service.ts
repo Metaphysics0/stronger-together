@@ -11,31 +11,6 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function sendPushNotification(expoPushToken: string) {
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
-  };
-
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
-}
-
-function handleRegistrationError(errorMessage: string) {
-  alert(errorMessage);
-  throw new Error(errorMessage);
-}
-
 export async function registerForPushNotificationsAsync() {
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
@@ -68,11 +43,9 @@ export async function registerForPushNotificationsAsync() {
     }
     try {
       const pushTokenString = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId,
-        })
+        await Notifications.getExpoPushTokenAsync({ projectId })
       ).data;
-      console.log(pushTokenString);
+      console.log('expo push token string - ', pushTokenString);
       return pushTokenString;
     } catch (e: unknown) {
       handleRegistrationError(`${e}`);
@@ -80,4 +53,9 @@ export async function registerForPushNotificationsAsync() {
   } else {
     handleRegistrationError('Must use physical device for push notifications');
   }
+}
+
+function handleRegistrationError(errorMessage: string) {
+  alert(errorMessage);
+  throw new Error(errorMessage);
 }

@@ -13,6 +13,8 @@ import {
   where,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
+import { sendPushNotification } from './push-notifications/send-push-notification.service';
+import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
 
 export async function createUser({
   uid,
@@ -33,10 +35,12 @@ export async function submitWorkout({
   uid,
   exercise,
   count,
+  expoPushToken,
 }: {
   uid: string;
   exercise: ExerciseType;
   count: number;
+  expoPushToken: string;
 }) {
   try {
     console.log(`submitting workout for user: ${uid} - ${count} ${exercise}`);
@@ -57,6 +61,15 @@ export async function submitWorkout({
 
     await updateDoc(doc(db, 'users', uid), {
       workouts: [...existingWorkouts, workout],
+    });
+
+    await sendPushNotification({
+      expoPushToken,
+      ...getWorkoutPushNotificationMessage({
+        userDisplayName: user.displayName,
+        exercise,
+        count,
+      }),
     });
   } catch (error) {
     console.error('error submitting workout', error);
@@ -81,7 +94,12 @@ export async function getAllUsers(): Promise<
     const snapshot = await getDocs(collection(db, 'users'));
     const users = snapshot.docs.map((doc) => {
       const json = doc.data();
-      return { ...json, displayName: json.displayName, uid: doc.id };
+      return {
+        ...json,
+        workouts: json.workouts ?? [],
+        displayName: json.displayName,
+        uid: doc.id,
+      };
     });
     return users as unknown as Array<{ uid: string } & StrongerTogetherUser>;
   } catch (error) {

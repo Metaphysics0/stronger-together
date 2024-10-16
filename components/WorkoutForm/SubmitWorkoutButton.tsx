@@ -1,3 +1,4 @@
+import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import { submitWorkout } from '@/services/db.service';
 import { toastError, toastSuccess } from '@/services/toast.service';
@@ -8,7 +9,10 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 export function SubmitWorkoutButton() {
   const { exerciseName: exercise, repsCount } = useExerciseStore();
+  const { expoPushToken = 'ExponentPushToken[MNzzHvAeQftldTjcgYofFo]' } =
+    usePushNotificationStore();
   const auth = getAuth();
+
   async function handleSubmit() {
     if (!auth.currentUser) {
       console.error('User is not logged in');
@@ -19,9 +23,16 @@ export function SubmitWorkoutButton() {
       throw new Error('Invalid exercise!');
     }
 
+    console.log('expoPushToken', expoPushToken);
+
+    // if (!expoPushToken) {
+    //   throw new Error('No push notification token found');
+    // }
+
     toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
     try {
       await submitWorkout({
+        expoPushToken: 'ExponentPushToken[MNzzHvAeQftldTjcgYofFo]',
         exercise,
         count: repsCount,
         uid: auth.currentUser.uid,

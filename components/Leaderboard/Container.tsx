@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import ScoreboardListItem from './Scoreboard/ScoreboardListItem';
-import TopThreeUsers from './Scoreboard/TopThreeUsers';
+import ScoreboardListItem from './ScoreboardListItem';
+import TopThreeUsers from './TopThreeUsers';
 import { getUserScore } from '@/utils/get-user-score.util';
 
-export default function Scoreboard() {
+export default function ScoreboardContainer() {
   const { data: users, isLoading: isLoadingUsers } = useQuery({
     queryKey: ['users'],
     queryFn: getAllUsers,

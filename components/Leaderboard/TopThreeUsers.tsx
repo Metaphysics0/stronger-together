@@ -1,3 +1,4 @@
+import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
@@ -25,7 +26,7 @@ export default function TopThreeUsers({ users }: TopThreeUsersProps) {
       >
         <View style={styles.avatarContainer}>
           <Image
-            source={{ uri: user.photoUrl || 'https://via.placeholder.com/100' }}
+            source={{ uri: user.photoUrl || PLACEHOLDER_PROFILE_IMAGE_URL }}
             style={styles.avatar}
           />
           <View style={styles.rankBadge}>

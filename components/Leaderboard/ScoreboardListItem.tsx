@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 interface ScoreboardListItemProps {
   user: StrongerTogetherUser;
   rank: number;
@@ -20,13 +21,13 @@ export default function ScoreboardListItem({
       <Text style={styles.rank}>#{rank}</Text>
       <View style={styles.card}>
         <Image
-          source={{ uri: user.photoUrl || 'https://via.placeholder.com/40' }}
+          source={{ uri: user.photoUrl || PLACEHOLDER_PROFILE_IMAGE_URL }}
           style={styles.avatar}
         />
         <View style={styles.userInfo}>
           <Text style={styles.name}>{user.displayName}</Text>
         </View>
-        <Text style={styles.score}>{score} pt.</Text>
+        <Text style={styles.score}>{score} points</Text>
       </View>
     </View>
   );
