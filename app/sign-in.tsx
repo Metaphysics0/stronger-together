@@ -1,4 +1,4 @@
-import SignInWithEmailAndPassword from '@/components/auth/SignIn/SignInWithEmailAndPassword';
+import GoogleSignInButton from '@/components/auth/SignIn/GoogleSignInButton';
 import { Footer } from '@/components/Footer';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,7 +7,7 @@ export default function SignIn() {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Stronger Together 💪</Text>
-        <SignInWithEmailAndPassword />
+        <GoogleSignInButton />
       </View>
       <View style={styles.footerContainer}>
         <Footer />

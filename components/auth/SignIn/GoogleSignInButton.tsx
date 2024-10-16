@@ -1,13 +1,25 @@
+import { auth } from '@/firebaseConfig';
+import { useSession } from '@/providers/SessionProvider';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { router } from 'expo-router';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { Button } from 'react-native';
-import { auth } from '../../firebaseConfig';
-import { signInWithCredential, GoogleAuthProvider } from 'firebase/auth';
 export default function GoogleSignInButton() {
+  const { signIn } = useSession();
+
   const onGoogleButtonPress = async () => {
     try {
-      const googleCredential = GoogleAuthProvider.credential();
-      console.log('GOOGLE CREDENTIAL', googleCredential);
-      const response = await signInWithCredential(auth, googleCredential);
-      console.log('RESPONSE', response);
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const response = await GoogleSignin.signIn();
+      const idToken = response?.data?.idToken;
+      const credential = GoogleAuthProvider.credential(idToken);
+      const signInResponse = await signInWithCredential(auth, credential);
+      if (signInResponse.user) {
+        signIn(signInResponse);
+        router.replace('/');
+      }
     } catch (error) {
       console.log('ERROR', error);
     }
