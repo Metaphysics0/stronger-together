@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
 import ScoreboardListItem from './Scoreboard/ScoreboardListItem';
 import TopThreeUsers from './Scoreboard/TopThreeUsers';
+import { getUserScore } from '@/utils/get-user-score.util';
 
 export default function Scoreboard() {
   const { data: users, isLoading: isLoadingUsers } = useQuery({
@@ -12,13 +13,17 @@ export default function Scoreboard() {
   });
 
   if (isLoadingUsers || !users) {
-    return <Text>Loading users...</Text>;
+    return <Text>Loading leaderboard...</Text>;
   }
+
+  const usersSortedByScore = users.sort(
+    (a, b) => getUserScore(b) - getUserScore(a)
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TopThreeUsers users={users} />
+        <TopThreeUsers users={usersSortedByScore} />
         {users.map((user, index) => (
           <ScoreboardListItem key={user.uid} user={user} rank={index + 1} />
         ))}
