@@ -13,8 +13,6 @@ export default function Index() {
     return <Text>Loading...</Text>;
   }
 
-  console.log(users);
-
   return (
     <View style={styles.container}>
       <Scoreboard />

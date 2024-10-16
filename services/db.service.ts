@@ -22,6 +22,7 @@ export async function createUser({
   data: Partial<StrongerTogetherUser>;
 }) {
   try {
+    console.log('creating user', uid, data);
     await setDoc(doc(db, 'users', uid), { ...data });
   } catch (error) {
     console.error('error creating user', error);
@@ -38,7 +39,7 @@ export async function submitWorkout({
   count: number;
 }) {
   try {
-    console.log('submitting workout', uid, exercise, count);
+    console.log(`submitting workout for user: ${uid} - ${count} ${exercise}`);
 
     const userDoc = await getDoc(doc(db, 'users', uid));
     if (!userDoc.exists()) {
