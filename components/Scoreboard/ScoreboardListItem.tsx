@@ -37,12 +37,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
-    paddingHorizontal: 16,
   },
   rank: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginRight: 12,
+    marginRight: 5,
     width: 30,
   },
   card: {
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   score: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '300',
   },
 });

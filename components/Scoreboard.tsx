@@ -5,6 +5,7 @@ import { getAllUsers } from '@/services/db.service';
 import { User } from 'firebase/auth';
 import { ExerciseType } from '@/types/exercise.type';
 import ScoreboardListItem from './Scoreboard/ScoreboardListItem';
+import TopThreeUsers from './Scoreboard/TopThreeUsers';
 
 // ... existing imports ...
 
@@ -44,6 +45,7 @@ export default function Scoreboard() {
       >
         Scoreboard
       </Text>
+      <TopThreeUsers users={users} />
       {users.map((user, index) => (
         <ScoreboardListItem key={user.uid} user={user} rank={index + 1} />
       ))}
