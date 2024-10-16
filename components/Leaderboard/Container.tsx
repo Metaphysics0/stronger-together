@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import ScoreboardListItem from './ScoreboardListItem';
 import TopThreeUsers from './TopThreeUsers';
 import { getUserScore } from '@/utils/get-user-score.util';
+import LeaderboardListItem from './LeaderboardListItem';
 
-export default function ScoreboardContainer() {
+export default function LeaderboardContainer() {
   const { data: users, isLoading: isLoadingUsers } = useQuery({
     queryKey: ['users'],
     queryFn: getAllUsers,
@@ -25,7 +25,7 @@ export default function ScoreboardContainer() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TopThreeUsers users={usersSortedByScore} />
         {users.map((user, index) => (
-          <ScoreboardListItem key={user.uid} user={user} rank={index + 1} />
+          <LeaderboardListItem key={user.uid} user={user} rank={index + 1} />
         ))}
       </ScrollView>
     </SafeAreaView>

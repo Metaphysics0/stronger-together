@@ -1,6 +1,5 @@
 import { Redirect, Tabs } from 'expo-router';
 import React, { useState } from 'react';
-
 import {
   TabBarIcon,
   TabBarIconFontAwesome,
@@ -9,8 +8,8 @@ import { useSession } from '@/providers/SessionProvider';
 import { Text } from 'react-native';
 import { useRef, useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
-import { registerForPushNotificationsAsync } from '@/services/push-notifications.service';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
+import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();

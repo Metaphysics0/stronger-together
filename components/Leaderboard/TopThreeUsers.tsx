@@ -1,18 +1,11 @@
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 interface TopThreeUsersProps {
   users: StrongerTogetherUser[];
 }
-
-const GradientBackground = ({ children }: { children: React.ReactNode }) => (
-  <View style={styles.gradientContainer}>
-    <View style={styles.gradientOverlay} />
-    {children}
-  </View>
-);
 
 export default function TopThreeUsers({ users }: TopThreeUsersProps) {
   const topThree = users.slice(0, 3);
@@ -47,32 +40,21 @@ export default function TopThreeUsers({ users }: TopThreeUsersProps) {
   };
 
   return (
-    <GradientBackground>
+    <View style={styles.container}>
       <Text style={styles.title}>Workout Beasts</Text>
       <View style={styles.usersContainer}>
-        {/* {renderUser(topThree[1], 0)} */}
+        {renderUser(topThree[1], 0)}
         {renderUser(topThree[0], 1)}
-        {/* {renderUser(topThree[2], 2)} */}
+        {renderUser(topThree[2], 2)}
       </View>
-    </GradientBackground>
+    </View>
   );
 }
 
-const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
-  gradientContainer: {
-    overflow: 'hidden',
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    paddingTop: 60, // Add more padding at the top
-    paddingBottom: 30, // Add padding at the bottom
-  },
-  gradientOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  container: {
+    paddingTop: 20,
+    paddingBottom: 30,
     backgroundColor: '#FFA500',
   },
   title: {

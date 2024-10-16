@@ -25,7 +25,7 @@ export async function createUser({
 }) {
   try {
     console.log('creating user', uid, data);
-    await setDoc(doc(db, 'users', uid), { ...data });
+    await setDoc(doc(db, 'users', uid), { ...data }, { merge: true });
   } catch (error) {
     console.error('error creating user', error);
   }
