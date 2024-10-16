@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { getAllUsers, getAllWeeklyWorkouts } from '@/services/db.service';
-import { startOfWeek, endOfWeek } from 'date-fns';
+import { getAllUsers } from '@/services/db.service';
 import { User } from 'firebase/auth';
 import { ExerciseType } from '@/types/exercise.type';
+import ScoreboardListItem from './Scoreboard/ScoreboardListItem';
 
 // ... existing imports ...
 
@@ -23,27 +23,14 @@ interface UserScore {
 }
 
 export default function Scoreboard() {
-  const startDate = startOfWeek(new Date(), { weekStartsOn: 0 }); // Sunday
-  const endDate = endOfWeek(new Date(), { weekStartsOn: 0 }); // Saturday
-
   const { data: users, isLoading: isLoadingUsers } = useQuery({
     queryKey: ['users'],
     queryFn: getAllUsers,
   });
 
-  const { data: workouts, isLoading: isLoadingWorkouts } = useQuery({
-    queryKey: ['weeklyWorkouts', startDate, endDate],
-    queryFn: () => getAllWeeklyWorkouts(startDate, endDate),
-  });
-
-  if (isLoadingUsers || isLoadingWorkouts) {
-    return <Text>Loading...</Text>;
+  if (isLoadingUsers || !users) {
+    return <Text>Loading users...</Text>;
   }
-
-  const userScores: UserScore[] = calculateUserScores(users as User[]);
-  const sortedUserScores = userScores.sort(
-    (a, b) => b.totalScore - a.totalScore
-  );
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 10 }}>
@@ -55,56 +42,11 @@ export default function Scoreboard() {
           marginVertical: 20,
         }}
       >
-        Weekly Scoreboard
+        Scoreboard
       </Text>
-      <ScrollView horizontal>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-            }}
-          >
-            <Text style={{ width: 100, fontWeight: 'bold' }}>User</Text>
-            {Object.entries(exerciseIcons).map(([type, icon]) => (
-              <Text
-                key={type}
-                style={{ width: 50, textAlign: 'center', fontWeight: 'bold' }}
-              >
-                {icon}
-              </Text>
-            ))}
-            <Text
-              style={{ width: 50, textAlign: 'center', fontWeight: 'bold' }}
-            >
-              Total
-            </Text>
-          </View>
-          {sortedUserScores.map((userScore) => (
-            <View
-              key={userScore.user.uid}
-              style={{
-                flexDirection: 'row',
-                borderBottomWidth: 1,
-                paddingVertical: 10,
-              }}
-            >
-              <Text style={{ width: 100 }}>{userScore.user.displayName}</Text>
-              {Object.entries(exerciseIcons).map(([type]) => (
-                <Text key={type} style={{ width: 50, textAlign: 'center' }}>
-                  {userScore.scores[type as ExerciseType] || 0}
-                </Text>
-              ))}
-              <Text
-                style={{ width: 50, textAlign: 'center', fontWeight: 'bold' }}
-              >
-                {userScore.totalScore}
-              </Text>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+      {users.map((user, index) => (
+        <ScoreboardListItem key={user.uid} user={user} rank={index + 1} />
+      ))}
     </ScrollView>
   );
 }

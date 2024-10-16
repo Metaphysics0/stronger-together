@@ -12,6 +12,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { toastError } from './toast.service';
 
 export async function createUser({
   uid,
@@ -58,6 +59,7 @@ export async function submitWorkout({
     });
   } catch (error) {
     console.error('error submitting workout', error);
+    toastError('Error submitting workout');
   }
 }
 
@@ -71,15 +73,19 @@ export async function getUser({ uid }: { uid: string }) {
   }
 }
 
-export async function getAllUsers() {
+export async function getAllUsers(): Promise<
+  Array<{ uid: string } & StrongerTogetherUser>
+> {
   try {
     const snapshot = await getDocs(collection(db, 'users'));
-    return snapshot.docs.map((doc) => {
+    const users = snapshot.docs.map((doc) => {
       const json = doc.data();
       return { ...json, displayName: json.displayName, uid: doc.id };
     });
+    return users as unknown as Array<{ uid: string } & StrongerTogetherUser>;
   } catch (error) {
     console.error('error getting all users', error);
+    toastError('Error getting users!');
     return [];
   }
 }
