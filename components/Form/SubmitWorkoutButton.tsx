@@ -19,13 +19,13 @@ export function SubmitWorkoutButton() {
       throw new Error('Invalid exercise!');
     }
 
+    toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
     try {
       await submitWorkout({
         exercise,
         count: repsCount,
         uid: auth.currentUser.uid,
       });
-      toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
     } catch (error) {
       console.error('Error submitting workout', error);
       toastError('Error submitting workout');

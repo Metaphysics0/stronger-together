@@ -1,17 +1,23 @@
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface TopThreeUsersProps {
   users: StrongerTogetherUser[];
 }
 
+const GradientBackground = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.gradientContainer}>
+    <View style={styles.gradientOverlay} />
+    {children}
+  </View>
+);
+
 export default function TopThreeUsers({ users }: TopThreeUsersProps) {
   const topThree = users.slice(0, 3);
 
   const renderUser = (user: StrongerTogetherUser, index: number) => {
-    const isFirst = index === 1; // Note: index 1 is the first (center) user in our layout
+    const isFirst = index === 1;
     return (
       <View
         key={user.email}
@@ -40,23 +46,33 @@ export default function TopThreeUsers({ users }: TopThreeUsersProps) {
   };
 
   return (
-    <LinearGradient colors={['#FFA500', '#FFD700']} style={styles.container}>
+    <GradientBackground>
       <Text style={styles.title}>Workout Beasts</Text>
       <View style={styles.usersContainer}>
         {/* {renderUser(topThree[1], 0)} */}
         {renderUser(topThree[0], 1)}
         {/* {renderUser(topThree[2], 2)} */}
       </View>
-    </LinearGradient>
+    </GradientBackground>
   );
 }
 
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
+  gradientContainer: {
+    overflow: 'hidden',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    paddingTop: 60, // Add more padding at the top
+    paddingBottom: 30, // Add padding at the bottom
+  },
+  gradientOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFA500',
   },
   title: {
     fontSize: 24,

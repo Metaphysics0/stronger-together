@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 8, //
   },
   rank: {
     fontSize: 16,

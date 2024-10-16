@@ -1,7 +1,10 @@
 import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import {
+  TabBarIcon,
+  TabBarIconFontAwesome,
+} from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSession } from '@/providers/SessionProvider';
@@ -29,10 +32,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Workout',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? 'rocket' : 'rocket-outline'}
+            <TabBarIconFontAwesome
+              name={focused ? 'person-running' : 'person-running'}
               color={color}
             />
           ),
@@ -41,10 +44,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scoreboard"
         options={{
-          title: 'Scoreboard',
+          title: 'Leaderboard',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? 'trophy' : 'trophy-outline'}
+              name={focused ? 'ribbon' : 'ribbon-outline'}
               color={color}
             />
           ),
@@ -56,7 +59,7 @@ export default function TabLayout() {
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? 'person' : 'person-outline'}
+              name={focused ? 'person-circle' : 'person-circle-outline'}
               color={color}
             />
           ),

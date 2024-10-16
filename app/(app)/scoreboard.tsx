@@ -17,9 +17,7 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.scoreboardContainer}>
-        <Scoreboard />
-      </View>
+      <Scoreboard />
     </View>
   );
 }
@@ -28,7 +26,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
-    paddingHorizontal: 35,
     flexDirection: 'column',
     justifyContent: 'center',
   },
