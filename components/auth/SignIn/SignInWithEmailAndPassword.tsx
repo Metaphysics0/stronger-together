@@ -32,7 +32,7 @@ export default function SignInWithEmail() {
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       if (response.user) {
-        await createUser({ uid: response.user.uid, displayName });
+        await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
         router.replace('/');
       }

@@ -1,5 +1,6 @@
 import { db } from '@/firebaseConfig';
 import { ExerciseType } from '@/types/exercise.type';
+import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import { UserWorkout } from '@/types/user-workout.type';
 import {
   collection,
@@ -14,15 +15,13 @@ import {
 
 export async function createUser({
   uid,
-  displayName,
+  data,
 }: {
   uid: string;
-  displayName: string;
+  data: Partial<StrongerTogetherUser>;
 }) {
   try {
-    await setDoc(doc(db, 'users', uid), {
-      displayName,
-    });
+    await setDoc(doc(db, 'users', uid), { ...data });
   } catch (error) {
     console.error('error creating user', error);
   }

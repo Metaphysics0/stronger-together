@@ -1,5 +1,6 @@
 import { auth } from '@/firebaseConfig';
 import { useSession } from '@/providers/SessionProvider';
+import { createUser } from '@/services/db.service';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { router } from 'expo-router';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
@@ -17,6 +18,15 @@ export default function GoogleSignInButton() {
       const credential = GoogleAuthProvider.credential(idToken);
       const signInResponse = await signInWithCredential(auth, credential);
       if (signInResponse.user) {
+        await createUser({
+          uid: signInResponse.user.uid,
+          data: {
+            displayName: signInResponse.user.displayName || '',
+            email: signInResponse.user.email || '',
+            photoUrl: signInResponse.user.photoURL,
+            provider: 'google',
+          },
+        });
         signIn(signInResponse);
         router.replace('/');
       }
