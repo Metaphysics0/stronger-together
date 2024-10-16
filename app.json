@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.metaphysics.strongtogetherv2"
+      "bundleIdentifier": "com.metaphysics.strongtogetherv2",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
