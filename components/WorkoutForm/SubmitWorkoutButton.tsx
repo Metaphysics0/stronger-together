@@ -23,16 +23,14 @@ export function SubmitWorkoutButton() {
       throw new Error('Invalid exercise!');
     }
 
-    console.log('expoPushToken', expoPushToken);
-
-    // if (!expoPushToken) {
-    //   throw new Error('No push notification token found');
-    // }
+    if (!expoPushToken) {
+      throw new Error('No push notification token found');
+    }
 
     toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
     try {
       await submitWorkout({
-        expoPushToken: 'ExponentPushToken[MNzzHvAeQftldTjcgYofFo]',
+        expoPushToken,
         exercise,
         count: repsCount,
         uid: auth.currentUser.uid,
