@@ -1,21 +1,27 @@
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
+import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface TopThreeUsersProps {
   users: StrongerTogetherUser[];
 }
 
 export default function TopThreeUsers({ users }: TopThreeUsersProps) {
+  const { setIsUserStatsModalActive } = useUserStatsModalStore();
+
   const topThree = users.slice(0, 3);
 
   const renderUser = (user: StrongerTogetherUser, index: number) => {
     const isFirst = index === 1;
     return (
-      <View
+      <TouchableOpacity
         key={user.email}
         style={[styles.userContainer, isFirst && styles.firstUser]}
+        onPress={() => {
+          setIsUserStatsModalActive({ isUserStatsModalActive: true, user });
+        }}
       >
         <View style={styles.avatarContainer}>
           <Image
@@ -35,7 +41,7 @@ export default function TopThreeUsers({ users }: TopThreeUsersProps) {
           {user.workouts.reduce((total, workout) => total + workout.count, 0)}{' '}
           pt.
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 

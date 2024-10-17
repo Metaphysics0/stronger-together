@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
-import UserWorkoutStatsModal from '../modals/UserWorkoutStatsModal';
 import { getUserScore } from '@/utils/get-user-score.util';
 
 interface LeaderboardListItemProps {
@@ -15,9 +14,7 @@ export default function LeaderboardListItem({
   user,
   rank,
 }: LeaderboardListItemProps) {
-  const { isUserStatsModalActive, setIsUserStatsModalActive } =
-    useUserStatsModalStore();
-  console.log('USER', user);
+  const { setIsUserStatsModalActive } = useUserStatsModalStore();
 
   const score = getUserScore(user);
 
@@ -25,10 +22,9 @@ export default function LeaderboardListItem({
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        setIsUserStatsModalActive(true);
+        setIsUserStatsModalActive({ isUserStatsModalActive: true, user });
       }}
     >
-      {isUserStatsModalActive && <UserWorkoutStatsModal user={user} />}
       <Text style={styles.rank}>#{rank}</Text>
       <View style={styles.card}>
         <Image
