@@ -31,7 +31,7 @@ export function SubmitWorkoutButton() {
       await submitWorkout({
         exercise,
         count: repsCount,
-        uid: auth.currentUser.uid,
+        currentUserUid: auth.currentUser.uid,
       });
     } catch (error) {
       console.error('Error submitting workout', error);
