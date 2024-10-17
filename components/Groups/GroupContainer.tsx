@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getGroups } from '@/services/db.service';
 import { GroupListItem } from './GroupListItem';
 import { Group } from '@/types/group.type';
+import CreateGroupButton from './CreateGroupButton';
 
 export default function GroupContainer() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,12 +26,15 @@ export default function GroupContainer() {
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Groups</Text>
       </View>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search groups..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search groups..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        <CreateGroupButton />
+      </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {filteredGroups?.map((group) => (
           <GroupListItem key={group.group_id} group={group as Group} />
@@ -46,6 +50,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  searchContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  searchInput: {
+    height: 40,
+    flexGrow: 1,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
   groupList: {
     display: 'flex',
     flexDirection: 'column',
@@ -58,14 +77,6 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     paddingHorizontal: 10,
-  },
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
   },
   headerContainer: {
     paddingTop: 60,

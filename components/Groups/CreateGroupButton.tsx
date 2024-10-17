@@ -1,47 +1,33 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import * as DropdownMenu from 'zeego/dropdown-menu';
+import { TouchableOpacity } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-interface CreateGroupButtonProps {
-  onCreateGroup: () => void;
-}
-
-export default function CreateGroupButton({
-  onCreateGroup,
-}: CreateGroupButtonProps) {
+export default function CreateGroupButton() {
   return (
-    <Menu>
-      <MenuTrigger customStyles={triggerStyles}>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
         <TouchableOpacity>
-          <Ionicons
-            name="add-circle-outline"
-            size={24}
-            color="black"
-            style={styles.addIcon}
-          />
+          <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
         </TouchableOpacity>
-      </MenuTrigger>
-      <MenuOptions>
-        <MenuOption onSelect={onCreateGroup} text="Create Group" />
-      </MenuOptions>
-    </Menu>
+      </DropdownMenu.Trigger>
+      {/* @ts-ignore */}
+      <DropdownMenu.Content style={{ width: 200 }}>
+        <DropdownMenu.Group>
+          {/* @ts-ignore */}
+          <DropdownMenu.Label>Groups</DropdownMenu.Label>
+
+          {/* @ts-ignore */}
+          <DropdownMenu.Item textValue="Create Group" key="name">
+            <DropdownMenu.ItemTitle>Create Group</DropdownMenu.ItemTitle>
+            <DropdownMenu.ItemIcon
+              androidIconName="create"
+              ios={{ name: 'plus.circle' }}
+            >
+              <Ionicons name="create" size={15} />
+            </DropdownMenu.ItemIcon>
+          </DropdownMenu.Item>
+        </DropdownMenu.Group>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   );
 }
-
-const styles = StyleSheet.create({
-  addIcon: {
-    padding: 5,
-  },
-});
-
-const triggerStyles = {
-  triggerWrapper: {
-    padding: 5,
-  },
-};
