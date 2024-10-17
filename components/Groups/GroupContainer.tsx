@@ -54,10 +54,6 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 10,
   },
-  headerButton: {
-    color: '#007AFF',
-    fontSize: 17,
-  },
   headerTitle: {
     fontSize: 17,
     fontWeight: 'bold',

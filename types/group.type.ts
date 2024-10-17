@@ -4,4 +4,6 @@ export interface Group {
   group_name: string;
   image_url: string;
   members: any[];
+  createdAt: string;
+  updatedAt: string;
 }

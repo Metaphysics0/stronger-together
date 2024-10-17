@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 export default function SortGroupsButton() {
   return (
     // @ts-ignore
-    <DropdownMenu.Root style={{ marginVertial: 'auto' }}>
+    <DropdownMenu.Root style={{ width: 'min-content' }}>
       <DropdownMenu.Trigger asChild>
         <Button title="Sort" />
       </DropdownMenu.Trigger>
