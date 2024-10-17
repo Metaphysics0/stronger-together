@@ -1,17 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  TextInput,
-  Button,
-} from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getGroups } from '@/services/db.service';
 import { GroupListItem } from './GroupListItem';
 import { Group } from '@/types/group.type';
 import CreateGroupButton from './CreateGroupButton';
+import SortGroupsButton from './SortGroupsButton';
 
 export default function GroupContainer() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,8 +25,8 @@ export default function GroupContainer() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Button title="Sort" />
-        <Text style={styles.header}>Groups</Text>
+        <SortGroupsButton />
+        <Text style={styles.headerTitle}>Groups</Text>
         <CreateGroupButton />
       </View>
       <View style={styles.searchContainer}>
@@ -53,10 +47,20 @@ export default function GroupContainer() {
 }
 
 const styles = StyleSheet.create({
-  headerText: {
-    fontSize: 24,
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 60,
+    paddingBottom: 10,
+  },
+  headerButton: {
+    color: '#007AFF',
+    fontSize: 17,
+  },
+  headerTitle: {
+    fontSize: 17,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   searchContainer: {
     display: 'flex',
@@ -86,13 +90,5 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     paddingHorizontal: 10,
-  },
-  headerContainer: {
-    paddingTop: 60,
-    paddingBottom: 10,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 });

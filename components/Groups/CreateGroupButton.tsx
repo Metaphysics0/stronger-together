@@ -15,9 +15,6 @@ export default function CreateGroupButton() {
       <DropdownMenu.Content style={{ width: 200 }}>
         <DropdownMenu.Group>
           {/* @ts-ignore */}
-          <DropdownMenu.Label>Groups</DropdownMenu.Label>
-
-          {/* @ts-ignore */}
           <DropdownMenu.Item textValue="Create Group" key="name">
             <DropdownMenu.ItemTitle>Create Group</DropdownMenu.ItemTitle>
             <DropdownMenu.ItemIcon
