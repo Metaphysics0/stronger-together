@@ -1,15 +1,20 @@
 import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
 import { getRandomElementInArray } from './array/get-random-element-in-array.util';
 
-export function getWorkoutPushNotificationMessage({
+export function getWorkoutPushNotificationMessageParams(
+  params: GetWorkoutPushNotificationMessageParams
+) {
+  return {
+    title: 'Stronger Together',
+    body: getRandomWorkoutPushNotificationMessage(params),
+  };
+}
+
+function getRandomWorkoutPushNotificationMessage({
   userDisplayName,
   exercise,
   count,
-}: {
-  userDisplayName: string;
-  exercise: ExerciseType;
-  count: number;
-}) {
+}: GetWorkoutPushNotificationMessageParams) {
   const exerciseName = exerciseTypeToName[exercise]
     .replace(' (minutes)', '')
     .toLowerCase();
@@ -33,8 +38,11 @@ export function getWorkoutPushNotificationMessage({
     `Are you really going to let ${userDisplayName} beat you? ${count} ${friendlyExerciseName}!`,
   ];
 
-  return {
-    title: 'Stronger Together',
-    body: getRandomElementInArray(messageBodies),
-  };
+  return getRandomElementInArray(messageBodies);
+}
+
+interface GetWorkoutPushNotificationMessageParams {
+  userDisplayName: string;
+  exercise: ExerciseType;
+  count: number;
 }

@@ -1,20 +1,15 @@
 import { db } from '@/firebaseConfig';
-import { ExerciseType } from '@/types/exercise.type';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
-import { UserWorkout } from '@/types/user-workout.type';
 import {
   collection,
   doc,
   getDoc,
   getDocs,
-  query,
   setDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
-import { sendPushNotification } from './push-notifications/send-push-notification.service';
-import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
+import { Group } from '@/types/group.type';
 
 export async function createUser({
   uid,
@@ -24,57 +19,32 @@ export async function createUser({
   data: Partial<StrongerTogetherUser>;
 }) {
   try {
-    console.log('creating user', uid, data);
+    console.log('upserting user', uid, data);
     await setDoc(doc(db, 'users', uid), { ...data }, { merge: true });
   } catch (error) {
     console.error('error creating user', error);
   }
 }
 
-export async function submitWorkout({
+export async function updateUser({
   uid,
-  exercise,
-  count,
+  data,
+}: {
+  uid: string;
+  data: Partial<StrongerTogetherUser>;
+}) {
+  await updateDoc(doc(db, 'users', uid), data);
+}
+
+export async function updateUserPushToken({
+  uid,
   expoPushToken,
 }: {
   uid: string;
-  exercise: ExerciseType;
-  count: number;
   expoPushToken: string;
 }) {
-  try {
-    console.log(`submitting workout for user: ${uid} - ${count} ${exercise}`);
-
-    const userDoc = await getDoc(doc(db, 'users', uid));
-    if (!userDoc.exists()) {
-      throw new Error('User not found');
-    }
-
-    const user = userDoc.data();
-    const { workouts: existingWorkouts = [] } = user;
-
-    const workout: UserWorkout = {
-      exercise,
-      count,
-      timestamp: new Date(),
-    };
-
-    await updateDoc(doc(db, 'users', uid), {
-      workouts: [...existingWorkouts, workout],
-    });
-
-    await sendPushNotification({
-      expoPushToken,
-      ...getWorkoutPushNotificationMessage({
-        userDisplayName: user.displayName,
-        exercise,
-        count,
-      }),
-    });
-  } catch (error) {
-    console.error('error submitting workout', error);
-    toastError('Error submitting workout');
-  }
+  console.log('updating user push token', uid);
+  await updateUser({ uid, data: { expoPushToken } });
 }
 
 export async function getUser({ uid }: { uid: string }) {
@@ -109,27 +79,19 @@ export async function getAllUsers(): Promise<
   }
 }
 
-export async function getAllWeeklyWorkouts(start: Date, end: Date) {
-  try {
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-    const workoutsPromises = usersSnapshot.docs.map(async (userDoc) => {
-      const userWorkoutsSnapshot = await getDocs(
-        query(
-          collection(db, 'users', userDoc.id, 'workouts'),
-          where('timestamp', '>=', start),
-          where('timestamp', '<=', end)
-        )
-      );
-      return userWorkoutsSnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        userId: userDoc.id,
-      }));
-    });
+export async function getAllPushTokens(): Promise<string[]> {
+  const users = await getAllUsers();
+  return users
+    .map((user) => user.expoPushToken)
+    .filter((token): token is string => token !== null);
+}
 
-    const allWorkouts = await Promise.all(workoutsPromises);
-    return allWorkouts.flat();
+export async function getGroups(): Promise<Group[]> {
+  try {
+    const snapshot = await getDocs(collection(db, 'groups'));
+    return snapshot.docs.map((doc) => doc.data()) as Group[];
   } catch (error) {
-    console.error('error getting all weekly workouts', error);
+    console.error('error getting groups', error);
     return [];
   }
 }
