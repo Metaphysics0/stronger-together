@@ -13,6 +13,7 @@ import {
 import { toastError } from './toast.service';
 import { sendPushNotification } from './push-notifications/send-push-notification.service';
 import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
+import { Group } from '@/types/group.type';
 
 export async function createUser({
   uid,
@@ -107,10 +108,10 @@ export async function getAllUsers(): Promise<
   }
 }
 
-export async function getGroups() {
+export async function getGroups(): Promise<Group[]> {
   try {
     const snapshot = await getDocs(collection(db, 'groups'));
-    return snapshot.docs.map((doc) => doc.data());
+    return snapshot.docs.map((doc) => doc.data()) as Group[];
   } catch (error) {
     console.error('error getting groups', error);
     return [];

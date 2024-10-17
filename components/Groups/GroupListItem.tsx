@@ -23,9 +23,8 @@ export function GroupListItem({
       <View style={styles.contentContainer}>
         <View style={styles.groupInfo}>
           <Text style={styles.groupName}>{group.group_name}</Text>
-          <Text style={styles.invitedBy}>Invited by Lorem Joe</Text>
           <Text style={styles.membersCount}>
-            {group?.friends_count || 0} friends · {group.members.length} members
+            {group.members.length} members
           </Text>
         </View>
         <View style={styles.memberPreview}>

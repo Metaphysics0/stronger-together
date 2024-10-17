@@ -12,10 +12,15 @@ import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStor
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Group } from '@/types/group.type';
+import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { getAllUsers, getGroups } from '@/services/db.service';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
   const { setExpoPushToken } = usePushNotificationStore();
+  const queryClient = useQueryClient();
 
   const [notification, setNotification] = useState<
     Notifications.Notification | undefined
@@ -34,6 +39,28 @@ export default function TabLayout() {
         setNotification(notification);
       });
   }, []);
+
+  const { data: groups } = useQuery<Group[]>({
+    queryKey: ['groups'],
+    queryFn: getGroups,
+  });
+
+  const { data: users } = useQuery<StrongerTogetherUser[]>({
+    queryKey: ['users'],
+    queryFn: getAllUsers,
+  });
+
+  const groupsWithFullMembers = groups?.map((group) => ({
+    ...group,
+    members: group.members.map(
+      (memberId) =>
+        // @ts-ignore
+        users?.find((user) => user.uid === memberId) || memberId
+    ),
+  }));
+
+  // Set the joined data in the query client cache
+  queryClient.setQueryData(['groupsWithFullMembers'], groupsWithFullMembers);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
