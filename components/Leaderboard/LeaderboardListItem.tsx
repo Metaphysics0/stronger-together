@@ -4,6 +4,7 @@ import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 import UserWorkoutStatsModal from '../modals/UserWorkoutStatsModal';
+import { getUserScore } from '@/utils/get-user-score.util';
 
 interface LeaderboardListItemProps {
   user: StrongerTogetherUser;
@@ -16,10 +17,9 @@ export default function LeaderboardListItem({
 }: LeaderboardListItemProps) {
   const { isUserStatsModalActive, setIsUserStatsModalActive } =
     useUserStatsModalStore();
-  const score = user.workouts.reduce(
-    (total, workout) => total + workout.count,
-    0
-  );
+  console.log('USER', user);
+
+  const score = getUserScore(user);
 
   return (
     <TouchableOpacity

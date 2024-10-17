@@ -1,6 +1,7 @@
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import { TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
 
 export default function CreateGroupButton() {
   return (
@@ -15,7 +16,11 @@ export default function CreateGroupButton() {
       <DropdownMenu.Content style={{ width: 200 }}>
         <DropdownMenu.Group>
           {/* @ts-ignore */}
-          <DropdownMenu.Item textValue="Create Group" key="name">
+          <DropdownMenu.Item
+            textValue="Create Group"
+            key="name"
+            onSelect={() => router.push('/create-group')}
+          >
             <DropdownMenu.ItemTitle>Create Group</DropdownMenu.ItemTitle>
             <DropdownMenu.ItemIcon
               androidIconName="create"

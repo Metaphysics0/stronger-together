@@ -1,5 +1,5 @@
 import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
-import { getRandomElementInArray } from './array/get-random-element-in-array.util';
+import _ from 'lodash';
 
 export function getWorkoutPushNotificationMessageParams(
   params: GetWorkoutPushNotificationMessageParams
@@ -38,7 +38,7 @@ function getRandomWorkoutPushNotificationMessage({
     `Are you really going to let ${userDisplayName} beat you? ${count} ${friendlyExerciseName}!`,
   ];
 
-  return getRandomElementInArray(messageBodies);
+  return _.sample(messageBodies);
 }
 
 interface GetWorkoutPushNotificationMessageParams {

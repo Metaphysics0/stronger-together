@@ -110,8 +110,6 @@ export default function TabLayout() {
     },
   ];
 
-  console.log('ROUTES', ROUTES);
-
   return (
     <Tabs
       screenOptions={{

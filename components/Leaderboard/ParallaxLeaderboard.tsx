@@ -35,6 +35,8 @@ export default function ParallaxLeaderboard({
     extrapolate: 'clamp',
   });
 
+  console.log('USERUSERUSER', users);
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.header, { height: headerHeight }]}>

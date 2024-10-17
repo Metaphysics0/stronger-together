@@ -2,35 +2,10 @@
 
 ## Development
 
-- How to create a development build locally
-
-prerequisites:
+- How to create and submit a build locally. (save $ on the 30 max build per month from EAS)
 
 ```bash
-npx expo install expo-dev-client
-
-```
-
-For building on an iOS simulator:
-
-update `eas.json` to have:
-
-```json
-{
-  "build": {
-    "development-simulator": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": true
-      }
-    }
-  }
-}
-```
-
-then, run the following command:
-
-```bash
-eas build --profile development-simulator --platform ios
+$ eas build --platform ios --local
+$ eas submit -p ios
+# > select build from local binary file
 ```

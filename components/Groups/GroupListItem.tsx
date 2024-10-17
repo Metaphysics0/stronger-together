@@ -24,6 +24,7 @@ export function GroupListItem({
         <View style={styles.groupInfo}>
           <Text style={styles.groupName}>{group.group_name}</Text>
           <Text style={styles.membersCount}>
+            {/* @ts-ignore */}
             {group?.friend_count || 0} friends • {group.members.length} members
           </Text>
         </View>
