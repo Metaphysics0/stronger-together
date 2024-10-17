@@ -22,7 +22,9 @@ export default function GroupContainer() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Groups</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Groups</Text>
+      </View>
       <TextInput
         style={styles.searchInput}
         placeholder="Search groups..."
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 20,
     paddingHorizontal: 10,
   },
   scrollViewContent: {
@@ -66,9 +67,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
+  headerContainer: {
+    paddingTop: 60,
+    paddingBottom: 10,
+  },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
 });
