@@ -58,7 +58,10 @@ export default function ParallaxLeaderboard({
           { useNativeDriver: false }
         )}
       >
-        <Text style={styles.leaderboardText}>Leaderboard</Text>
+        <View style={styles.leaderboardTextContainer}>
+          <Text style={styles.leaderboardHeaderText}>Global Leaderboard</Text>
+          <Text style={styles.leaderboardSubHeaderText}>(All Time)</Text>
+        </View>
         {users.map((user, index) => (
           <LeaderboardListItem key={user.uid} user={user} rank={index + 1} />
         ))}
@@ -92,12 +95,21 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     paddingTop: HEADER_MAX_HEIGHT,
   },
-  leaderboardText: {
+  leaderboardTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 20,
+    marginTop: 10,
+    paddingHorizontal: 20,
+  },
+  leaderboardHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 20,
-    paddingHorizontal: 20,
     color: 'black',
+    marginBottom: 5,
+  },
+  leaderboardSubHeaderText: {
+    fontSize: 16,
+    color: 'grey',
   },
 });
