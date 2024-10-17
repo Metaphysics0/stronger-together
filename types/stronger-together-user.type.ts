@@ -7,4 +7,5 @@ export interface StrongerTogetherUser {
   photoUrl: string | null;
   workouts: UserWorkout[];
   provider: 'email' | 'google';
+  expoPushToken: string | null;
 }

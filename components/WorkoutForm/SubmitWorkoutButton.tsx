@@ -1,6 +1,6 @@
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
-import { submitWorkout } from '@/services/db.service';
+import { submitWorkout } from '@/services/submit-workout.service';
 import { toastError, toastSuccess } from '@/services/toast.service';
 import { isExerciseType } from '@/types/guards/is-exercise-type.guard';
 import { getWorkoutSubmitToastMessage } from '@/utils/get-workout-submit-toast-message.util';
@@ -29,7 +29,6 @@ export function SubmitWorkoutButton() {
     toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
     try {
       await submitWorkout({
-        expoPushToken,
         exercise,
         count: repsCount,
         uid: auth.currentUser.uid,

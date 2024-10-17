@@ -1,7 +1,5 @@
 import { db } from '@/firebaseConfig';
-import { ExerciseType } from '@/types/exercise.type';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
-import { UserWorkout } from '@/types/user-workout.type';
 import {
   collection,
   doc,
@@ -11,8 +9,6 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
-import { sendPushNotification } from './push-notifications/send-push-notification.service';
-import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
 import { Group } from '@/types/group.type';
 
 export async function createUser({
@@ -30,50 +26,25 @@ export async function createUser({
   }
 }
 
-export async function submitWorkout({
+export async function updateUser({
   uid,
-  exercise,
-  count,
+  data,
+}: {
+  uid: string;
+  data: Partial<StrongerTogetherUser>;
+}) {
+  await updateDoc(doc(db, 'users', uid), data);
+}
+
+export async function updateUserPushToken({
+  uid,
   expoPushToken,
 }: {
   uid: string;
-  exercise: ExerciseType;
-  count: number;
   expoPushToken: string;
 }) {
-  try {
-    console.log(`submitting workout for user: ${uid} - ${count} ${exercise}`);
-
-    const userDoc = await getDoc(doc(db, 'users', uid));
-    if (!userDoc.exists()) {
-      throw new Error('User not found');
-    }
-
-    const user = userDoc.data();
-    const { workouts: existingWorkouts = [] } = user;
-
-    const workout: UserWorkout = {
-      exercise,
-      count,
-      timestamp: new Date(),
-    };
-
-    await updateDoc(doc(db, 'users', uid), {
-      workouts: [...existingWorkouts, workout],
-    });
-
-    await sendPushNotification({
-      expoPushToken,
-      ...getWorkoutPushNotificationMessage({
-        userDisplayName: user.displayName,
-        exercise,
-        count,
-      }),
-    });
-  } catch (error) {
-    console.error('error submitting workout', error);
-    toastError('Error submitting workout');
-  }
+  console.log('updating user push token', uid);
+  await updateUser({ uid, data: { expoPushToken } });
 }
 
 export async function getUser({ uid }: { uid: string }) {
@@ -106,6 +77,13 @@ export async function getAllUsers(): Promise<
     toastError('Error getting users!');
     return [];
   }
+}
+
+export async function getAllPushTokens(): Promise<string[]> {
+  const users = await getAllUsers();
+  return users
+    .map((user) => user.expoPushToken)
+    .filter((token): token is string => token !== null);
 }
 
 export async function getGroups(): Promise<Group[]> {

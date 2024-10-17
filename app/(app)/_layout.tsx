@@ -15,7 +15,11 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Group } from '@/types/group.type';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
-import { getAllUsers, getGroups } from '@/services/db.service';
+import {
+  getAllUsers,
+  getGroups,
+  updateUserPushToken,
+} from '@/services/db.service';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -28,11 +32,19 @@ export default function TabLayout() {
   const notificationListener = useRef<Notifications.Subscription>();
 
   useEffect(() => {
-    registerForPushNotificationsAsync()
-      .then((token) => setExpoPushToken(token ?? ''))
-      .catch((error: any) => {
-        console.log('ERROR', error);
-      });
+    async function setupPushNotifications() {
+      try {
+        const expoPushToken = await registerForPushNotificationsAsync();
+        setExpoPushToken(expoPushToken ?? '');
+        if (session && expoPushToken) {
+          await updateUserPushToken({ uid: session, expoPushToken });
+        }
+      } catch (error: any) {
+        console.log('setupPushNotifications error', error);
+      }
+    }
+
+    setupPushNotifications();
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -59,7 +71,6 @@ export default function TabLayout() {
     ),
   }));
 
-  // Set the joined data in the query client cache
   queryClient.setQueryData(['groupsWithFullMembers'], groupsWithFullMembers);
 
   if (isLoading) {
