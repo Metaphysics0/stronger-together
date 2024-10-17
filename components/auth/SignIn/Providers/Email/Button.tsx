@@ -1,19 +1,13 @@
 import { Button } from 'react-native';
-import Form from './Form';
 import { useSignInWithEmailFormStore } from '@/hooks/stores/useSignInWithEmailFormStore';
 
-export default function SignInWithEmailButton() {
-  const { isSignUpWithEmailFormActive, setIsSignUpWithEmailFormActive } =
+export default function SignInWithEmailAndPasswordButton() {
+  const { formActiveStates, setFormActiveState } =
     useSignInWithEmailFormStore();
-  if (isSignUpWithEmailFormActive) {
-    return <Form />;
-  }
   return (
     <Button
       title="Sign in with Email"
-      onPress={() =>
-        setIsSignUpWithEmailFormActive(!isSignUpWithEmailFormActive)
-      }
+      onPress={() => setFormActiveState('signUp', !formActiveStates.signUp)}
     />
   );
 }

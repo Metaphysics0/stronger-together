@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
-import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 import { getUserScore } from '@/utils/get-user-score.util';
 
@@ -27,10 +26,14 @@ export default function LeaderboardListItem({
     >
       <Text style={styles.rank}>#{rank}</Text>
       <View style={styles.card}>
-        <Image
-          source={{ uri: user.photoUrl || PLACEHOLDER_PROFILE_IMAGE_URL }}
-          style={styles.avatar}
-        />
+        {user.photoUrl ? (
+          <Image source={{ uri: user.photoUrl }} style={styles.avatar} />
+        ) : (
+          <Image
+            source={require('../../assets/images/profile-picture-placeholder.png')}
+            style={styles.avatar}
+          />
+        )}
         <View style={styles.userInfo}>
           <Text style={styles.name}>{user.displayName}</Text>
         </View>

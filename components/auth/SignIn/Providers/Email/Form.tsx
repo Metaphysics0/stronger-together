@@ -23,8 +23,8 @@ export default function SignInWithEmailAndPassword() {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
 
-  const [isSignUpForm, setIsSignUpForm] = useState(false);
-  const { clearSignInWithEmailFormState } = useSignInWithEmailFormStore();
+  const { clearFormActiveState, formActiveStates, setFormActiveState } =
+    useSignInWithEmailFormStore();
 
   function onEmailChange(text: string) {
     setEmail(text.toLowerCase().trim());
@@ -33,8 +33,6 @@ export default function SignInWithEmailAndPassword() {
   const handleSignIn = async () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log('response', response);
-
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
@@ -65,7 +63,7 @@ export default function SignInWithEmailAndPassword() {
 
   return (
     <View>
-      {isSignUpForm && (
+      {formActiveStates.signUp && (
         <View>
           <Text style={styles.text}>Name</Text>
           <TextInput
@@ -95,30 +93,29 @@ export default function SignInWithEmailAndPassword() {
         value={password}
         onChangeText={setPassword}
       />
-      {isSignUpForm ? (
+      {formActiveStates.signUp ? (
         <Button title="Sign Up" onPress={handleSignUp} />
       ) : (
         <Button title="Sign In" onPress={handleSignIn} />
       )}
 
       <View style={styles.signUpContainer}>
-        {isSignUpForm ? (
+        {formActiveStates.signUp ? (
           <Text>Already have an account?</Text>
         ) : (
           <Text>Don't have an account?</Text>
         )}
-        <Pressable onPress={() => setIsSignUpForm(!isSignUpForm)}>
+        <Pressable
+          onPress={() => setFormActiveState('signUp', !formActiveStates.signUp)}
+        >
           <Text style={styles.signUpButton}>
-            {isSignUpForm ? 'Sign In' : 'Sign Up'}
+            {formActiveStates.signUp ? 'Sign In' : 'Sign Up'}
           </Text>
         </Pressable>
       </View>
 
       <View style={styles.goBackContainer}>
-        <Pressable
-          style={styles.goBackButton}
-          onPress={clearSignInWithEmailFormState}
-        >
+        <Pressable style={styles.goBackButton} onPress={clearFormActiveState}>
           <Text style={styles.goBackButton}>Go Back?</Text>
         </Pressable>
       </View>
