@@ -4,7 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function CreateGroupButton() {
   return (
-    <DropdownMenu.Root>
+    // @ts-ignore
+    <DropdownMenu.Root style={{ marginVertial: 'auto' }}>
       <DropdownMenu.Trigger asChild>
         <TouchableOpacity>
           <Ionicons name="add-circle-outline" size={24} color="#007AFF" />

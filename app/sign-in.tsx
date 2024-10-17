@@ -29,6 +29,7 @@ export default function SignIn() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     flex: 1,
     paddingHorizontal: 35,
     flexDirection: 'column',
