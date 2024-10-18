@@ -80,7 +80,6 @@ export default function TabLayout() {
   }
 
   const pathname = usePathname();
-  console.log('pathname', pathname);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -113,19 +112,12 @@ export default function TabLayout() {
             tabBarLabel: 'Groups',
             headerTitle: 'Groups',
             headerRight: () => {
-              if (pathname !== '/groups/create-group') {
-                return (
-                  <Button
-                    onPress={() => router.push('/(app)/groups/create-group')}
-                    title="Create"
-                  />
-                );
-              }
-            },
-            headerLeft: () => {
-              if (pathname === '/groups/create-group') {
-                return <Button onPress={() => router.back()} title="Back" />;
-              }
+              return (
+                <Button
+                  onPress={() => router.push('/(app)/groups/create-group')}
+                  title="Create"
+                />
+              );
             },
           }}
         />
