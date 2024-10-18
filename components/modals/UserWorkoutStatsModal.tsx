@@ -28,6 +28,8 @@ export default function UserWorkoutStatsModal() {
       [ExerciseType.SIT_UPS]: 0,
       [ExerciseType.BOXING]: 0,
       [ExerciseType.CYCLING]: 0,
+      [ExerciseType.WALKING]: 0,
+      [ExerciseType.RUNNING]: 0,
     };
 
     user.workouts.forEach((workout) => {

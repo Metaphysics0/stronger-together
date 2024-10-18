@@ -28,7 +28,7 @@ export default function GoogleSignInButton() {
           },
         });
         signIn(signInResponse);
-        router.replace('/');
+        router.replace('/(app)/workout');
       }
     } catch (error) {
       console.log('ERROR', error);

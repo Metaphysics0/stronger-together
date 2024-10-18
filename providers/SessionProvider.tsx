@@ -33,6 +33,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         signIn: (user: UserCredential) => {
+          console.log('SIGN IN', user);
+
           // Perform sign-in logic here
           setSession(user.user.uid);
         },

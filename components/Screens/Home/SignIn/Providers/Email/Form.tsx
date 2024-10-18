@@ -36,7 +36,7 @@ export default function SignInWithEmailAndPasswordForm() {
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
-        router.replace('/');
+        router.replace('/(app)/workout');
       }
     } catch (error) {
       console.error('ERROR', error);
@@ -54,7 +54,7 @@ export default function SignInWithEmailAndPasswordForm() {
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
-        router.replace('/');
+        router.replace('/(app)/workout');
       }
     } catch (error) {
       console.error('ERROR', error);

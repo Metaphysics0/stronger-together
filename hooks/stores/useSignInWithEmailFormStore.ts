@@ -21,12 +21,16 @@ export const useSignInWithEmailFormStore = create<SignInFormState>((set) => ({
     formActiveState: 'signUp' | 'signIn',
     isActive: boolean
   ) =>
-    set((state) => ({
-      formActiveStates: {
-        ...state.formActiveStates,
-        [formActiveState]: isActive,
-      },
-    })),
+    set((state) => {
+      console.log('state', state);
+
+      return {
+        formActiveStates: {
+          ...state.formActiveStates,
+          [formActiveState]: isActive,
+        },
+      };
+    }),
   clearFormActiveState: () =>
     set({
       formActiveStates: {

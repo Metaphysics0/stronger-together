@@ -1,4 +1,4 @@
-import { Redirect, router, Tabs, usePathname } from 'expo-router';
+import { Redirect, router, Tabs } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
 import {
   TabBarIcon,
@@ -76,12 +76,8 @@ export default function TabLayout() {
   }
 
   if (!session) {
-    console.log('Redirecting to /home');
-
-    return <Redirect href="/sign-in" />;
+    return <Redirect href="/" />;
   }
-
-  const pathname = usePathname();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
