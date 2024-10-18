@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 interface AddExerciseModalProps {
   closeModal: () => void;
@@ -11,18 +11,13 @@ export default function AddExerciseModal({
   return (
     <View style={styles.modalContent}>
       <Text style={styles.title}>Add Exercise</Text>
-      {/* Add your form or other modal content here */}
-
-      <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-        <Text style={styles.closeButtonText}>Close</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   modalContent: {
-    height: '50%', // Adjust to desired half-modal height
+    // height: '50%', // Adjust to desired half-modal height
     backgroundColor: 'white',
     padding: 20,
     borderTopLeftRadius: 20,
@@ -30,9 +25,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
+    // marginTop: 20,
   },
   closeButton: {
     alignSelf: 'flex-end',
