@@ -1,11 +1,8 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function AddExerciseButton() {
-  const handleAddExercise = () => {
-    console.log('Open add exercise modal');
-  };
+export default function AddExerciseButton({ onOpen }: { onOpen: () => void }) {
   return (
-    <TouchableOpacity style={styles.addButton} onPress={handleAddExercise}>
+    <TouchableOpacity style={styles.addButton} onPress={onOpen}>
       <Text style={styles.addButtonText}>Add Exercise</Text>
     </TouchableOpacity>
   );

@@ -1,26 +1,28 @@
-import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import React, { useRef } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import ExerciseListItem from '@/components/Screens/Workout/WorkoutFormV2/ExerciseListItem';
 import SubmitWorkoutButton from '@/components/Screens/Workout/WorkoutFormV2/SubmitWorkoutButton';
-import { ExerciseType } from '@/types/exercise.type';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-
-interface Exercise {
-  type: ExerciseType;
-  count: number;
-}
+import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
+import { Modalize } from 'react-native-modalize';
+import AddExerciseModal from '@/components/modals/AddExerciseModal';
+import AddExerciseButton from '@/components/Screens/Workout/WorkoutFormV2/AddExerciseButton';
 
 export default function WorkoutPage() {
-  const { exercises, setExercises } = useSelectedExercisesStore();
+  const { exercises } = useSelectedExercisesStore();
+  const { setShouldShow: setShouldShowAddExerciseModal } =
+    useAddExerciseModalStore();
 
-  const handleAddExercise = () => {
-    console.log('Open add exercise modal');
+  const modalizeRef = useRef<Modalize>(null);
+
+  const onOpen = () => {
+    console.log('Opening modal');
+    modalizeRef.current?.open();
+  };
+
+  const onClose = () => {
+    console.log('Closing modal');
+    modalizeRef.current?.close();
   };
 
   return (
@@ -37,11 +39,22 @@ export default function WorkoutPage() {
             index={index + 1}
           />
         ))}
-        <TouchableOpacity style={styles.addButton} onPress={handleAddExercise}>
-          <Text style={styles.addButtonText}>Add Exercise</Text>
-        </TouchableOpacity>
+        <AddExerciseButton onOpen={onOpen} />
       </ScrollView>
       <SubmitWorkoutButton />
+
+      {/* Modalize Component */}
+      <Modalize
+        ref={modalizeRef}
+        modalHeight={300} // Adjust the height as needed
+        snapPoint={300}
+        handleStyle={styles.modalHandle}
+        onClosed={() => {
+          // Optionally handle other state updates when modal closes
+        }}
+      >
+        <AddExerciseModal closeModal={onClose} />
+      </Modalize>
     </View>
   );
 }
@@ -53,20 +66,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollViewContent: {
-    marginVertical: 'auto',
     paddingVertical: 20,
     paddingHorizontal: 16,
   },
-  addButton: {
-    backgroundColor: '#e0e0e0',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 16,
-    alignItems: 'center',
+  modalHandle: {
+    backgroundColor: '#ccc',
+    width: 60,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 4,
   },
-  addButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+  marginBottom: {
+    marginTop: 50,
   },
 });
