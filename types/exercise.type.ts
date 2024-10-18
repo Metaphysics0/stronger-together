@@ -8,6 +8,8 @@ export enum ExerciseType {
   RUNNING = 'running',
   CYCLING = 'cycling',
   BOXING = 'boxing',
+  MEDITATION = 'meditation',
+  COLD_SHOWER = 'cold_shower',
 }
 
 export const exerciseTypeToScore: Record<ExerciseType, number> = {
@@ -20,6 +22,8 @@ export const exerciseTypeToScore: Record<ExerciseType, number> = {
   [ExerciseType.CYCLING]: 1,
   [ExerciseType.BOXING]: 1,
   [ExerciseType.WALKING]: 1,
+  [ExerciseType.MEDITATION]: 100,
+  [ExerciseType.COLD_SHOWER]: 100,
 };
 
 export const exerciseTypeToName: Record<ExerciseType, string> = {
@@ -32,4 +36,20 @@ export const exerciseTypeToName: Record<ExerciseType, string> = {
   [ExerciseType.CYCLING]: 'Cycling (km) 🚴‍♂️',
   [ExerciseType.BOXING]: 'Boxing (minutes) 🥊',
   [ExerciseType.WALKING]: 'Walking (km) 🚶‍♂️',
+  [ExerciseType.MEDITATION]: 'Meditation (minutes) 🧘‍♂️',
+  [ExerciseType.COLD_SHOWER]: 'Cold Shower 🥶🚿',
+};
+
+export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
+  [ExerciseType.BURPEES]: 300,
+  [ExerciseType.PUSH_UPS]: 300,
+  [ExerciseType.PULL_UPS]: 300,
+  [ExerciseType.SQUATS]: 300,
+  [ExerciseType.SIT_UPS]: 300,
+  [ExerciseType.RUNNING]: 50,
+  [ExerciseType.CYCLING]: 100,
+  [ExerciseType.BOXING]: 100,
+  [ExerciseType.WALKING]: 100,
+  [ExerciseType.COLD_SHOWER]: 1,
+  [ExerciseType.MEDITATION]: 100,
 };

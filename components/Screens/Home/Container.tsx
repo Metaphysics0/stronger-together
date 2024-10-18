@@ -2,7 +2,6 @@ import { Footer } from '@/components/Footer';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSignInWithEmailFormStore } from '@/hooks/stores/useSignInWithEmailFormStore';
 import GoogleSignInButton from './SignIn/Providers/Google/Button';
-import SignInWithEmailAndPasswordButton from './SignIn/Providers/Email/Button';
 import SignInWithEmailAndPasswordForm from './SignIn/Providers/Email/Form';
 
 export default function HomeContainer() {
@@ -16,8 +15,8 @@ export default function HomeContainer() {
         {!formActiveStates.signIn && !formActiveStates.signUp && (
           <View>
             <GoogleSignInButton />
-            <Text style={styles.orText}>Or</Text>
-            <SignInWithEmailAndPasswordButton />
+            {/* <Text style={styles.orText}>Or</Text>
+            <SignInWithEmailAndPasswordButton /> */}
           </View>
         )}
 
