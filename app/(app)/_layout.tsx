@@ -120,14 +120,14 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="leaderboard"
+          name="statistics"
           options={{
-            title: 'Leaderboard',
+            title: 'Statistics',
             tabBarIcon: ({ color, focused }) =>
               focused ? (
-                <TabBarIcon name="ribbon" color={color} />
+                <TabBarIcon name="bar-chart" color={color} />
               ) : (
-                <TabBarIcon name="ribbon-outline" color={color} />
+                <TabBarIcon name="bar-chart-outline" color={color} />
               ),
           }}
         />

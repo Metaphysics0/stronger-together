@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
 import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 import { getUserScore } from '@/utils/get-user-score.util';
+import { SHARED_STYLES } from '@/constants/shared-styles.constant';
 
 interface LeaderboardListItemProps {
   user: StrongerTogetherUser;
@@ -61,17 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 30,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    ...SHARED_STYLES.cardStyle,
   },
   avatar: {
     width: 40,
