@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
 import LeaderboardContainer from '@/components/Screens/Leaderboard/Container';
 import UserWorkoutStatsModal from '@/components/modals/UserWorkoutStatsModal';
-import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
+import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
 
 export default function Index() {
   const { data: users, isLoading } = useQuery({

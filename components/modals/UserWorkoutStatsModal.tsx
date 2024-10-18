@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
+import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
 import {
   Modal,
   View,

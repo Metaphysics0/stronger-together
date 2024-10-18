@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
-import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
+import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
 import { getUserScore } from '@/utils/get-user-score.util';
 import { SHARED_STYLES } from '@/constants/shared-styles.constant';
 
