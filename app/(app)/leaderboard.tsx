@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import LeaderboardContainer from '@/components/Leaderboard/Container';
+import LeaderboardContainer from '@/components/Screens/Leaderboard/Container';
 import UserWorkoutStatsModal from '@/components/modals/UserWorkoutStatsModal';
 import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
 

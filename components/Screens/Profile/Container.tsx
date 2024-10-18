@@ -1,10 +1,10 @@
+import SignOutButton from '@/components/auth/SignOut/SignOutButton';
 import { StyleSheet, View } from 'react-native';
-import GroupContainer from '@/components/Screens/Groups/Container';
 
-export default function Index() {
+export default function ProfileContainer() {
   return (
     <View style={styles.container}>
-      <GroupContainer />
+      <SignOutButton />
     </View>
   );
 }
@@ -12,12 +12,8 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
+    paddingHorizontal: 35,
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  scoreboardContainer: {
-    flex: 1,
-    marginTop: 30,
   },
 });

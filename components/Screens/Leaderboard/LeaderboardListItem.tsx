@@ -30,7 +30,7 @@ export default function LeaderboardListItem({
           <Image source={{ uri: user.photoUrl }} style={styles.avatar} />
         ) : (
           <Image
-            source={require('../../assets/images/profile-picture-placeholder.png')}
+            source={require('../../../assets/images/profile-picture-placeholder.png')}
             style={styles.avatar}
           />
         )}

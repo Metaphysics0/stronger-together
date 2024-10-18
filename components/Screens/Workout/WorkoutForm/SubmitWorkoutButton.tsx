@@ -26,7 +26,7 @@ export function SubmitWorkoutButton() {
       throw new Error('No push notification token found');
     }
 
-    toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount }));
+    toastSuccess(getWorkoutSubmitToastMessage({ exercise, repsCount })!);
     try {
       await submitWorkout({
         exercise,
