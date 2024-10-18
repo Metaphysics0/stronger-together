@@ -1,17 +1,14 @@
-import { Redirect, Tabs } from 'expo-router';
-import React, { ComponentProps, useState } from 'react';
+import { Redirect, router, Tabs, usePathname } from 'expo-router';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   TabBarIcon,
   TabBarIconFontAwesome,
-} from '@/components/navigation/TabBarIcon';
+} from '@/components/Tabs/TabBarIcon';
 import { useSession } from '@/providers/SessionProvider';
-import { Text } from 'react-native';
-import { useRef, useEffect } from 'react';
+import { Button, Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Group } from '@/types/group.type';
 import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
@@ -20,6 +17,7 @@ import {
   getGroups,
   updateUserPushToken,
 } from '@/services/db.service';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -81,61 +79,81 @@ export default function TabLayout() {
     return <Redirect href="/sign-in" />;
   }
 
-  const ROUTES: {
-    name: string;
-    icon: ComponentProps<typeof Ionicons>['name'];
-    path: string;
-    isFontAwesome?: boolean;
-  }[] = [
-    {
-      name: 'Workout',
-      icon: 'person-running' as ComponentProps<typeof FontAwesome6>['name'],
-      isFontAwesome: true,
-      path: 'index',
-    },
-    {
-      name: 'Groups',
-      icon: 'people',
-      path: 'groups',
-    },
-    {
-      name: 'Leaderboard',
-      icon: 'ribbon',
-      path: 'leaderboard',
-    },
-    {
-      name: 'Profile',
-      icon: 'person-circle',
-      path: 'profile',
-    },
-  ];
+  const pathname = usePathname();
+  console.log('pathname', pathname);
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#0a7ea4',
-        headerShown: false,
-      }}
-    >
-      {ROUTES.map((route) => (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#0a7ea4',
+          headerShown: false,
+        }}
+      >
         <Tabs.Screen
-          key={route.name}
-          name={route.path}
+          name="index"
           options={{
-            title: route.name,
+            title: 'Workout',
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIconFontAwesome name="person-running" color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="groups"
+          options={{
+            title: 'Groups',
             tabBarIcon: ({ color, focused }) =>
-              route.isFontAwesome ? (
-                <TabBarIconFontAwesome name={route.icon} color={color} />
+              focused ? (
+                <TabBarIcon name="people" color={color} />
               ) : (
-                <TabBarIcon
-                  // @ts-ignore
-                  name={focused ? route.icon : `${route.icon}-outline`}
-                  color={color}
-                />
+                <TabBarIcon name="people-outline" color={color} />
+              ),
+            headerShown: true,
+            tabBarLabel: 'Groups',
+            headerTitle: 'Groups',
+            headerRight: () => {
+              if (pathname !== '/groups/create-group') {
+                return (
+                  <Button
+                    onPress={() => router.push('/(app)/groups/create-group')}
+                    title="Create"
+                  />
+                );
+              }
+            },
+            headerLeft: () => {
+              if (pathname === '/groups/create-group') {
+                return <Button onPress={() => router.back()} title="Back" />;
+              }
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="leaderboard"
+          options={{
+            title: 'Leaderboard',
+            tabBarIcon: ({ color, focused }) =>
+              focused ? (
+                <TabBarIcon name="ribbon" color={color} />
+              ) : (
+                <TabBarIcon name="ribbon-outline" color={color} />
               ),
           }}
         />
-      ))}
-    </Tabs>
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color, focused }) =>
+              focused ? (
+                <TabBarIcon name="person-circle" color={color} />
+              ) : (
+                <TabBarIcon name="person-circle-outline" color={color} />
+              ),
+          }}
+        />
+      </Tabs>
+    </GestureHandlerRootView>
   );
 }

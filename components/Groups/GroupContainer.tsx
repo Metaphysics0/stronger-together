@@ -1,11 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
+import { View, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getGroups } from '@/services/db.service';
 import { GroupListItem } from './GroupListItem';
 import { Group } from '@/types/group.type';
-import CreateGroupButton from './CreateGroupButton';
-import SortGroupsButton from './SortGroupsButton';
 
 export default function GroupContainer() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,11 +22,6 @@ export default function GroupContainer() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <SortGroupsButton />
-        <Text style={styles.headerTitle}>Groups</Text>
-        <CreateGroupButton />
-      </View>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -81,7 +74,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   scrollViewContent: {
     flexGrow: 1,

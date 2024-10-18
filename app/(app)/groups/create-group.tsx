@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function CreateGroupScreen() {
+export default function GroupsScreen() {
   return (
     <View>
-      <Text>Create Group</Text>
+      <Text>Create Groups page</Text>
     </View>
   );
 }
