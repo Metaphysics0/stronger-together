@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export function Footer() {
   return (
     <View>
-      <Text style={styles.footerText}>Created with ❤️ by Ryan</Text>
+      <Text style={styles.footerText}>Created with ❤️ by Ryan Roberts</Text>
     </View>
   );
 }

@@ -23,8 +23,12 @@ export default function SignInWithEmailAndPasswordForm() {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
 
-  const { clearFormActiveState, formActiveStates, setFormActiveState } =
-    useSignInWithEmailFormStore();
+  const {
+    clearFormActiveState,
+    formActiveStates,
+    setSignInFormActiveState,
+    setSignUpFormActiveState,
+  } = useSignInWithEmailFormStore();
 
   function onEmailChange(text: string) {
     setEmail(text.toLowerCase().trim());
@@ -106,7 +110,11 @@ export default function SignInWithEmailAndPasswordForm() {
           <Text>Don't have an account?</Text>
         )}
         <Pressable
-          onPress={() => setFormActiveState('signUp', !formActiveStates.signUp)}
+          onPress={() => {
+            formActiveStates.signUp
+              ? setSignInFormActiveState()
+              : setSignUpFormActiveState();
+          }}
         >
           <Text style={styles.signUpButton}>
             {formActiveStates.signUp ? 'Sign In' : 'Sign Up'}
