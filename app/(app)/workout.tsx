@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 import ExerciseListItem from '@/components/Screens/Workout/WorkoutFormV2/ExerciseListItem';
 import SubmitWorkoutButton from '@/components/Screens/Workout/WorkoutFormV2/SubmitWorkoutButton';
 import { ExerciseType } from '@/types/exercise.type';
+import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 
 interface Exercise {
   type: ExerciseType;
@@ -16,13 +17,9 @@ interface Exercise {
 }
 
 export default function WorkoutPage() {
-  const [exercises, setExercises] = useState<Exercise[]>([
-    { type: ExerciseType.BURPEES, count: 10 },
-  ]);
+  const { exercises, setExercises } = useSelectedExercisesStore();
 
   const handleAddExercise = () => {
-    // This function will be called when the 'Add Exercise' button is pressed
-    // Here you would typically open your half-screen modal
     console.log('Open add exercise modal');
   };
 
@@ -35,7 +32,7 @@ export default function WorkoutPage() {
         {exercises.map((exercise, index) => (
           <ExerciseListItem
             key={index}
-            exerciseName={exercise.type}
+            exerciseName={exercise.exercise}
             count={exercise.count}
             index={index + 1}
           />
@@ -53,8 +50,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
   },
   scrollViewContent: {
+    marginVertical: 'auto',
     paddingVertical: 20,
     paddingHorizontal: 16,
   },
