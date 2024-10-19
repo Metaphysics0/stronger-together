@@ -1,45 +1,69 @@
-import { UserWorkout } from '@/types/user-workout.type';
+import { getUserOrThrow, updateUser } from './db.service';
+
+import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { StrongerTogetherDbUser } from '@/types/stronger-together-user.type';
 import { sendPushNotificationToAllUsers } from './push-notifications/send-push-notification.service';
-import { getUser, updateUser } from './db.service';
-import { getWorkoutPushNotificationMessageParams } from '@/utils/get-workout-push-notification-message.util';
-import { toastError } from './toast.service';
-import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
 
-export async function submitWorkout({
-  currentUserUid,
-  exercise,
-  count,
-}: {
-  currentUserUid: string;
-  exercise: ExerciseType;
-  count: number;
-}) {
-  try {
-    console.log(
-      `submitting workout for user: ${currentUserUid} - ${count} ${exercise}`
-    );
+export class SubmitWorkoutService {
+  private userUid: string;
+  constructor({ userUid }: { userUid: string }) {
+    this.userUid = userUid;
+  }
 
-    const user = await getUser({ uid: currentUserUid });
-    if (!user) throw new Error('User not found');
+  async submit({ workout }: { workout: { exercises: UserWorkoutExercise[] } }) {
+    try {
+      console.log(
+        'SubmitWorkoutService - Submitting workout for user',
+        this.userUid
+      );
+      const { exercises } = workout;
+      const user = await getUserOrThrow({ uid: this.userUid });
+      await updateUser({
+        uid: this.userUid,
+        data: this.getUpdateUserPayload({ user, exercises }),
+      });
 
+      await this.sendPushNotification({ user, exercises });
+    } catch (error) {
+      console.error('SubmitWorkoutService - Error submitting workout', error);
+      throw error;
+    }
+  }
+
+  private async sendPushNotification({
+    user,
+    exercises,
+  }: {
+    user: StrongerTogetherDbUser;
+    exercises: UserWorkoutExercise[];
+  }) {
+    const { title: notificationTitle, body: notificationBody } =
+      getWorkoutPushNotificationMessage({
+        userDisplayName: user.displayName,
+        exercises,
+      });
+
+    await sendPushNotificationToAllUsers({
+      currentUserUid: this.userUid,
+      title: notificationTitle,
+      body: notificationBody,
+    });
+  }
+
+  private getUpdateUserPayload({
+    user,
+    exercises,
+  }: {
+    user: StrongerTogetherDbUser;
+    exercises: UserWorkoutExercise[];
+  }): Partial<StrongerTogetherDbUser> {
     const { workouts: existingWorkouts = [] } = user;
-
-    const workout: UserWorkout = { exercise, count, timestamp: new Date() };
-
-    await updateUser({
-      uid: currentUserUid,
-      data: { workouts: [...existingWorkouts, workout] },
-    });
-
-    const { title, body } = getWorkoutPushNotificationMessageParams({
-      userDisplayName: user.displayName,
-      exercise,
-      count,
-    });
-
-    await sendPushNotificationToAllUsers({ currentUserUid, title, body });
-  } catch (error) {
-    console.error('error submitting workout', error);
-    toastError('Error submitting workout');
+    const workout = { exercises, timestamp: new Date() };
+    return {
+      workouts: [...existingWorkouts, workout],
+    };
   }
 }
+
+// type SubmitWorkoutRequest

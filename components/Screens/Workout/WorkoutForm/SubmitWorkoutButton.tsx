@@ -1,5 +1,5 @@
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-import { SubmitWorkoutService } from '@/services/submit-workout-v2.service';
+import { SubmitWorkoutService } from '@/services/submit-workout.service';
 import { toastError, toastSuccess } from '@/services/toast.service';
 import { getAuth } from 'firebase/auth';
 import { Button, StyleSheet } from 'react-native';
