@@ -1,5 +1,6 @@
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import _ from 'lodash';
+import { exerciseTypeToName } from './exercise-type-formatter.util';
 
 export function getWorkoutPushNotificationMessageParams(
   params: GetWorkoutPushNotificationMessageParams

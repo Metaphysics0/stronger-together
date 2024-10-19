@@ -1,5 +1,6 @@
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
 import _ from 'lodash';
+import { exerciseTypeToName } from './exercise-type-formatter.util';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 export function getWorkoutSubmitToastMessage({
   exercise,

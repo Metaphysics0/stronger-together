@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { exerciseTypeToName } from '@/utils/exercise-type-formatter.util';
 
 export default function UserWorkoutStatsModal() {
   const { isUserStatsModalActive, user, setIsUserStatsModalActive } =
@@ -33,7 +34,9 @@ export default function UserWorkoutStatsModal() {
     };
 
     user.workouts.forEach((workout) => {
-      totals[workout.exercise] += workout.count;
+      workout.exercises.forEach((exercise) => {
+        totals[exercise.exercise] += exercise.repsCount;
+      });
     });
 
     return totals;

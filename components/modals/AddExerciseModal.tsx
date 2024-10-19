@@ -67,4 +67,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  addExerciseButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 20,
+  },
 });

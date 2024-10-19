@@ -1,10 +1,8 @@
-import { ExerciseType } from './exercise.type';
+import { ExerciseType } from './enums/exercise-type.enum';
 
 export interface UserWorkout {
-  exercise: ExerciseType;
-  count: number;
   timestamp: Date;
-  exercises?: UserWorkoutExercise[];
+  exercises: UserWorkoutExercise[];
 }
 
 export interface UserWorkoutExercise {

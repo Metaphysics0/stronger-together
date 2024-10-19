@@ -1,4 +1,4 @@
-import { ExerciseType } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { create } from 'zustand';
 
 interface ExerciseState {

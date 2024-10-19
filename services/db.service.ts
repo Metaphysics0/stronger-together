@@ -1,5 +1,8 @@
 import { db } from '@/firebaseConfig';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import {
+  StrongerTogetherDbUser,
+  StrongerTogetherUser,
+} from '@/types/stronger-together-user.type';
 import {
   collection,
   doc,
@@ -47,14 +50,28 @@ export async function updateUserPushToken({
   await updateUser({ uid, data: { expoPushToken } });
 }
 
-export async function getUser({ uid }: { uid: string }) {
+export async function getUser({
+  uid,
+}: {
+  uid: string;
+}): Promise<StrongerTogetherDbUser | null> {
   try {
     const snapshot = await getDoc(doc(db, 'users', uid));
-    return snapshot.data();
+    return snapshot.data() as StrongerTogetherDbUser | null;
   } catch (error) {
     console.error('error getting user', error);
     return null;
   }
+}
+
+export async function getUserOrThrow({
+  uid,
+}: {
+  uid: string;
+}): Promise<StrongerTogetherDbUser> {
+  const user = await getUser({ uid });
+  if (!user) throw new Error('User not found');
+  return user;
 }
 
 export async function getAllUsers(): Promise<

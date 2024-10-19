@@ -1,8 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/services/db.service';
-import LeaderboardContainer from '@/components/Screens/Leaderboard/Container';
-import UserWorkoutStatsModal from '@/components/modals/UserWorkoutStatsModal';
 import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
 
 export default function Index() {
@@ -20,8 +18,11 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      {isUserStatsModalActive && <UserWorkoutStatsModal />}
-      <LeaderboardContainer />
+      <Text style={{ marginHorizontal: 'auto' }}>
+        Statistics page is under development
+      </Text>
+      {/* {isUserStatsModalActive && <UserWorkoutStatsModal />}
+      <LeaderboardContainer /> */}
     </View>
   );
 }

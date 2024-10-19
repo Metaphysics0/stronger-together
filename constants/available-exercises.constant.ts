@@ -1,8 +1,6 @@
-import {
-  ExerciseType,
-  exerciseTypeToName,
-  exerciseTypeToScore,
-} from '@/types/exercise.type';
+import { exerciseTypeToScore } from '@/utils/exercise-type-formatter.util';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { exerciseTypeToName } from '@/utils/exercise-type-formatter.util';
 
 export const AVAILABLE_EXERCISES: {
   name: string;

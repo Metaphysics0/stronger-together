@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { ExerciseType } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import {
+  exerciseTypeToName,
+  getExerciseTypeToRepCountSuffix,
+} from '@/utils/exercise-type-formatter.util';
 
 type ExerciseListItemProps = {
   exerciseName: ExerciseType;
@@ -19,8 +23,12 @@ export default function ExerciseListItem({
         <Text style={styles.index}>{index}</Text>
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.exerciseName}>{exerciseName}</Text>
-        <Text style={styles.count}>{count} reps</Text>
+        <Text style={styles.exerciseName}>
+          {exerciseTypeToName[exerciseName]}
+        </Text>
+        <Text style={styles.count}>
+          {count} {getExerciseTypeToRepCountSuffix(exerciseName)}
+        </Text>
       </View>
     </View>
   );
@@ -43,8 +51,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   indexContainer: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
+    padding: 5,
+    margin: 5,
     borderRadius: 20,
     backgroundColor: '#f0f0f0',
     justifyContent: 'center',

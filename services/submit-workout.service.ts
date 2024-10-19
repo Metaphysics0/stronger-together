@@ -1,9 +1,9 @@
-import { ExerciseType } from '@/types/exercise.type';
 import { UserWorkout } from '@/types/user-workout.type';
 import { sendPushNotificationToAllUsers } from './push-notifications/send-push-notification.service';
 import { getUser, updateUser } from './db.service';
 import { getWorkoutPushNotificationMessageParams } from '@/utils/get-workout-push-notification-message.util';
 import { toastError } from './toast.service';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 export async function submitWorkout({
   currentUserUid,

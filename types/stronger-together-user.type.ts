@@ -9,3 +9,7 @@ export interface StrongerTogetherUser {
   provider: 'email' | 'google';
   expoPushToken: string | null;
 }
+
+export interface StrongerTogetherDbUser extends StrongerTogetherUser {
+  uid: string;
+}

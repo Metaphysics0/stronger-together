@@ -1,6 +1,6 @@
 import { ScrollView } from 'react-native-gesture-handler';
 import ExerciseListItem from './ExerciseListItem';
-import { ExerciseType } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 export function ExerciseList() {
   return (

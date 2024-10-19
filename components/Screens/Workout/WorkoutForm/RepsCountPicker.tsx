@@ -1,9 +1,7 @@
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
-import {
-  ExerciseType,
-  exerciseTypeToMaxRepsCount,
-  exerciseTypeToRepCountSuffix,
-} from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { exerciseTypeToRepCountSuffix } from '@/utils/exercise-type-formatter.util';
+import { exerciseTypeToMaxRepsCount } from '@/utils/exercise-type-formatter.util';
 import { Picker } from '@react-native-picker/picker';
 
 interface RepsCountPickerProps {

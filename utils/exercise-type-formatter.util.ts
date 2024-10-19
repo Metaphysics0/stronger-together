@@ -1,16 +1,4 @@
-export enum ExerciseType {
-  PUSH_UPS = 'push_ups',
-  PULL_UPS = 'pull_ups',
-  BURPEES = 'burpees',
-  SQUATS = 'squats',
-  SIT_UPS = 'sit_ups',
-  WALKING = 'walking',
-  RUNNING = 'running',
-  CYCLING = 'cycling',
-  BOXING = 'boxing',
-  MEDITATION = 'meditation',
-  COLD_SHOWER = 'cold_shower',
-}
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 export const exerciseTypeToScore: Record<ExerciseType, number> = {
   [ExerciseType.BURPEES]: 3,
@@ -53,6 +41,9 @@ export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
   [ExerciseType.COLD_SHOWER]: 1,
   [ExerciseType.MEDITATION]: 100,
 };
+
+export const getExerciseTypeToRepCountSuffix = (exerciseName: ExerciseType) =>
+  exerciseTypeToRepCountSuffix[exerciseName] ?? 'reps';
 
 export const exerciseTypeToRepCountSuffix: Partial<
   Record<ExerciseType, string>

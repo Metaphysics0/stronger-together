@@ -1,15 +1,25 @@
+import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
+import { SubmitWorkoutService } from '@/services/submit-workout-v2.service';
+import { toastError, toastSuccess } from '@/services/toast.service';
+import { getAuth } from 'firebase/auth';
 import { Button, StyleSheet } from 'react-native';
 
 export default function SubmitWorokoutButton() {
-  const handleSubmit = () => {
-    console.log('submit');
-  };
+  const { exercises } = useSelectedExercisesStore();
+  const auth = getAuth();
+
+  async function handleSubmit() {
+    if (!auth.currentUser) {
+      toastError('You must be logged in to submit a workout');
+      return;
+    }
+
+    const service = new SubmitWorkoutService({ userUid: auth.currentUser.uid });
+    await service.submit({ exercises });
+    toastSuccess('Workout submitted');
+  }
 
   return <Button onPress={handleSubmit} title="Submit 🚀" />;
-  // <TouchableOpacity style={styles.container} onPress={handleSubmit}>
-  //   <Text style={styles.text}>Submit</Text>
-  // </TouchableOpacity>
-  // );
 }
 
 const styles = StyleSheet.create({
