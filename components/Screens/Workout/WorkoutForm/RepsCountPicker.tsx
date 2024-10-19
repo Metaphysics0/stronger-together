@@ -2,10 +2,18 @@ import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import {
   ExerciseType,
   exerciseTypeToMaxRepsCount,
+  exerciseTypeToRepCountSuffix,
 } from '@/types/exercise.type';
 import { Picker } from '@react-native-picker/picker';
 
-export function RepsCountPicker() {
+interface RepsCountPickerProps {
+  styles?: Record<string, any>;
+  initialValue?: number;
+}
+export function RepsCountPicker({
+  styles = {},
+  initialValue,
+}: RepsCountPickerProps) {
   const { repsCount, exerciseName, setRepsCount } = useExerciseStore();
 
   function setSelectedRepsCount(itemValue: number): void {
@@ -14,12 +22,18 @@ export function RepsCountPicker() {
 
   const maxRepsCount = exerciseTypeToMaxRepsCount[exerciseName as ExerciseType];
 
+  const suffix =
+    exerciseTypeToRepCountSuffix[exerciseName as ExerciseType] ?? '';
   return (
-    <Picker selectedValue={repsCount} onValueChange={setSelectedRepsCount}>
+    <Picker
+      selectedValue={initialValue || repsCount}
+      onValueChange={setSelectedRepsCount}
+      style={styles}
+    >
       {Array.from({ length: maxRepsCount }, (_, index) => (
         <Picker.Item
           key={index + 1}
-          label={(index + 1).toString()}
+          label={`${index + 1} ${suffix}`}
           value={index + 1}
         />
       ))}

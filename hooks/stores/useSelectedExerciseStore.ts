@@ -11,6 +11,12 @@ interface ExerciseState {
 export const useExerciseStore = create<ExerciseState>((set) => ({
   exerciseName: Object.values(ExerciseType)[0],
   repsCount: 1,
-  setExerciseName: (exerciseName) => set({ exerciseName }),
-  setRepsCount: (repsCount) => set({ repsCount }),
+  setExerciseName: (exerciseName) => {
+    console.log('Setting exercise name:', exerciseName);
+    set({ exerciseName });
+  },
+  setRepsCount: (repsCount) => {
+    console.log('Setting reps count:', repsCount);
+    set({ repsCount });
+  },
 }));

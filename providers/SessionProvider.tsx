@@ -28,6 +28,7 @@ export function useSession() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('session');
+  console.log('SESSION', session);
 
   return (
     <AuthContext.Provider

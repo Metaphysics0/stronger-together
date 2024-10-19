@@ -15,7 +15,7 @@ export default function WorkoutPage() {
 
   const modalizeRef = useRef<Modalize>(null);
 
-  const onOpen = () => {
+  const openAddExerciseModal = () => {
     console.log('Opening modal');
     modalizeRef.current?.open();
   };
@@ -34,24 +34,22 @@ export default function WorkoutPage() {
         {exercises.map((exercise, index) => (
           <ExerciseListItem
             key={index}
-            exerciseName={exercise.exercise}
+            exerciseName={exercise.exerciseName}
             count={exercise.count}
             index={index + 1}
           />
         ))}
-        <AddExerciseButton onOpen={onOpen} />
+        <AddExerciseButton onOpen={openAddExerciseModal} />
       </ScrollView>
       <SubmitWorkoutButton />
 
       {/* Modalize Component */}
       <Modalize
         ref={modalizeRef}
-        modalHeight={300} // Adjust the height as needed
-        snapPoint={300}
+        modalHeight={350}
+        snapPoint={350}
         handleStyle={styles.modalHandle}
-        onClosed={() => {
-          // Optionally handle other state updates when modal closes
-        }}
+        onClosed={() => {}}
       >
         <AddExerciseModal closeModal={onClose} />
       </Modalize>
@@ -66,6 +64,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollViewContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    // justifyContent: 'center',
+    // backgroundColor: 'red',
+    marginVertical: 'auto',
+    minHeight: 300,
     paddingVertical: 20,
     paddingHorizontal: 16,
   },

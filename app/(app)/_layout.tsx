@@ -75,6 +75,8 @@ export default function TabLayout() {
     return <Text>Loading...</Text>;
   }
 
+  console.log('SESSION in layout', session);
+
   if (!session) {
     return <Redirect href="/" />;
   }

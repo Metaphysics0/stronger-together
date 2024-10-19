@@ -32,11 +32,11 @@ export const exerciseTypeToName: Record<ExerciseType, string> = {
   [ExerciseType.PULL_UPS]: 'Pull Ups',
   [ExerciseType.SQUATS]: 'Squats',
   [ExerciseType.SIT_UPS]: 'Sit Ups',
-  [ExerciseType.RUNNING]: 'Running (km) 🏃‍♂️',
-  [ExerciseType.CYCLING]: 'Cycling (km) 🚴‍♂️',
-  [ExerciseType.BOXING]: 'Boxing (minutes) 🥊',
-  [ExerciseType.WALKING]: 'Walking (km) 🚶‍♂️',
-  [ExerciseType.MEDITATION]: 'Meditation (minutes) 🧘‍♂️',
+  [ExerciseType.RUNNING]: 'Running 🏃‍♂️',
+  [ExerciseType.CYCLING]: 'Cycling 🚴‍♂️',
+  [ExerciseType.BOXING]: 'Boxing 🥊',
+  [ExerciseType.WALKING]: 'Walking 🚶‍♂️',
+  [ExerciseType.MEDITATION]: 'Meditation 🧘‍♂️',
   [ExerciseType.COLD_SHOWER]: 'Cold Shower 🥶🚿',
 };
 
@@ -52,4 +52,13 @@ export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
   [ExerciseType.WALKING]: 100,
   [ExerciseType.COLD_SHOWER]: 1,
   [ExerciseType.MEDITATION]: 100,
+};
+
+export const exerciseTypeToRepCountSuffix: Partial<
+  Record<ExerciseType, string>
+> = {
+  [ExerciseType.RUNNING]: 'km',
+  [ExerciseType.CYCLING]: 'km',
+  [ExerciseType.WALKING]: 'km',
+  [ExerciseType.MEDITATION]: 'min',
 };

@@ -8,7 +8,6 @@ export interface UserWorkout {
 }
 
 export interface UserWorkoutExercise {
-  exercise: ExerciseType;
+  exerciseName: ExerciseType;
   count: number;
-  timestamp: Date;
 }

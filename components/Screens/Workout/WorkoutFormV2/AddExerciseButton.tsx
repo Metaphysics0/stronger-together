@@ -1,24 +1,28 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
+/*
+ * This button opens the Modalize modal
+ */
+
 export default function AddExerciseButton({ onOpen }: { onOpen: () => void }) {
   return (
-    <TouchableOpacity style={styles.addButton} onPress={onOpen}>
-      <Text style={styles.addButtonText}>Add Exercise</Text>
+    <TouchableOpacity style={styles.button} onPress={onOpen}>
+      <Text style={styles.buttonText}>Add Exercise</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  addButton: {
+  button: {
     backgroundColor: '#e0e0e0',
     padding: 16,
     borderRadius: 8,
     marginTop: 16,
     alignItems: 'center',
   },
-  addButtonText: {
+  buttonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
     color: '#333',
   },
 });
