@@ -48,8 +48,9 @@ export const getExerciseTypeToRepCountSuffix = (exerciseName: ExerciseType) =>
 export const exerciseTypeToRepCountSuffix: Partial<
   Record<ExerciseType, string>
 > = {
-  [ExerciseType.RUNNING]: 'km',
-  [ExerciseType.CYCLING]: 'km',
-  [ExerciseType.WALKING]: 'km',
+  [ExerciseType.RUNNING]: 'min',
+  [ExerciseType.CYCLING]: 'min',
+  [ExerciseType.WALKING]: 'min',
   [ExerciseType.MEDITATION]: 'min',
+  [ExerciseType.BOXING]: 'min',
 };

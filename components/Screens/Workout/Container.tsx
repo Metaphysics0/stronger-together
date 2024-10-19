@@ -1,11 +1,11 @@
 import AddExerciseModal from '@/components/modals/AddExerciseModal';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import AddExerciseButton from './WorkoutForm/AddExerciseButton';
-import ExerciseListItem from './WorkoutForm/ExerciseListItem';
 import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
-import { Fragment, useRef } from 'react';
+import { useRef } from 'react';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
+import { ExerciseList } from './WorkoutForm/ExerciseList';
 
 export default function WorkoutContainer() {
   const modalizeRef = useRef<Modalize>(null);
@@ -22,23 +22,12 @@ export default function WorkoutContainer() {
   };
 
   return (
-    <Fragment>
-      <ScrollView
-        scrollEventThrottle={16}
-        contentContainerStyle={styles.scrollViewContent}
-      >
-        {exercises.map((exercise, index) => (
-          <ExerciseListItem
-            key={index}
-            exerciseName={exercise.exerciseName}
-            count={exercise.count}
-            index={index + 1}
-          />
-        ))}
+    <View style={styles.container}>
+      <View style={styles.scrollViewContent}>
+        <ExerciseList exercises={exercises} />
         <AddExerciseButton onOpen={openAddExerciseModal} />
-      </ScrollView>
-      <SubmitWorkoutButton />
-
+        <SubmitWorkoutButton />
+      </View>
       <Modalize
         ref={modalizeRef}
         modalHeight={350}
@@ -48,7 +37,7 @@ export default function WorkoutContainer() {
       >
         <AddExerciseModal closeModal={onClose} />
       </Modalize>
-    </Fragment>
+    </View>
   );
 }
 
@@ -62,7 +51,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     // justifyContent: 'center',
-    // backgroundColor: 'red',
+    // backgroundColor: 'blue',
     marginVertical: 'auto',
     minHeight: 300,
     paddingVertical: 20,

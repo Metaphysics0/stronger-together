@@ -49,9 +49,15 @@ $ npx expo run:ios # or npx expo run:android
 ## Creating and submitting a Release
 
 - How to create and submit a release locally. (save $ on the 30 max build per month from EAS)
+- Note, you will need toupdate the `eas.json` file to include the `ascAppId` for the app you are building.
+- Add the `--non-interactive` flag, as of this issue: https://github.com/expo/eas-cli/issues/2639
 
 ```bash
 $ eas build --platform ios --local
 $ eas submit -p ios
 # > select build from local binary file
 ```
+
+TODO (Oct 19, 2024):
+
+- test e2e on android

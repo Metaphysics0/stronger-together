@@ -1,6 +1,6 @@
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
-import { exerciseTypeToRepCountSuffix } from '@/utils/exercise-type-formatter.util';
+import { getExerciseTypeToRepCountSuffix } from '@/utils/exercise-type-formatter.util';
 import { exerciseTypeToMaxRepsCount } from '@/utils/exercise-type-formatter.util';
 import { Picker } from '@react-native-picker/picker';
 interface RepsCountPickerProps {
@@ -16,8 +16,7 @@ export function RepsCountPicker({
     setRepsCount(Number(itemValue));
   }
   const maxRepsCount = exerciseTypeToMaxRepsCount[exerciseName as ExerciseType];
-  const suffix =
-    exerciseTypeToRepCountSuffix[exerciseName as ExerciseType] ?? '';
+  const suffix = getExerciseTypeToRepCountSuffix(exerciseName);
   return (
     <Picker
       selectedValue={initialValue || repsCount}
