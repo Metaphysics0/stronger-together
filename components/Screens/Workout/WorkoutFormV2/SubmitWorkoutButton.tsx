@@ -9,14 +9,19 @@ export default function SubmitWorokoutButton() {
   const auth = getAuth();
 
   async function handleSubmit() {
-    if (!auth.currentUser) {
-      toastError('You must be logged in to submit a workout');
-      return;
+    try {
+      if (!auth.currentUser) {
+        toastError('You must be logged in to submit a workout');
+        return;
+      }
+      const service = new SubmitWorkoutService({
+        userUid: auth.currentUser.uid,
+      });
+      toastSuccess('Workout submitted, great job!');
+      await service.submit({ workout: { exercises } });
+    } catch (error) {
+      toastError('Error submitting workout 💥');
     }
-
-    const service = new SubmitWorkoutService({ userUid: auth.currentUser.uid });
-    await service.submit({ exercises });
-    toastSuccess('Workout submitted');
   }
 
   return <Button onPress={handleSubmit} title="Submit 🚀" />;

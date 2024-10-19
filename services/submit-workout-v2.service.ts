@@ -11,15 +11,24 @@ export class SubmitWorkoutService {
     this.userUid = userUid;
   }
 
-  async submit({ exercises }: { exercises: UserWorkoutExercise[] }) {
-    const user = await getUserOrThrow({ uid: this.userUid });
-    const workoutsToSubmit = this.getWorkoutsToSubmit({ user, exercises });
-    await updateUser({
-      uid: this.userUid,
-      data: { workouts: workoutsToSubmit },
-    });
+  async submit({ workout }: { workout: { exercises: UserWorkoutExercise[] } }) {
+    try {
+      console.log(
+        'SubmitWorkoutService - Submitting workout for user',
+        this.userUid
+      );
+      const { exercises } = workout;
+      const user = await getUserOrThrow({ uid: this.userUid });
+      await updateUser({
+        uid: this.userUid,
+        data: this.getUpdateUserPayload({ user, exercises }),
+      });
 
-    await this.sendPushNotification({ user, exercises });
+      await this.sendPushNotification({ user, exercises });
+    } catch (error) {
+      console.error('SubmitWorkoutService - Error submitting workout', error);
+      throw error;
+    }
   }
 
   private async sendPushNotification({
@@ -42,15 +51,19 @@ export class SubmitWorkoutService {
     });
   }
 
-  private getWorkoutsToSubmit({
+  private getUpdateUserPayload({
     user,
     exercises,
   }: {
     user: StrongerTogetherDbUser;
     exercises: UserWorkoutExercise[];
-  }) {
+  }): Partial<StrongerTogetherDbUser> {
     const { workouts: existingWorkouts = [] } = user;
     const workout = { exercises, timestamp: new Date() };
-    return [...existingWorkouts, workout];
+    return {
+      workouts: [...existingWorkouts, workout],
+    };
   }
 }
+
+// type SubmitWorkoutRequest
