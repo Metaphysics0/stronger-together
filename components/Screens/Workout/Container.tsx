@@ -1,9 +1,9 @@
 import AddExerciseModal from '@/components/modals/AddExerciseModal';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Modalize } from 'react-native-modalize';
-import AddExerciseButton from './WorkoutFormV2/AddExerciseButton';
-import ExerciseListItem from './WorkoutFormV2/ExerciseListItem';
-import SubmitWorkoutButton from './WorkoutFormV2/SubmitWorkoutButton';
+import AddExerciseButton from './WorkoutForm/AddExerciseButton';
+import ExerciseListItem from './WorkoutForm/ExerciseListItem';
+import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
 import { Fragment, useRef } from 'react';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 
