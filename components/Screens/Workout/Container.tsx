@@ -1,21 +1,81 @@
-import { ExercisePicker } from '@/components/Screens/Workout/WorkoutForm/ExercisePicker';
-import { RepsCountPicker } from '@/components/Screens/Workout/WorkoutForm/RepsCountPicker';
-import { SubmitWorkoutButton } from '@/components/Screens/Workout/WorkoutForm/SubmitWorkoutButton';
-import { View } from 'react-native';
+import AddExerciseModal from '@/components/modals/AddExerciseModal';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Modalize } from 'react-native-modalize';
+import AddExerciseButton from './WorkoutFormV2/AddExerciseButton';
+import ExerciseListItem from './WorkoutFormV2/ExerciseListItem';
+import SubmitWorkoutButton from './WorkoutFormV2/SubmitWorkoutButton';
+import { Fragment, useRef } from 'react';
+import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 
 export default function WorkoutContainer() {
+  const modalizeRef = useRef<Modalize>(null);
+  const { exercises } = useSelectedExercisesStore();
+
+  const openAddExerciseModal = () => {
+    console.log('Opening modal');
+    modalizeRef.current?.open();
+  };
+
+  const onClose = () => {
+    console.log('Closing modal');
+    modalizeRef.current?.close();
+  };
+
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 35,
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <ExercisePicker />
-      <RepsCountPicker />
+    <Fragment>
+      <ScrollView
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.scrollViewContent}
+      >
+        {exercises.map((exercise, index) => (
+          <ExerciseListItem
+            key={index}
+            exerciseName={exercise.exerciseName}
+            count={exercise.count}
+            index={index + 1}
+          />
+        ))}
+        <AddExerciseButton onOpen={openAddExerciseModal} />
+      </ScrollView>
       <SubmitWorkoutButton />
-    </View>
+
+      <Modalize
+        ref={modalizeRef}
+        modalHeight={350}
+        snapPoint={350}
+        handleStyle={styles.modalHandle}
+        onClosed={() => {}}
+      >
+        <AddExerciseModal closeModal={onClose} />
+      </Modalize>
+    </Fragment>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+  },
+  scrollViewContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    // justifyContent: 'center',
+    // backgroundColor: 'red',
+    marginVertical: 'auto',
+    minHeight: 300,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  },
+  modalHandle: {
+    backgroundColor: '#ccc',
+    width: 60,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 4,
+  },
+  marginBottom: {
+    marginTop: 50,
+  },
+});
