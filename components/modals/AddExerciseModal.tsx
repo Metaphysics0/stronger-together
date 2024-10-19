@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
-import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
+import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
+import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
 
 interface AddExerciseModalProps {
   closeModal: () => void;
