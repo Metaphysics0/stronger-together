@@ -1,6 +1,8 @@
 import React from 'react';
 import ExerciseListItem from './ExerciseListItem';
-import DraggableFlatList, {
+import {
+  NestableDraggableFlatList,
+  NestableScrollContainer,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
@@ -28,13 +30,14 @@ export function ExerciseList() {
   };
 
   return (
-    <DraggableFlatList
-      activationDistance={0.8}
-      data={uiExercises}
-      renderItem={renderListItem}
-      keyExtractor={(item) => item.id}
-      onDragEnd={({ data }) => setExercises(data)}
-      // ListEmptyComponent={<Text>No exercises</Text>}
-    />
+    <NestableScrollContainer style={{ maxHeight: 400 }}>
+      <NestableDraggableFlatList
+        activationDistance={0.8}
+        data={uiExercises}
+        renderItem={renderListItem}
+        keyExtractor={(item) => item.id}
+        onDragEnd={({ data }) => setExercises(data)}
+      />
+    </NestableScrollContainer>
   );
 }

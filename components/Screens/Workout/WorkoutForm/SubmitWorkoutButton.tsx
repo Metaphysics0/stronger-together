@@ -5,7 +5,7 @@ import { toastError, toastSuccess } from '@/services/toast.service';
 import { getAuth } from 'firebase/auth';
 
 export default function SubmitWorkoutButton() {
-  const { exercises } = useSelectedExercisesStore();
+  const { exercises, setExercises } = useSelectedExercisesStore();
   const auth = getAuth();
 
   async function handleSubmit() {
@@ -18,6 +18,7 @@ export default function SubmitWorkoutButton() {
         userUid: auth.currentUser.uid,
       });
       toastSuccess('Workout submitted, great job!');
+      setExercises([]);
       await service.submit({ workout: { exercises } });
     } catch (error) {
       toastError('Error submitting workout 💥');
