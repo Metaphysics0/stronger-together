@@ -16,6 +16,8 @@ credentials.json
 
 eas.json
 
+build-.*
+
 # macOS
 .DS_Store
 
