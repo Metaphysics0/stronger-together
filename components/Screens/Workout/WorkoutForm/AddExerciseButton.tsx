@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '800',
     marginLeft: 5,
     color: '#007AFF',

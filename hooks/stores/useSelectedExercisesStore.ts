@@ -4,15 +4,8 @@ import { create } from 'zustand';
 interface ExerciseState {
   exercises: UserWorkoutExercise[];
   pushExercise: (exercise: UserWorkoutExercise) => void;
-  popExercise: () => void;
+  removeExerciseAtIndex: (index: number) => void;
   setExercises: (exercises: UserWorkoutExercise[]) => void;
-  changeOrderOfExercise: ({
-    index,
-    newIndex,
-  }: {
-    index: number;
-    newIndex: number;
-  }) => void;
 }
 
 export const useSelectedExercisesStore = create<ExerciseState>((set) => ({
@@ -21,23 +14,10 @@ export const useSelectedExercisesStore = create<ExerciseState>((set) => ({
     set((state) => ({
       exercises: [...state.exercises, exercise],
     })),
-  popExercise: () =>
+  removeExerciseAtIndex: (index: number) =>
     set((state) => ({
-      exercises: state.exercises.slice(0, -1),
+      exercises: state.exercises.filter((_, i) => i !== index),
     })),
   setExercises: (exercises: UserWorkoutExercise[]) =>
     set(() => ({ exercises })),
-  changeOrderOfExercise: ({
-    index,
-    newIndex,
-  }: {
-    index: number;
-    newIndex: number;
-  }) =>
-    set((state) => {
-      const exercises = [...state.exercises];
-      const [exercise] = exercises.splice(index, 1);
-      exercises.splice(newIndex, 0, exercise);
-      return { exercises };
-    }),
 }));

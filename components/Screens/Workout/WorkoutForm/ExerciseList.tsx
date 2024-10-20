@@ -1,5 +1,4 @@
 import React from 'react';
-import { UserWorkoutExercise } from '@/types/user-workout.type';
 import ExerciseListItem from './ExerciseListItem';
 import DraggableFlatList, {
   RenderItemParams,
@@ -15,29 +14,27 @@ export function ExerciseList() {
     ...exercise,
   }));
 
-  const renderItem = ({ item, drag, isActive }: RenderItemParams<any>) => {
+  const renderListItem = ({ item, drag, getIndex }: RenderItemParams<any>) => {
+    const index = getIndex();
+
     return (
       <ExerciseListItem
         drag={drag}
         exerciseName={item.title}
         count={item.count}
+        index={index}
       />
     );
-  };
-
-  const keyExtractor = (item: (typeof uiExercises)[0]) => item.id;
-
-  const onOrderChange = (newOrder: UserWorkoutExercise[]) => {
-    setExercises(newOrder);
   };
 
   return (
     <DraggableFlatList
       activationDistance={0.8}
       data={uiExercises}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      onDragEnd={({ data }) => onOrderChange(data)}
+      renderItem={renderListItem}
+      keyExtractor={(item) => item.id}
+      onDragEnd={({ data }) => setExercises(data)}
+      // ListEmptyComponent={<Text>No exercises</Text>}
     />
   );
 }

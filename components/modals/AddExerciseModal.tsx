@@ -33,7 +33,9 @@ export default function AddExerciseModal() {
 
   return (
     <View style={styles.modalContent}>
-      <Text style={styles.title}>Add Exercise</Text>
+      <Text style={styles.title}>
+        {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
+      </Text>
       <View style={styles.pickerContainer}>
         <ExercisePicker
           value={formState.exerciseName}

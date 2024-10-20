@@ -6,10 +6,12 @@ import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
 import { ExerciseList } from './WorkoutForm/ExerciseList';
 import { useEffect } from 'react';
 import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
+import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 
 export default function WorkoutContainer() {
   const { ref } = useModalize();
-  const { setModalRef, closeModal } = useAddExerciseModalStore();
+  const { setModalRef } = useAddExerciseModalStore();
+  const { exercises } = useSelectedExercisesStore();
 
   useEffect(() => {
     setModalRef(ref);
@@ -23,7 +25,7 @@ export default function WorkoutContainer() {
           <AddExerciseButton />
         </View>
         <View style={styles.submitButtonContainer}>
-          <SubmitWorkoutButton />
+          {exercises.length > 0 && <SubmitWorkoutButton />}
         </View>
       </View>
       <Modalize
