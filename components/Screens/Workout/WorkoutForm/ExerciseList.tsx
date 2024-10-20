@@ -1,5 +1,4 @@
 import React from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
 import { SortableList } from 'react-native-ui-lib';
 import { UserWorkoutExercise } from '@/types/user-workout.type';
 import ExerciseListItem from './ExerciseListItem';
@@ -37,14 +36,12 @@ export function ExerciseList({
   };
 
   return (
-    <ScrollView scrollEventThrottle={16}>
-      <SortableList
-        data={uiExercises}
-        onOrderChange={onOrderChange}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        flexMigration={true}
-      />
-    </ScrollView>
+    <SortableList
+      data={uiExercises}
+      onOrderChange={onOrderChange}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      flexMigration={true}
+    />
   );
 }

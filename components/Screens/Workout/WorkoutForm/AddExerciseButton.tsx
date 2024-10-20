@@ -14,7 +14,7 @@ export default function AddExerciseButton({ onOpen }: { onOpen: () => void }) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#dddddd',
     padding: 16,
     borderRadius: 8,
     marginTop: 16,

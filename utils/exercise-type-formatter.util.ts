@@ -42,8 +42,22 @@ export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
   [ExerciseType.MEDITATION]: 100,
 };
 
-export const getExerciseTypeToRepCountSuffix = (exerciseName: ExerciseType) =>
-  exerciseTypeToRepCountSuffix[exerciseName] ?? 'reps';
+export const getExerciseTypeToRepCountSuffix = ({
+  exerciseName,
+  count,
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) =>
+  exerciseTypeToRepCountSuffix[exerciseName] ?? (count > 1 ? 'reps' : 'rep');
+
+export const getRepsCountText = ({
+  exerciseName,
+  count,
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) => `${count} ${getExerciseTypeToRepCountSuffix({ exerciseName, count })}`;
 
 export const exerciseTypeToRepCountSuffix: Partial<
   Record<ExerciseType, string>

@@ -30,9 +30,10 @@ export function getWorkoutPushNotificationMessage({
       exercises[Math.floor(Math.random() * exercises.length)];
     const exerciseName = exerciseTypeToName[randomExercise.exerciseName];
     const count = randomExercise.count || 0;
-    const countUnit = getExerciseTypeToRepCountSuffix(
-      randomExercise.exerciseName
-    );
+    const countUnit = getExerciseTypeToRepCountSuffix({
+      exerciseName: randomExercise.exerciseName,
+      count,
+    });
     const friendlyExerciseName = `${count} ${countUnit} ${exerciseName}`;
 
     messages.push(
