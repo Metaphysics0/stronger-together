@@ -77,7 +77,7 @@ export default function TabLayout() {
 
   if (!session) {
     console.log('NO SESSION');
-    return <Redirect href="/" />;
+    return <Redirect href="/sign-in" />;
   }
 
   return (
@@ -89,7 +89,7 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="workout"
+          name="index"
           options={{
             title: 'Workout',
             tabBarIcon: ({ color, focused }) => (
