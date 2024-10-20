@@ -1,18 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
-import { ListItem } from 'react-native-ui-lib';
 import {
   exerciseTypeToName,
   getRepsCountText,
 } from '@/utils/exercise-type-formatter.util';
 import Feather from '@expo/vector-icons/Feather';
+import { ScaleDecorator } from 'react-native-draggable-flatlist';
 
 type ExerciseListItemProps = {
   exerciseName: ExerciseType;
   count: number;
   index: number;
   onDelete: () => void;
+  drag: () => void;
+  disabled: boolean;
 };
 
 export default function ExerciseListItem({
@@ -20,25 +22,30 @@ export default function ExerciseListItem({
   count,
   index,
   onDelete,
+  drag,
+  disabled,
 }: ExerciseListItemProps) {
   return (
-    <ListItem onPress={() => console.log('pressed')} style={styles.container}>
-      <View style={styles.exerciseNameContainer}>
-        <Text style={styles.exerciseNameText}>
-          {exerciseTypeToName[exerciseName]} -
-        </Text>
-        <Text style={styles.countText}>
-          {getRepsCountText({ exerciseName, count })}
-        </Text>
-      </View>
-      <Feather name="menu" size={24} />
-    </ListItem>
+    <ScaleDecorator>
+      <TouchableOpacity style={styles.container} onLongPress={drag}>
+        <View style={styles.exerciseNameContainer}>
+          <Text style={styles.exerciseNameText}>
+            {exerciseTypeToName[exerciseName]}
+          </Text>
+          <Text style={styles.countText}>
+            ({getRepsCountText({ exerciseName, count })})
+          </Text>
+        </View>
+        <Feather name="menu" size={24} />
+      </TouchableOpacity>
+    </ScaleDecorator>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
+    paddingVertical: 15,
     borderRadius: 8,
     backgroundColor: '#e8e8e8',
     width: '100%',
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     alignItems: 'center',
-    marginBottom: 5,
+    marginVertical: 5,
   },
   exerciseNameContainer: {
     flexDirection: 'row',
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   exerciseNameText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: '#333',
     marginRight: 8,

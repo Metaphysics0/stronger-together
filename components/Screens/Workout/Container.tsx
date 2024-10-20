@@ -4,12 +4,10 @@ import { Modalize } from 'react-native-modalize';
 import AddExerciseButton from './WorkoutForm/AddExerciseButton';
 import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
 import { useRef } from 'react';
-import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { ExerciseList } from './WorkoutForm/ExerciseList';
 
 export default function WorkoutContainer() {
   const modalizeRef = useRef<Modalize>(null);
-  const { exercises } = useSelectedExercisesStore();
 
   const openAddExerciseModal = () => {
     console.log('Opening modal');
@@ -24,7 +22,7 @@ export default function WorkoutContainer() {
   return (
     <View style={styles.container}>
       <View style={styles.scrollViewContent}>
-        <ExerciseList exercises={exercises} />
+        <ExerciseList />
         <AddExerciseButton onOpen={openAddExerciseModal} />
         <SubmitWorkoutButton />
       </View>

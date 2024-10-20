@@ -76,6 +76,7 @@ export default function TabLayout() {
   }
 
   if (!session) {
+    console.log('NO SESSION');
     return <Redirect href="/" />;
   }
 
