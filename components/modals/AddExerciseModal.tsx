@@ -1,30 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
 import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 
-interface AddExerciseModalProps {
-  closeModal: () => void;
-}
+export default function AddExerciseModal() {
+  const { closeModal, userWorkoutExercise } = useAddExerciseModalStore();
 
-export default function AddExerciseModal({
-  closeModal,
-}: AddExerciseModalProps) {
+  const [formState, setFormState] = useState<UserWorkoutExercise>({
+    exerciseName:
+      userWorkoutExercise?.exerciseName || Object.values(ExerciseType)[0],
+    count: userWorkoutExercise?.count || 1,
+  });
+
   const { pushExercise } = useSelectedExercisesStore();
-  const { exerciseName, repsCount } = useExerciseStore();
+
   function handleAddExercise() {
-    pushExercise({ exerciseName, count: repsCount });
+    pushExercise(formState);
     closeModal();
+  }
+
+  function handleExerciseChange(value: ExerciseType) {
+    setFormState((prevState) => ({ ...prevState, exerciseName: value }));
+  }
+
+  function handleRepsCountChange(value: number) {
+    setFormState((prevState) => ({ ...prevState, count: value }));
   }
 
   return (
     <View style={styles.modalContent}>
       <Text style={styles.title}>Add Exercise</Text>
       <View style={styles.pickerContainer}>
-        <ExercisePicker styles={styles.exercisePicker} />
-        <RepsCountPicker styles={styles.repsCountPicker} />
+        <ExercisePicker
+          value={formState.exerciseName}
+          onValueChange={handleExerciseChange}
+          styles={styles.exercisePicker}
+        />
+        <RepsCountPicker
+          value={formState.count}
+          exerciseName={formState.exerciseName}
+          onValueChange={handleRepsCountChange}
+          styles={styles.repsCountPicker}
+        />
       </View>
       <TouchableOpacity
         style={styles.addExerciseButton}

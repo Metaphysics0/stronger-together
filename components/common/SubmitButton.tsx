@@ -10,7 +10,6 @@ export default function SubmitButton({ onSubmit }: SubmitButtonProps) {
     <TouchableOpacity style={styles.button} onPress={onSubmit}>
       <View style={styles.content}>
         <Text style={styles.text}>Submit</Text>
-        {/* <Fontisto name="caret-right" size={14} color="#000" /> */}
       </View>
     </TouchableOpacity>
   );

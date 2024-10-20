@@ -21,9 +21,6 @@ export function ExerciseList() {
         drag={drag}
         exerciseName={item.title}
         count={item.count}
-        onDelete={() => {
-          console.log('deleting');
-        }}
       />
     );
   };

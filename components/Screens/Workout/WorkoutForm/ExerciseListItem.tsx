@@ -7,23 +7,28 @@ import {
 } from '@/utils/exercise-type-formatter.util';
 import Feather from '@expo/vector-icons/Feather';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
+import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 
 type ExerciseListItemProps = {
   exerciseName: ExerciseType;
   count: number;
-  onDelete: () => void;
   drag: () => void;
 };
 
 export default function ExerciseListItem({
   exerciseName,
   count,
-  onDelete,
   drag,
 }: ExerciseListItemProps) {
+  const { openModal } = useAddExerciseModalStore();
+
   return (
     <ScaleDecorator>
-      <TouchableOpacity style={styles.container} onLongPress={drag}>
+      <TouchableOpacity
+        style={styles.container}
+        onLongPress={drag}
+        onPress={() => openModal({ exerciseName, count })}
+      >
         <View style={styles.exerciseNameContainer}>
           <Text style={styles.exerciseNameText}>
             {exerciseTypeToName[exerciseName]}

@@ -1,41 +1,41 @@
 import AddExerciseModal from '@/components/modals/AddExerciseModal';
 import { StyleSheet, View } from 'react-native';
-import { Modalize } from 'react-native-modalize';
+import { Modalize, useModalize } from 'react-native-modalize';
 import AddExerciseButton from './WorkoutForm/AddExerciseButton';
 import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
-import { useRef } from 'react';
 import { ExerciseList } from './WorkoutForm/ExerciseList';
+import { useEffect } from 'react';
+import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 
 export default function WorkoutContainer() {
-  const modalizeRef = useRef<Modalize>(null);
+  const { ref } = useModalize();
+  const { setModalRef, closeModal } = useAddExerciseModalStore();
 
-  const openAddExerciseModal = () => {
-    modalizeRef.current?.open();
-  };
-
-  const onClose = () => {
-    modalizeRef.current?.close();
-  };
+  useEffect(() => {
+    setModalRef(ref);
+  }, [ref, setModalRef]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.scrollViewContent}>
-        <ExerciseList />
-        <AddExerciseButton onOpen={openAddExerciseModal} />
-      </View>
-      <View style={styles.submitButtonContainer}>
-        <SubmitWorkoutButton />
+    <>
+      <View style={styles.container}>
+        <View style={styles.scrollViewContent}>
+          <ExerciseList />
+          <AddExerciseButton />
+        </View>
+        <View style={styles.submitButtonContainer}>
+          <SubmitWorkoutButton />
+        </View>
       </View>
       <Modalize
-        ref={modalizeRef}
+        ref={ref}
         modalHeight={350}
         snapPoint={350}
         handleStyle={styles.modalHandle}
         onClosed={() => {}}
       >
-        <AddExerciseModal closeModal={onClose} />
+        <AddExerciseModal />
       </Modalize>
-    </View>
+    </>
   );
 }
 

@@ -1,9 +1,12 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 
-export default function AddExerciseButton({ onOpen }: { onOpen: () => void }) {
+export default function AddExerciseButton() {
+  const { openModal } = useAddExerciseModalStore();
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onOpen}>
+    <TouchableOpacity style={styles.button} onPress={() => openModal()}>
       <FontAwesome name="plus-circle" size={20} color="#007AFF" />
       <Text style={styles.buttonText}>Add Exercise</Text>
     </TouchableOpacity>
