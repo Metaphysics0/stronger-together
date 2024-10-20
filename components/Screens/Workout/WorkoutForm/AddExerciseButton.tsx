@@ -1,9 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-/*
- * This button opens the Modalize modal
- */
-
 export default function AddExerciseButton({ onOpen }: { onOpen: () => void }) {
   return (
     <TouchableOpacity style={styles.button} onPress={onOpen}>

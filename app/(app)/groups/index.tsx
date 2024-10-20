@@ -1,10 +1,9 @@
-import { StyleSheet, View } from 'react-native';
-import GroupContainer from '@/components/Screens/Groups/Container';
+import { StyleSheet, View, Text } from 'react-native';
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <GroupContainer />
+      <Text style={styles.text}>Groups Page is under development 👷</Text>
     </View>
   );
 }
@@ -19,5 +18,10 @@ const styles = StyleSheet.create({
   scoreboardContainer: {
     flex: 1,
     marginTop: 30,
+  },
+  text: {
+    fontSize: 18,
+    color: '#333',
+    textAlign: 'center',
   },
 });

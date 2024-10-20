@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
 import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
@@ -26,7 +26,12 @@ export default function AddExerciseModal({
         <ExercisePicker styles={styles.exercisePicker} />
         <RepsCountPicker styles={styles.repsCountPicker} />
       </View>
-      <Button title="Add Exercise 🚀" onPress={handleAddExercise} />
+      <TouchableOpacity
+        style={styles.addExerciseButton}
+        onPress={handleAddExercise}
+      >
+        <Text style={styles.addExerciseButtonText}>Add Exercise</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -68,9 +73,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   addExerciseButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 20,
+    marginTop: 15,
+    marginHorizontal: 'auto',
+  },
+  addExerciseButtonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#007AFF',
   },
 });

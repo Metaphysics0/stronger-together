@@ -10,12 +10,10 @@ export default function WorkoutContainer() {
   const modalizeRef = useRef<Modalize>(null);
 
   const openAddExerciseModal = () => {
-    console.log('Opening modal');
     modalizeRef.current?.open();
   };
 
   const onClose = () => {
-    console.log('Closing modal');
     modalizeRef.current?.close();
   };
 

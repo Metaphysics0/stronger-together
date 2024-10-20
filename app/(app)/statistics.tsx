@@ -19,7 +19,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={{ marginHorizontal: 'auto' }}>
-        Statistics page is under development
+        Statistics page is under development 👷
       </Text>
       {/* {isUserStatsModalActive && <UserWorkoutStatsModal />}
       <LeaderboardContainer /> */}
