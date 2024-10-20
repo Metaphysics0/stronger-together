@@ -47,7 +47,7 @@ export default function ExerciseListItem({
         <TouchableOpacity
           style={styles.container}
           onLongPress={drag}
-          onPress={() => openModal({ exerciseName, count })}
+          onPress={() => openModal({ exerciseName, count, index })}
         >
           <View style={styles.exerciseNameContainer}>
             <Text style={styles.exerciseNameText}>

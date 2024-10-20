@@ -4,9 +4,11 @@ import { create } from 'zustand';
 
 interface AddExerciseModalState {
   modalRef: React.RefObject<Modalize> | null;
-  userWorkoutExercise: UserWorkoutExercise | null;
+  userWorkoutExercise: (UserWorkoutExercise & { index?: number }) | null;
   setModalRef: (modalizeRef: React.RefObject<Modalize>) => void;
-  openModal: (userWorkoutExercise?: UserWorkoutExercise) => void;
+  openModal: (
+    userWorkoutExercise?: UserWorkoutExercise & { index?: number }
+  ) => void;
   closeModal: () => void;
 }
 
@@ -15,7 +17,9 @@ export const useAddExerciseModalStore = create<AddExerciseModalState>(
     modalRef: null,
     userWorkoutExercise: null,
     setModalRef: (modalRef: React.RefObject<Modalize>) => set({ modalRef }),
-    openModal: (userWorkoutExercise?: UserWorkoutExercise) => {
+    openModal: (
+      userWorkoutExercise?: UserWorkoutExercise & { index?: number }
+    ) => {
       set((state) => {
         state.modalRef?.current?.open();
         state.userWorkoutExercise = userWorkoutExercise || null;

@@ -16,10 +16,14 @@ export default function AddExerciseModal() {
     count: userWorkoutExercise?.count || 1,
   });
 
-  const { pushExercise } = useSelectedExercisesStore();
+  const { pushExercise, updateExerciseAtIndex } = useSelectedExercisesStore();
 
   function handleAddExercise() {
-    pushExercise(formState);
+    if (userWorkoutExercise?.index) {
+      updateExerciseAtIndex(userWorkoutExercise.index, formState);
+    } else {
+      pushExercise(formState);
+    }
     closeModal();
   }
 
@@ -53,7 +57,9 @@ export default function AddExerciseModal() {
         style={styles.addExerciseButton}
         onPress={handleAddExercise}
       >
-        <Text style={styles.addExerciseButtonText}>Add Exercise</Text>
+        <Text style={styles.addExerciseButtonText}>
+          {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
