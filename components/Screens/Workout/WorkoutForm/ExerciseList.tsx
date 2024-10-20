@@ -7,7 +7,7 @@ import DraggableFlatList, {
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 
 export function ExerciseList() {
-  const { exercises } = useSelectedExercisesStore();
+  const { exercises, setExercises } = useSelectedExercisesStore();
   const uiExercises = exercises.map((exercise, index) => ({
     id: (Math.random() + 1).toString(36).substring(7),
     title: exercise.exerciseName,
@@ -19,10 +19,8 @@ export function ExerciseList() {
     return (
       <ExerciseListItem
         drag={drag}
-        disabled={isActive}
         exerciseName={item.title}
         count={item.count}
-        index={item.index}
         onDelete={() => {
           console.log('deleting');
         }}
@@ -33,8 +31,7 @@ export function ExerciseList() {
   const keyExtractor = (item: (typeof uiExercises)[0]) => item.id;
 
   const onOrderChange = (newOrder: UserWorkoutExercise[]) => {
-    console.log('newOrder', newOrder);
-    // onOrderChange(newOrder);
+    setExercises(newOrder);
   };
 
   return (

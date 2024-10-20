@@ -11,19 +11,15 @@ import { ScaleDecorator } from 'react-native-draggable-flatlist';
 type ExerciseListItemProps = {
   exerciseName: ExerciseType;
   count: number;
-  index: number;
   onDelete: () => void;
   drag: () => void;
-  disabled: boolean;
 };
 
 export default function ExerciseListItem({
   exerciseName,
   count,
-  index,
   onDelete,
   drag,
-  disabled,
 }: ExerciseListItemProps) {
   return (
     <ScaleDecorator>
@@ -36,7 +32,7 @@ export default function ExerciseListItem({
             ({getRepsCountText({ exerciseName, count })})
           </Text>
         </View>
-        <Feather name="menu" size={24} />
+        <Feather name="menu" size={24} style={styles.dragHandle} />
       </TouchableOpacity>
     </ScaleDecorator>
   );
@@ -47,7 +43,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 8,
-    backgroundColor: '#e8e8e8',
+    // backgroundColor: '#e8e8e8',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e8e8e8',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -78,8 +76,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   dragHandle: {
-    paddingHorizontal: 16,
-    height: '100%',
-    justifyContent: 'center',
+    opacity: 0.5,
   },
 });

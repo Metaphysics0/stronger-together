@@ -1,10 +1,10 @@
+import SubmitButton from '@/components/common/SubmitButton';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { SubmitWorkoutService } from '@/services/submit-workout.service';
 import { toastError, toastSuccess } from '@/services/toast.service';
 import { getAuth } from 'firebase/auth';
-import { Button, StyleSheet } from 'react-native';
 
-export default function SubmitWorokoutButton() {
+export default function SubmitWorkoutButton() {
   const { exercises } = useSelectedExercisesStore();
   const auth = getAuth();
 
@@ -24,13 +24,5 @@ export default function SubmitWorokoutButton() {
     }
   }
 
-  return <Button onPress={handleSubmit} title="Submit 🚀" />;
+  return <SubmitButton onSubmit={handleSubmit} />;
 }
-
-const styles = StyleSheet.create({
-  container: {},
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});

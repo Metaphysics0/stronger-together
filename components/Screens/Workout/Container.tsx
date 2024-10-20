@@ -22,6 +22,8 @@ export default function WorkoutContainer() {
       <View style={styles.scrollViewContent}>
         <ExerciseList />
         <AddExerciseButton onOpen={openAddExerciseModal} />
+      </View>
+      <View style={styles.submitButtonContainer}>
         <SubmitWorkoutButton />
       </View>
       <Modalize
@@ -39,20 +41,22 @@ export default function WorkoutContainer() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
   },
   scrollViewContent: {
     display: 'flex',
     flexDirection: 'column',
-    // justifyContent: 'center',
-    // backgroundColor: 'blue',
     marginVertical: 'auto',
     minHeight: '60%',
-    // minHeight: 300,
     paddingVertical: 20,
     paddingHorizontal: 16,
+  },
+  submitButtonContainer: {
+    width: '35%',
+    marginHorizontal: 'auto',
   },
   modalHandle: {
     backgroundColor: '#ccc',
@@ -60,8 +64,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 4,
-  },
-  marginBottom: {
-    marginTop: 50,
   },
 });

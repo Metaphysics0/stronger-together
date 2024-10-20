@@ -5,6 +5,7 @@ interface ExerciseState {
   exercises: UserWorkoutExercise[];
   pushExercise: (exercise: UserWorkoutExercise) => void;
   popExercise: () => void;
+  setExercises: (exercises: UserWorkoutExercise[]) => void;
   changeOrderOfExercise: ({
     index,
     newIndex,
@@ -24,6 +25,8 @@ export const useSelectedExercisesStore = create<ExerciseState>((set) => ({
     set((state) => ({
       exercises: state.exercises.slice(0, -1),
     })),
+  setExercises: (exercises: UserWorkoutExercise[]) =>
+    set(() => ({ exercises })),
   changeOrderOfExercise: ({
     index,
     newIndex,
