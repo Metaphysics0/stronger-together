@@ -2,7 +2,6 @@ import { auth } from '@/firebaseConfig';
 import { useSignInWithEmailFormStore } from '@/hooks/stores/useSignInWithEmailFormStore';
 import { useSession } from '@/providers/SessionProvider';
 import { createUser } from '@/services/db.service';
-import { router } from 'expo-router';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -40,7 +39,6 @@ export default function SignInWithEmailAndPasswordForm() {
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
-        router.replace('/(app)/workout');
       }
     } catch (error) {
       console.error('ERROR', error);
@@ -58,7 +56,6 @@ export default function SignInWithEmailAndPasswordForm() {
       if (response.user) {
         await createUser({ uid: response.user.uid, data: { displayName } });
         signIn(response);
-        router.replace('/(app)/workout');
       }
     } catch (error) {
       console.error('ERROR', error);

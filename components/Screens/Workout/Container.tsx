@@ -1,7 +1,6 @@
 import AddExerciseModal from '@/components/modals/AddExerciseModal';
 import { StyleSheet, View } from 'react-native';
 import { Modalize, useModalize } from 'react-native-modalize';
-import AddExerciseButton from './WorkoutForm/AddExerciseButton';
 import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
 import { ExerciseList } from './WorkoutForm/ExerciseList';
 import { useEffect } from 'react';
@@ -22,7 +21,6 @@ export default function WorkoutContainer() {
       <View style={styles.container}>
         <View style={styles.scrollViewContent}>
           <ExerciseList />
-          <AddExerciseButton />
         </View>
         <View style={styles.submitButtonContainer}>
           {exercises.length > 0 && <SubmitWorkoutButton />}

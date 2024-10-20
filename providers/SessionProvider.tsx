@@ -1,4 +1,5 @@
 import { useStorageState } from '@/hooks/useStorageState';
+import { router } from 'expo-router';
 import { getAuth, signOut, UserCredential } from 'firebase/auth';
 import { useContext, createContext, PropsWithChildren } from 'react';
 
@@ -39,6 +40,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       value={{
         signIn(user: UserCredential) {
           setSession(user.user.uid);
+          router.replace('/(app)/');
         },
         async signOut() {
           setSession(null);

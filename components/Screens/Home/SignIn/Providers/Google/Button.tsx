@@ -2,7 +2,6 @@ import { auth } from '@/firebaseConfig';
 import { useSession } from '@/providers/SessionProvider';
 import { createUser } from '@/services/db.service';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { router } from 'expo-router';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { Button } from 'react-native';
 export default function GoogleSignInButton() {
@@ -28,7 +27,7 @@ export default function GoogleSignInButton() {
           },
         });
         signIn(signInResponse);
-        router.replace('/(app)/workout');
+        // router.replace('/(app)/workout');
       }
     } catch (error) {
       console.log('ERROR', error);
