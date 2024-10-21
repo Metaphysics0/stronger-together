@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import WorkoutContainer from '@/components/Screens/Workout/Container';
 
 export default function WorkoutPage() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <WorkoutContainer />
-    </View>
+    </SafeAreaView>
   );
 }
 

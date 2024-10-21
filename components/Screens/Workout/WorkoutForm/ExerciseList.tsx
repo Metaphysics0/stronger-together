@@ -6,7 +6,6 @@ import {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-import AddExerciseButton from './AddExerciseButton';
 
 export function ExerciseList() {
   const { exercises, setExercises } = useSelectedExercisesStore();
@@ -48,7 +47,6 @@ export function ExerciseList() {
           setExercises(data);
         }}
       />
-      <AddExerciseButton />
     </NestableScrollContainer>
   );
 }

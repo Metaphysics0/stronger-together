@@ -9,7 +9,7 @@ export default function SubmitButton({ onSubmit }: SubmitButtonProps) {
   return (
     <TouchableOpacity style={styles.button} onPress={onSubmit}>
       <View style={styles.content}>
-        <Text style={styles.text}>Submit</Text>
+        <Text style={styles.text}>Submit 🚀</Text>
       </View>
     </TouchableOpacity>
   );

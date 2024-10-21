@@ -18,6 +18,7 @@ type ExerciseListItemProps = {
   count: number;
   drag: () => void;
   index?: number;
+  isEditEnabled?: boolean;
 };
 
 export default function ExerciseListItem({
@@ -25,6 +26,7 @@ export default function ExerciseListItem({
   count,
   drag,
   index,
+  isEditEnabled = false,
 }: ExerciseListItemProps) {
   const { openModal } = useAddExerciseModalStore();
   const { removeExerciseAtIndex } = useSelectedExercisesStore();
@@ -33,6 +35,7 @@ export default function ExerciseListItem({
     <ScaleDecorator>
       <SwipableItem
         item={exerciseName}
+        swipeEnabled={false}
         renderUnderlayLeft={() => (
           <TouchableOpacity
             style={styles.deleteButton}
@@ -57,7 +60,9 @@ export default function ExerciseListItem({
               {getRepsCountText({ exerciseName, count })}
             </Text>
           </View>
-          <Feather name="menu" size={24} style={styles.dragHandle} />
+          {isEditEnabled && (
+            <Feather name="menu" size={24} style={styles.dragHandle} />
+          )}
         </TouchableOpacity>
       </SwipableItem>
     </ScaleDecorator>

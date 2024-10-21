@@ -20,6 +20,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import AccordionItem from '../common/AccordionItem';
 import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
 import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
+import AddExerciseModalButton from '../Screens/Workout/WorkoutForm/AddExerciseModalButton';
 
 export default function AddExerciseModal() {
   const { closeModal, userWorkoutExercise } = useAddExerciseModalStore();
@@ -51,6 +52,7 @@ export default function AddExerciseModal() {
   }
 
   function handleNotesChange(value: string) {
+    closeAllPickers();
     setFormState((prevState) => ({ ...prevState, notes: value }));
   }
 
@@ -59,12 +61,12 @@ export default function AddExerciseModal() {
 
   function openExercisePicker() {
     isExercisePickerOpen.value = !isExercisePickerOpen.value;
-    console.log('openExercisePicker');
+    isRepsCountPickerOpen.value = false;
   }
 
   function openRepsCountPicker() {
     isRepsCountPickerOpen.value = !isRepsCountPickerOpen.value;
-    console.log('openRepsCountPicker');
+    isExercisePickerOpen.value = false;
   }
 
   function closeAllPickers() {
@@ -148,6 +150,7 @@ export default function AddExerciseModal() {
             <Text style={styles.formLabel}>Notes</Text>
             <TextInput
               value={formState.notes}
+              onFocus={() => closeAllPickers()}
               onChangeText={handleNotesChange}
               placeholder="Optional notes for this exercise"
             />
@@ -158,9 +161,12 @@ export default function AddExerciseModal() {
         style={styles.addExerciseButton}
         onPress={handleAddExercise}
       >
-        <Text style={styles.addExerciseButtonText}>
-          {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
-        </Text>
+        <AddExerciseModalButton
+          buttonPrefixText={userWorkoutExercise ? 'Edit' : 'Add'}
+          onPress={handleAddExercise}
+          buttonStyles={styles.addExerciseButton}
+          buttonTextStyles={styles.addExerciseButtonText}
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   addExerciseButton: {
-    marginTop: 15,
+    marginTop: 5,
     marginHorizontal: 'auto',
   },
   addExerciseButtonText: {
