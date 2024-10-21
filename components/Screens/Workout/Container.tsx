@@ -28,8 +28,8 @@ export default function WorkoutContainer() {
       </View>
       <Modalize
         ref={ref}
-        modalHeight={350}
-        snapPoint={350}
+        modalHeight={400}
+        snapPoint={400}
         handleStyle={styles.modalHandle}
         onClosed={() => {}}
       >

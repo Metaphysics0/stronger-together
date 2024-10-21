@@ -5,10 +5,14 @@ import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { UserWorkoutExercise } from '@/types/user-workout.type';
 import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 import { SHARED_STYLES } from '@/constants/shared-styles.constant';
-import { exerciseTypeToName } from '@/utils/exercise-type-formatter.util';
+import {
+  exerciseTypeToName,
+  getRepsCountText,
+} from '@/utils/exercise-type-formatter.util';
 import { useSharedValue } from 'react-native-reanimated';
 import AccordionItem from '../common/AccordionItem';
 import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
+import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
 
 export default function AddExerciseModal() {
   const { closeModal, userWorkoutExercise } = useAddExerciseModalStore();
@@ -49,11 +53,21 @@ export default function AddExerciseModal() {
   }
 
   function openRepsCountPicker() {
+    isRepsCountPickerOpen.value = !isRepsCountPickerOpen.value;
     console.log('openRepsCountPicker');
   }
 
+  function closeAllPickers() {
+    isExercisePickerOpen.value = false;
+    isRepsCountPickerOpen.value = false;
+  }
+
   return (
-    <View style={styles.modalContent}>
+    <TouchableOpacity
+      style={styles.modalContent}
+      onPress={closeAllPickers}
+      activeOpacity={1}
+    >
       <Text style={styles.title}>
         {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
       </Text>
@@ -86,31 +100,38 @@ export default function AddExerciseModal() {
           </AccordionItem>
         </View>
 
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Count</Text>
-          <TouchableOpacity
-            style={styles.inlinePickerInputLabel}
-            onPress={() => openRepsCountPicker()}
+        <View style={styles.formRowContainer}>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Count</Text>
+            <TouchableOpacity
+              style={styles.inlinePickerInputLabel}
+              onPress={() => openRepsCountPicker()}
+            >
+              <Text style={styles.inlinePickerInputText}>
+                {getRepsCountText({
+                  exerciseName: formState.exerciseName,
+                  count: formState.count,
+                }) || 'Select Count'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <AccordionItem
+            // @ts-ignore
+            isExpanded={isRepsCountPickerOpen}
+            viewKey="repsCountPicker"
           >
-            <Text style={styles.inlinePickerInputText}>
-              {formState.count || 'Select Reps'}
-            </Text>
-          </TouchableOpacity>
+            {isRepsCountPickerOpen && (
+              <View style={{ width: '100%' }}>
+                <RepsCountPicker
+                  value={formState.count}
+                  exerciseName={formState.exerciseName}
+                  onValueChange={handleRepsCountChange}
+                />
+              </View>
+            )}
+          </AccordionItem>
         </View>
       </View>
-      {/* <View style={styles.pickerContainer}>
-        <ExercisePicker
-          value={formState.exerciseName}
-          onValueChange={handleExerciseChange}
-          styles={styles.exercisePicker}
-        />
-        <RepsCountPicker
-          value={formState.count}
-          exerciseName={formState.exerciseName}
-          onValueChange={handleRepsCountChange}
-          styles={styles.repsCountPicker}
-        />
-      </View> */}
       <TouchableOpacity
         style={styles.addExerciseButton}
         onPress={handleAddExercise}
@@ -119,7 +140,7 @@ export default function AddExerciseModal() {
           {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
         </Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -185,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e1e1e3',
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 8,
   },
   inlinePickerInputText: {
     fontSize: 16,

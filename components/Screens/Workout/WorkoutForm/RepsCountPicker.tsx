@@ -2,6 +2,7 @@ import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { getRepsCountText } from '@/utils/exercise-type-formatter.util';
 import { exerciseTypeToMaxRepsCount } from '@/utils/exercise-type-formatter.util';
 import { Picker } from '@react-native-picker/picker';
+import { View } from 'react-native';
 interface RepsCountPickerProps {
   styles?: Record<string, any>;
   value: number;
@@ -16,17 +17,28 @@ export function RepsCountPicker({
 }: RepsCountPickerProps) {
   const maxRepsCount = exerciseTypeToMaxRepsCount[exerciseName as ExerciseType];
   return (
-    <Picker selectedValue={value} onValueChange={onValueChange} style={styles}>
-      {Array.from({ length: maxRepsCount }, (_, index) => {
-        const count = index + 1;
-        return (
-          <Picker.Item
-            key={count}
-            label={getRepsCountText({ exerciseName, count })}
-            value={count}
-          />
-        );
-      })}
-    </Picker>
+    <View
+      onStartShouldSetResponder={(event) => true}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <Picker
+        selectedValue={value}
+        onValueChange={onValueChange}
+        style={styles}
+      >
+        {Array.from({ length: maxRepsCount }, (_, index) => {
+          const count = index + 1;
+          return (
+            <Picker.Item
+              key={count}
+              label={getRepsCountText({ exerciseName, count })}
+              value={count}
+            />
+          );
+        })}
+      </Picker>
+    </View>
   );
 }
