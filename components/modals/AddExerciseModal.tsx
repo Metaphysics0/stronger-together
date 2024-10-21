@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
-import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { UserWorkoutExercise } from '@/types/user-workout.type';
 import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
+import { SHARED_STYLES } from '@/constants/shared-styles.constant';
+import { exerciseTypeToName } from '@/utils/exercise-type-formatter.util';
+import { useSharedValue } from 'react-native-reanimated';
+import AccordionItem from '../common/AccordionItem';
+import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
 
 export default function AddExerciseModal() {
   const { closeModal, userWorkoutExercise } = useAddExerciseModalStore();
@@ -35,12 +38,67 @@ export default function AddExerciseModal() {
     setFormState((prevState) => ({ ...prevState, count: value }));
   }
 
+  const isExercisePickerOpen = useSharedValue(false);
+  const isRepsCountPickerOpen = useSharedValue(false);
+
+  function toggleExercisePicker() {}
+
+  function openExercisePicker() {
+    isExercisePickerOpen.value = !isExercisePickerOpen.value;
+    console.log('openExercisePicker');
+  }
+
+  function openRepsCountPicker() {
+    console.log('openRepsCountPicker');
+  }
+
   return (
     <View style={styles.modalContent}>
       <Text style={styles.title}>
         {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
       </Text>
-      <View style={styles.pickerContainer}>
+      <View style={styles.formContainer}>
+        <View style={styles.formRowContainer}>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Exercise</Text>
+            <TouchableOpacity
+              style={styles.inlinePickerInputLabel}
+              onPress={() => openExercisePicker()}
+            >
+              <Text style={styles.inlinePickerInputText}>
+                {exerciseTypeToName[formState.exerciseName] || 'Select Reps'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <AccordionItem
+            // @ts-ignore
+            isExpanded={isExercisePickerOpen}
+            viewKey="exercisePicker"
+          >
+            {isExercisePickerOpen && (
+              <View style={{ width: '100%' }}>
+                <ExercisePicker
+                  value={formState.exerciseName}
+                  onValueChange={handleExerciseChange}
+                />
+              </View>
+            )}
+          </AccordionItem>
+        </View>
+
+        <View style={styles.formRow}>
+          <Text style={styles.formLabel}>Count</Text>
+          <TouchableOpacity
+            style={styles.inlinePickerInputLabel}
+            onPress={() => openRepsCountPicker()}
+          >
+            <Text style={styles.inlinePickerInputText}>
+              {formState.count || 'Select Reps'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* <View style={styles.pickerContainer}>
         <ExercisePicker
           value={formState.exerciseName}
           onValueChange={handleExerciseChange}
@@ -52,7 +110,7 @@ export default function AddExerciseModal() {
           onValueChange={handleRepsCountChange}
           styles={styles.repsCountPicker}
         />
-      </View>
+      </View> */}
       <TouchableOpacity
         style={styles.addExerciseButton}
         onPress={handleAddExercise}
@@ -78,6 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderBottomWidth: 1,
     borderBottomColor: 'red',
+    marginBottom: 10,
   },
   closeButton: {
     alignSelf: 'flex-end',
@@ -109,5 +168,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: '#007AFF',
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  formRow: SHARED_STYLES.formRowWithoutBorder,
+  formRowContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    ...SHARED_STYLES.formRowBorder,
+  },
+  formLabel: SHARED_STYLES.formLabel,
+  inlinePickerInputLabel: {
+    backgroundColor: '#e1e1e3',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  inlinePickerInputText: {
+    fontSize: 16,
+    color: '#363638',
   },
 });
