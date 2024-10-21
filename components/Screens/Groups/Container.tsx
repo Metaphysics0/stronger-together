@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { getGroups } from '@/services/db.service';
 import { GroupListItem } from './GroupListItem';
-import { Group } from '@/types/group.type';
+import { Group } from '@/types/models/group.type';
 
 export default function GroupContainer() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,7 +15,7 @@ export default function GroupContainer() {
   const filteredGroups = useMemo(
     () =>
       groups?.filter((group) =>
-        group.group_name.toLowerCase().includes(searchQuery.toLowerCase())
+        group.groupName.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     [groups, searchQuery]
   );
@@ -32,7 +32,7 @@ export default function GroupContainer() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {filteredGroups?.map((group) => (
-          <GroupListItem key={group.group_id} group={group as Group} />
+          <GroupListItem key={group.groupId} group={group as Group} />
         ))}
       </ScrollView>
     </View>

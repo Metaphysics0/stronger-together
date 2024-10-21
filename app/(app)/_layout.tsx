@@ -92,6 +92,9 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
+            tabBarLabelStyle: {
+              fontFamily: 'Nunito-Bold',
+            },
             title: 'Workout',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIconFontAwesome name="person-running" color={color} />
@@ -111,6 +114,9 @@ export default function TabLayout() {
             headerShown: true,
             tabBarLabel: 'Groups',
             headerTitle: 'Groups',
+            tabBarLabelStyle: {
+              fontFamily: 'Nunito-Bold',
+            },
             headerRight: () => {
               return (
                 <Button
@@ -125,6 +131,9 @@ export default function TabLayout() {
           name="statistics"
           options={{
             title: 'Statistics',
+            tabBarLabelStyle: {
+              fontFamily: 'Nunito-Bold',
+            },
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <TabBarIcon name="bar-chart" color={color} />
@@ -137,6 +146,9 @@ export default function TabLayout() {
           name="profile"
           options={{
             title: 'Profile',
+            tabBarLabelStyle: {
+              fontFamily: 'Nunito-Bold',
+            },
             tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <TabBarIcon name="person-circle" color={color} />

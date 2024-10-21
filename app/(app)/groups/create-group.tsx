@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import CreateGroupContainer from '@/components/Screens/Groups/CreateGroup/CreateGroupContainer';
+import { StyleSheet, View } from 'react-native';
 
 export default function GroupsScreen() {
   return (
     <View style={styles.container}>
-      <Text>Create Groups page</Text>
-      <Text>(in development)</Text>
+      <CreateGroupContainer />
     </View>
   );
 }

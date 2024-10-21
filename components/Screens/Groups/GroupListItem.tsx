@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
-import { Group } from '@/types/group.type';
+import { Group } from '@/types/models/group.type';
 
 export function GroupListItem({
   group,
@@ -17,12 +17,12 @@ export function GroupListItem({
   return (
     <View style={styles.card}>
       <Image
-        source={{ uri: group.image_url || PLACEHOLDER_PROFILE_IMAGE_URL }}
+        source={{ uri: group.imageUrl || PLACEHOLDER_PROFILE_IMAGE_URL }}
         style={styles.groupImage}
       />
       <View style={styles.contentContainer}>
         <View style={styles.groupInfo}>
-          <Text style={styles.groupName}>{group.group_name}</Text>
+          <Text style={styles.groupName}>{group.groupName}</Text>
           <Text style={styles.membersCount}>
             {/* @ts-ignore */}
             {group?.friend_count || 0} friends • {group.members.length} members
