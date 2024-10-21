@@ -40,7 +40,7 @@ export default function TabLayout() {
         if (session && expoPushToken) {
           await updateUserPushToken({ uid: session, expoPushToken });
         }
-      } catch (error: any) {
+      } catch (error) {
         console.log('setupPushNotifications error', error);
       }
     }
