@@ -1,4 +1,4 @@
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 import { create } from 'zustand';
 
 interface UserStatsModalState {

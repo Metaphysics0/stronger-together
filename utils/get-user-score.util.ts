@@ -1,4 +1,4 @@
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 import _ from 'lodash';
 
 export function getUserScore(user: StrongerTogetherUser) {

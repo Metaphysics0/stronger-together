@@ -33,7 +33,7 @@ export function ExerciseList() {
 
   return (
     <NestableScrollContainer
-      style={{ flex: 1 }}
+      style={{ flex: 1, height: '100%' }}
       scrollEnabled={activationDistance !== 0}
     >
       <NestableDraggableFlatList

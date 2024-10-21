@@ -1,6 +1,6 @@
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 

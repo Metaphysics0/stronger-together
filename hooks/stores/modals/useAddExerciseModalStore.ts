@@ -1,4 +1,4 @@
-import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
 import { Modalize } from 'react-native-modalize';
 import { create } from 'zustand';
 

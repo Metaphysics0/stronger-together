@@ -7,12 +7,11 @@ import {
 import { useSession } from '@/providers/SessionProvider';
 import { Button, Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import * as Contacts from 'expo-contacts';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Group } from '@/types/group.type';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { Group } from '@/types/models/group.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 import {
   getAllUsers,
   getGroups,
@@ -45,22 +44,7 @@ export default function TabLayout() {
       }
     }
 
-    async function registerContacts() {
-      try {
-        const { status } = await Contacts.requestPermissionsAsync();
-        if (status === 'granted') {
-          const { data } = await Contacts.getContactsAsync({
-            fields: [Contacts.Fields.Emails],
-          });
-          setContacts(data);
-        }
-      } catch (error) {
-        console.log('registerContacts error', error);
-      }
-    }
-
     setupPushNotifications();
-    registerContacts();
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);

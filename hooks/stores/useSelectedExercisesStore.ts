@@ -1,4 +1,4 @@
-import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
 import { create } from 'zustand';
 
 interface ExerciseState {

@@ -2,7 +2,7 @@ import {
   exerciseTypeToName,
   getExerciseTypeToRepCountSuffix,
 } from '@/utils/exercise-type-formatter.util';
-import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
 
 export function getWorkoutPushNotificationMessage({
   userDisplayName,

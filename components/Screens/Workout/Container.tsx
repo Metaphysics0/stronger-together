@@ -22,10 +22,12 @@ export default function WorkoutContainer() {
     <>
       <View style={styles.container}>
         <Header />
-        <View style={styles.scrollViewContent}>
-          <ExerciseList />
+        <View style={styles.exerciseContainer}>
+          <View style={styles.scrollViewContent}>
+            <ExerciseList />
+          </View>
+          <AddExerciseModalButton onPress={() => openModal()} />
         </View>
-        <AddExerciseModalButton onPress={() => openModal()} />
         <View style={styles.submitButtonContainer}>
           {exercises.length > 0 && <SubmitWorkoutButton />}
         </View>
@@ -51,12 +53,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     height: '100%',
   },
+  exerciseContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '50%',
+  },
   scrollViewContent: {
     display: 'flex',
     flexDirection: 'column',
-    // maxHeight: '60%',
-    height: 'auto',
-    flex: 0.5,
+    height: '60%',
     paddingHorizontal: 16,
   },
   submitButtonContainer: {

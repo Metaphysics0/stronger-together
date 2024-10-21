@@ -1,7 +1,7 @@
 import { getUserOrThrow, updateUser } from './db.service';
 
-import { UserWorkoutExercise } from '@/types/user-workout.type';
-import { StrongerTogetherDbUser } from '@/types/stronger-together-user.type';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
+import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { sendPushNotificationToAllUsers } from './push-notifications/send-push-notification.service';
 import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
 

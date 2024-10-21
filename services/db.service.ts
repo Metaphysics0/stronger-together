@@ -2,7 +2,7 @@ import { db } from '@/firebaseConfig';
 import {
   StrongerTogetherDbUser,
   StrongerTogetherUser,
-} from '@/types/stronger-together-user.type';
+} from '@/types/models/stronger-together-user.type';
 import {
   collection,
   doc,

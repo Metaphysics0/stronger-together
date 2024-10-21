@@ -19,7 +19,7 @@ export default function AddExerciseModalButton({
       style={{ ...styles.button, ...buttonStyles }}
       onPress={onPress}
     >
-      <FontAwesome name="plus-circle" size={20} color="#007AFF" />
+      <FontAwesome name="plus-circle" size={18} color="#007AFF" />
       <Text style={{ ...styles.buttonText, ...buttonTextStyles }}>
         {buttonPrefixText} Exercise
       </Text>
@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: '800',
+    fontFamily: 'Nunito',
     marginLeft: 5,
     color: '#007AFF',
   },

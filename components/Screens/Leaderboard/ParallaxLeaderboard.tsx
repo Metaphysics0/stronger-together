@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Animated, StyleSheet, View, ScrollView, Text } from 'react-native';
 import TopThreeUsers from './TopThreeUsers';
 import LeaderboardListItem from './LeaderboardListItem';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 100;

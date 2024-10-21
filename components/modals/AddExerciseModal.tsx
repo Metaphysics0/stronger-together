@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
-import { UserWorkoutExercise } from '@/types/user-workout.type';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
 import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 import { SHARED_STYLES } from '@/constants/shared-styles.constant';
 import {
@@ -21,6 +21,7 @@ import AccordionItem from '../common/AccordionItem';
 import { ExercisePicker } from '../Screens/Workout/WorkoutForm/ExercisePicker';
 import { RepsCountPicker } from '../Screens/Workout/WorkoutForm/RepsCountPicker';
 import AddExerciseModalButton from '../Screens/Workout/WorkoutForm/AddExerciseModalButton';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function AddExerciseModal() {
   const { closeModal, userWorkoutExercise } = useAddExerciseModalStore();
@@ -81,9 +82,18 @@ export default function AddExerciseModal() {
       onPress={closeAllPickers}
       activeOpacity={1}
     >
-      <Text style={styles.title}>
-        {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
-      </Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>
+          {userWorkoutExercise ? 'Edit Exercise' : 'Add Exercise'}
+        </Text>
+        <TouchableOpacity onPress={closeModal}>
+          <MaterialCommunityIcons
+            name="close-circle"
+            size={24}
+            color="#e1e1e3"
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.formContainer}>
         <View style={styles.formRowContainer}>
           <View style={styles.formRow}>
@@ -178,6 +188,11 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    justifyContent: 'space-between',
+  },
+  headerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   title: {

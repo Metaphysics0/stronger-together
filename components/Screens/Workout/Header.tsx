@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Text from '../../common/Text';
 
 export default function Header() {
   return (
     <View>
-      <Text style={styles.headerText}>Add a Workout! 💪</Text>
+      <Text style={styles.headerText}>Stronger Together 💪</Text>
     </View>
   );
 }
@@ -11,6 +12,7 @@ export default function Header() {
 const styles = StyleSheet.create({
   headerText: {
     fontSize: 30,
+    fontFamily: 'Nunito',
     fontWeight: 'bold',
     textAlign: 'center',
   },

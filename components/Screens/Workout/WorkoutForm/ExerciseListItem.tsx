@@ -35,7 +35,7 @@ export default function ExerciseListItem({
     <ScaleDecorator>
       <SwipableItem
         item={exerciseName}
-        swipeEnabled={false}
+        // swipeEnabled={false}
         renderUnderlayLeft={() => (
           <TouchableOpacity
             style={styles.deleteButton}
