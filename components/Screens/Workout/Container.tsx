@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import AddExerciseModalButton from './WorkoutForm/AddExerciseModalButton';
+import Header from './Header';
 
 export default function WorkoutContainer() {
   const { ref } = useModalize();
@@ -20,7 +21,7 @@ export default function WorkoutContainer() {
   return (
     <>
       <View style={styles.container}>
-        <View></View>
+        <Header />
         <View style={styles.scrollViewContent}>
           <ExerciseList />
         </View>
