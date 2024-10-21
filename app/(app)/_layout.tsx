@@ -7,6 +7,7 @@ import {
 import { useSession } from '@/providers/SessionProvider';
 import { Button, Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import * as Contacts from 'expo-contacts';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -18,10 +19,12 @@ import {
   updateUserPushToken,
 } from '@/services/db.service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useContactsStore } from '@/hooks/stores/useContactsStore';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
   const { setExpoPushToken } = usePushNotificationStore();
+  const { setContacts } = useContactsStore();
   const queryClient = useQueryClient();
 
   const [notification, setNotification] = useState<
@@ -42,8 +45,22 @@ export default function TabLayout() {
       }
     }
 
-    setupPushNotifications();
+    async function registerContacts() {
+      try {
+        const { status } = await Contacts.requestPermissionsAsync();
+        if (status === 'granted') {
+          const { data } = await Contacts.getContactsAsync({
+            fields: [Contacts.Fields.Emails],
+          });
+          setContacts(data);
+        }
+      } catch (error) {
+        console.log('registerContacts error', error);
+      }
+    }
 
+    setupPushNotifications();
+    registerContacts();
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
