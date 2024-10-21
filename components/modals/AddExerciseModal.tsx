@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Keyboard,
+} from 'react-native';
 import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { UserWorkoutExercise } from '@/types/user-workout.type';
@@ -21,6 +28,7 @@ export default function AddExerciseModal() {
     exerciseName:
       userWorkoutExercise?.exerciseName || Object.values(ExerciseType)[0],
     count: userWorkoutExercise?.count || 1,
+    notes: userWorkoutExercise?.notes,
   });
 
   const { pushExercise, updateExerciseAtIndex } = useSelectedExercisesStore();
@@ -42,10 +50,12 @@ export default function AddExerciseModal() {
     setFormState((prevState) => ({ ...prevState, count: value }));
   }
 
+  function handleNotesChange(value: string) {
+    setFormState((prevState) => ({ ...prevState, notes: value }));
+  }
+
   const isExercisePickerOpen = useSharedValue(false);
   const isRepsCountPickerOpen = useSharedValue(false);
-
-  function toggleExercisePicker() {}
 
   function openExercisePicker() {
     isExercisePickerOpen.value = !isExercisePickerOpen.value;
@@ -60,6 +70,7 @@ export default function AddExerciseModal() {
   function closeAllPickers() {
     isExercisePickerOpen.value = false;
     isRepsCountPickerOpen.value = false;
+    Keyboard.dismiss();
   }
 
   return (
@@ -130,6 +141,17 @@ export default function AddExerciseModal() {
               </View>
             )}
           </AccordionItem>
+        </View>
+
+        <View style={styles.formRowContainer}>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Notes</Text>
+            <TextInput
+              value={formState.notes}
+              onChangeText={handleNotesChange}
+              placeholder="Optional notes for this exercise"
+            />
+          </View>
         </View>
       </View>
       <TouchableOpacity
