@@ -1,5 +1,7 @@
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
+const MAX_TIME_BASED_EXERCISE_INPUT_DURATION = 60 * 4;
+
 export const exerciseTypeToScore: Record<ExerciseType, number> = {
   [ExerciseType.BURPEES]: 3,
   [ExerciseType.PUSH_UPS]: 1,
@@ -34,12 +36,12 @@ export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
   [ExerciseType.PULL_UPS]: 300,
   [ExerciseType.SQUATS]: 300,
   [ExerciseType.SIT_UPS]: 300,
-  [ExerciseType.RUNNING]: 50,
-  [ExerciseType.CYCLING]: 100,
-  [ExerciseType.BOXING]: 100,
-  [ExerciseType.WALKING]: 100,
+  [ExerciseType.RUNNING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.CYCLING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.BOXING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.WALKING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
   [ExerciseType.COLD_SHOWER]: 1,
-  [ExerciseType.MEDITATION]: 100,
+  [ExerciseType.MEDITATION]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
 };
 
 export const getExerciseTypeToRepCountSuffix = ({
@@ -51,13 +53,41 @@ export const getExerciseTypeToRepCountSuffix = ({
 }) =>
   exerciseTypeToRepCountSuffix[exerciseName] ?? (count > 1 ? 'reps' : 'rep');
 
+export const isTimeBasedExercise = (exerciseName: ExerciseType) =>
+  [
+    ExerciseType.RUNNING,
+    ExerciseType.CYCLING,
+    ExerciseType.WALKING,
+    ExerciseType.MEDITATION,
+    ExerciseType.BOXING,
+  ].includes(exerciseName);
+
 export const getRepsCountText = ({
   exerciseName,
   count,
 }: {
   exerciseName: ExerciseType;
   count: number;
-}) => `${count} ${getExerciseTypeToRepCountSuffix({ exerciseName, count })}`;
+}) => {
+  if (exerciseName === ExerciseType.COLD_SHOWER) {
+    return `${count}`;
+  }
+
+  if (isTimeBasedExercise(exerciseName)) {
+    if (count >= 60) {
+      const hours = Math.floor(count / 60);
+      const minutes = count % 60;
+      if (minutes === 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else {
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min`;
+      }
+    } else {
+      return `${count} min`;
+    }
+  }
+  return `${count} ${getExerciseTypeToRepCountSuffix({ exerciseName, count })}`;
+};
 
 export const exerciseTypeToRepCountSuffix: Partial<
   Record<ExerciseType, string>

@@ -1,6 +1,9 @@
 import { getUserOrThrow, updateUser } from './db.service';
 
-import { UserWorkoutExercise } from '@/types/models/user-workout.type';
+import {
+  UserWorkout,
+  UserWorkoutExercise,
+} from '@/types/models/user-workout.type';
 import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { sendPushNotificationToAllUsers } from './push-notifications/send-push-notification.service';
 import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
@@ -11,7 +14,7 @@ export class SubmitWorkoutService {
     this.userUid = userUid;
   }
 
-  async submit({ workout }: { workout: { exercises: UserWorkoutExercise[] } }) {
+  async submit({ workout }: { workout: UserWorkout }) {
     try {
       console.log(
         'SubmitWorkoutService - Submitting workout for user',

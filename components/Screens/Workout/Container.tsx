@@ -1,46 +1,26 @@
-import AddExerciseModal from '@/components/modals/AddExerciseModal';
-import { StyleSheet, View } from 'react-native';
-import { Modalize, useModalize } from 'react-native-modalize';
+import { StyleSheet } from 'react-native';
 import SubmitWorkoutButton from './WorkoutForm/SubmitWorkoutButton';
-import { ExerciseList } from './WorkoutForm/ExerciseList';
-import { useEffect } from 'react';
-import { useAddExerciseModalStore } from '@/hooks/stores/modals/useAddExerciseModalStore';
-import { useSelectedExercisesStore } from '@/hooks/stores/useSelectedExercisesStore';
-import AddExerciseModalButton from './WorkoutForm/AddExerciseModalButton';
-import Header from './Header';
+import { useExerciseStore } from '@/hooks/stores/useSelectedExerciseStore';
+import { ExercisePicker } from './WorkoutForm/ExercisePicker';
+import { RepsCountPicker } from './WorkoutForm/RepsCountPicker';
 
 export default function WorkoutContainer() {
-  const { ref } = useModalize();
-  const { openModal, setModalRef } = useAddExerciseModalStore();
-  const { exercises } = useSelectedExercisesStore();
-
-  useEffect(() => {
-    setModalRef(ref);
-  }, [ref, setModalRef]);
+  const { exerciseName, setExerciseName, repsCount, setRepsCount } =
+    useExerciseStore();
 
   return (
     <>
-      <View style={styles.container}>
-        <Header />
-        <View style={styles.exerciseContainer}>
-          <View style={styles.scrollViewContent}>
-            <ExerciseList />
-          </View>
-          <AddExerciseModalButton onPress={() => openModal()} />
-        </View>
-        <View style={styles.submitButtonContainer}>
-          {exercises.length > 0 && <SubmitWorkoutButton />}
-        </View>
-      </View>
-      <Modalize
-        ref={ref}
-        modalHeight={500}
-        snapPoint={500}
-        handleStyle={styles.modalHandle}
-        onClosed={() => {}}
-      >
-        <AddExerciseModal />
-      </Modalize>
+      <ExercisePicker value={exerciseName} onValueChange={setExerciseName} />
+      <RepsCountPicker
+        value={repsCount}
+        exerciseName={exerciseName}
+        onValueChange={setRepsCount}
+      />
+      <SubmitWorkoutButton
+        workout={{
+          exercises: [{ exerciseName, count: repsCount }],
+        }}
+      />
     </>
   );
 }
