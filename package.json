@@ -8,6 +8,8 @@
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "build:ios": "eas build --non-interactive --platform ios --local",
+    "submit:ios": "eas submit -p ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint"
