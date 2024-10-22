@@ -5,22 +5,28 @@ import {
   Image,
   View,
   StyleSheet,
+  Button,
+  Switch,
+  Text,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
+import { createGroup } from '@/services/db.service';
 
 // Define the shape of our form state
 interface GroupFormState {
-  name: string;
+  groupName: string;
   description: string;
   image: string | null;
+  visibility: 'public' | 'private';
 }
 
 export default function CreateGroupForm() {
   // Create a single state object for the form
   const [formState, setFormState] = useState<GroupFormState>({
-    name: '',
+    groupName: '',
     description: '',
+    visibility: 'public',
     image: null,
   });
 
@@ -48,6 +54,10 @@ export default function CreateGroupForm() {
     }
   };
 
+  const handleSubmit = () => {
+    createGroup(formState);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.iconContainer} onPress={pickImage}>
@@ -59,8 +69,8 @@ export default function CreateGroupForm() {
       </TouchableOpacity>
       <TextInput
         style={{ ...styles.input, marginBottom: 10 }}
-        value={formState.name}
-        onChangeText={(text) => updateFormState('name', text)}
+        value={formState.groupName}
+        onChangeText={(text) => updateFormState('groupName', text)}
         placeholder="Enter group name"
         placeholderTextColor="#9ca3af"
       />
@@ -71,6 +81,16 @@ export default function CreateGroupForm() {
         placeholder="Enter group description"
         placeholderTextColor="#9ca3af"
       />
+      <View style={styles.visibilityContainer}>
+        <Text>Public</Text>
+        <Switch
+          value={formState.visibility === 'public'}
+          onValueChange={(value) =>
+            updateFormState('visibility', value ? 'public' : 'private')
+          }
+        />
+      </View>
+      <Button title="Create Group" onPress={handleSubmit} />
     </View>
   );
 }
@@ -80,6 +100,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '70%',
     padding: 16,
   },
   iconContainer: {
@@ -97,5 +118,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: '500',
+  },
+  visibilityContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 });

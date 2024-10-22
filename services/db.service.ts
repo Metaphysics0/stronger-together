@@ -12,7 +12,8 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
-import { Group } from '@/types/group.type';
+import { CreateGroupFormState, Group } from '@/types/models/group.type';
+import { uploadImageFromDevice } from './upload-image.service';
 
 export async function createUser({
   uid,
@@ -111,4 +112,31 @@ export async function getGroups(): Promise<Group[]> {
     console.error('error getting groups', error);
     return [];
   }
+}
+
+export async function createGroup(group: CreateGroupFormState) {
+  const groupData: Group = {
+    description: group.description,
+    groupName: group.groupName,
+    visibility: group.visibility,
+    members: [],
+    groupId: '',
+    imageUrl: '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  const groupRef = doc(collection(db, 'groups'));
+  const groupId = groupRef.id;
+
+  if (group.image) {
+    const storageRef = await uploadImageFromDevice({
+      path: `groups/${groupId}/config`,
+      imageUri: group.image,
+    });
+    if (storageRef) {
+      groupData.imageUrl = storageRef.fullPath;
+    }
+  }
+
+  await setDoc(groupRef, groupData);
 }

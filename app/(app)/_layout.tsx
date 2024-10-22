@@ -63,7 +63,7 @@ export default function TabLayout() {
 
   const groupsWithFullMembers = groups?.map((group) => ({
     ...group,
-    members: group.members.map(
+    members: (group.members || []).map(
       (memberId) =>
         // @ts-ignore
         users?.find((user) => user.uid === memberId) || memberId

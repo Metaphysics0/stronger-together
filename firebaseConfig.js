@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -24,4 +25,6 @@ const db = initializeFirestore(app, {
   cacheSizeBytes: 1048576,
 });
 
-export { app, auth, db };
+const storage = getStorage(app);
+
+export { app, auth, db, storage };
