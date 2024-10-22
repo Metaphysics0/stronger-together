@@ -1,11 +1,11 @@
-import { Redirect, router, Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
 import {
   TabBarIcon,
   TabBarIconFontAwesome,
 } from '@/components/Tabs/TabBarIcon';
 import { useSession } from '@/providers/SessionProvider';
-import { Button, Text } from 'react-native';
+import { Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
@@ -102,44 +102,12 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="groups"
+          name="feed"
           options={{
-            title: 'Groups',
-            tabBarIcon: ({ color, focused }) =>
-              focused ? (
-                <TabBarIcon name="people" color={color} />
-              ) : (
-                <TabBarIcon name="people-outline" color={color} />
-              ),
-            headerShown: true,
-            tabBarLabel: 'Groups',
-            headerTitle: 'Groups',
-            tabBarLabelStyle: {
-              fontFamily: 'Nunito-Bold',
-            },
-            headerRight: () => {
-              return (
-                <Button
-                  onPress={() => router.push('/(app)/groups/create-group')}
-                  title="Create"
-                />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="statistics"
-          options={{
-            title: 'Statistics',
-            tabBarLabelStyle: {
-              fontFamily: 'Nunito-Bold',
-            },
-            tabBarIcon: ({ color, focused }) =>
-              focused ? (
-                <TabBarIcon name="bar-chart" color={color} />
-              ) : (
-                <TabBarIcon name="bar-chart-outline" color={color} />
-              ),
+            title: 'Feed',
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIconFontAwesome name="person-running" color={color} />
+            ),
           }}
         />
         <Tabs.Screen
