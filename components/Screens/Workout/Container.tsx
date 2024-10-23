@@ -15,6 +15,7 @@ export default function WorkoutContainer() {
         value={repsCount}
         exerciseName={exerciseName}
         onValueChange={setRepsCount}
+        wrapperStyles={styles.repsCountPicker}
       />
       <SubmitWorkoutButton
         workout={{
@@ -26,33 +27,7 @@ export default function WorkoutContainer() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#f5f5f5',
-    justifyContent: 'space-evenly',
-    height: '100%',
-  },
-  exerciseContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '50%',
-  },
-  scrollViewContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '60%',
-    paddingHorizontal: 16,
-  },
-  submitButtonContainer: {
-    width: '35%',
-    marginHorizontal: 'auto',
-  },
-  modalHandle: {
-    backgroundColor: '#ccc',
-    width: 60,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 4,
+  repsCountPicker: {
+    marginBottom: 40,
   },
 });

@@ -1,5 +1,9 @@
-import { Text } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
 export default function FeedScreen() {
-  return <Text>Feed page</Text>;
+  return (
+    <SafeAreaView>
+      <Text>Feed page</Text>
+    </SafeAreaView>
+  );
 }

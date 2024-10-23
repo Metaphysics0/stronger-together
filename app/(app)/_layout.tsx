@@ -19,6 +19,7 @@ import {
 } from '@/services/db.service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useContactsStore } from '@/hooks/stores/useContactsStore';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -106,7 +107,12 @@ export default function TabLayout() {
           options={{
             title: 'Feed',
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIconFontAwesome name="person-running" color={color} />
+              <FontAwesome
+                name="group"
+                size={24}
+                color={color}
+                style={{ marginBottom: -3 }}
+              />
             ),
           }}
         />

@@ -4,13 +4,13 @@ import { exerciseTypeToMaxRepsCount } from '@/utils/exercise-type-formatter.util
 import { Picker } from '@react-native-picker/picker';
 import { View } from 'react-native';
 interface RepsCountPickerProps {
-  styles?: Record<string, any>;
+  wrapperStyles?: Record<string, any>;
   value: number;
   exerciseName: ExerciseType;
   onValueChange: (value: number) => void;
 }
 export function RepsCountPicker({
-  styles = {},
+  wrapperStyles = {},
   exerciseName,
   value,
   onValueChange,
@@ -22,12 +22,9 @@ export function RepsCountPicker({
       onTouchEnd={(e) => {
         e.stopPropagation();
       }}
+      style={wrapperStyles}
     >
-      <Picker
-        selectedValue={value}
-        onValueChange={onValueChange}
-        style={styles}
-      >
+      <Picker selectedValue={value} onValueChange={onValueChange}>
         {Array.from({ length: maxRepsCount }, (_, index) => {
           const count = index + 1;
           return (

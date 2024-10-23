@@ -213,9 +213,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  exercisePicker: {
-    width: '50%',
-  },
   repsCountPicker: {
     width: '50%',
   },
