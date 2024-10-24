@@ -153,7 +153,7 @@ export async function getAllWorkoutsSortedByTimestamp(): Promise<
     );
 
     const allWorkouts = users.flatMap((user) =>
-      user.workouts.map((workout) => ({
+      user?.workouts?.map((workout) => ({
         ...workout,
         userId: user.uid,
         userDisplayName: user.displayName,
@@ -169,9 +169,3 @@ export async function getAllWorkoutsSortedByTimestamp(): Promise<
     return [];
   }
 }
-
-// export async function likeWorkout(workoutId: string, userId: string) {
-//   await updateDoc(doc(db, 'workouts', workoutId), {
-//     likes: [...(workout.likes || []), { user_id: userId }],
-//   });
-// }

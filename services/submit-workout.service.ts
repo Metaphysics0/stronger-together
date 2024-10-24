@@ -21,11 +21,10 @@ export class SubmitWorkoutService {
         'SubmitWorkoutService - Submitting workout for user',
         this.userUid
       );
-      const { exercises } = workout;
       const user = await getUserOrThrow({ uid: this.userUid });
       await updateUser({
         uid: this.userUid,
-        data: this.getUpdateUserPayload({ user, exercises }),
+        data: this.getUpdateUserPayload({ user, workout }),
       });
 
       // await this.sendPushNotification({ user, exercises });
@@ -57,17 +56,19 @@ export class SubmitWorkoutService {
 
   private getUpdateUserPayload({
     user,
-    exercises,
+    workout,
   }: {
     user: StrongerTogetherDbUser;
-    exercises: UserWorkoutExercise[];
+    workout: UserWorkout;
   }): Partial<StrongerTogetherDbUser> {
     const { workouts: existingWorkouts = [] } = user;
-    const workout = { exercises, timestamp: Timestamp.now() };
+    const workoutToAdd: StrongerTogetherDbUser['workouts'][number] = {
+      exercises: workout.exercises,
+      timestamp: Timestamp.now(),
+      notes: workout?.notes || '',
+    };
     return {
-      workouts: [...existingWorkouts, workout],
+      workouts: [...existingWorkouts, workoutToAdd],
     };
   }
 }
-
-// type SubmitWorkoutRequest
