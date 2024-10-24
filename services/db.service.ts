@@ -14,6 +14,7 @@ import {
 import { toastError } from './toast.service';
 import { CreateGroupFormState, Group } from '@/types/models/group.type';
 import { uploadImageFromDevice } from './upload-image.service';
+import { UserWorkout } from '@/types/models/user-workout.type';
 
 export async function createUser({
   uid,
@@ -140,3 +141,37 @@ export async function createGroup(group: CreateGroupFormState) {
 
   await setDoc(groupRef, groupData);
 }
+
+export async function getAllWorkoutsSortedByTimestamp(): Promise<
+  (UserWorkout & { userId: string; userDisplayName: string })[]
+> {
+  try {
+    const users = await getAllUsers();
+    console.log(
+      'user ids',
+      users.map((user) => user.uid)
+    );
+
+    const allWorkouts = users.flatMap((user) =>
+      user.workouts.map((workout) => ({
+        ...workout,
+        userId: user.uid,
+        userDisplayName: user.displayName,
+      }))
+    );
+
+    return allWorkouts.sort(
+      (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis()
+    );
+  } catch (error) {
+    console.error('error getting all workouts', error);
+    toastError('Error getting workouts!');
+    return [];
+  }
+}
+
+// export async function likeWorkout(workoutId: string, userId: string) {
+//   await updateDoc(doc(db, 'workouts', workoutId), {
+//     likes: [...(workout.likes || []), { user_id: userId }],
+//   });
+// }

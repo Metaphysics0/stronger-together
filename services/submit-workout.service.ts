@@ -7,6 +7,7 @@ import {
 import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { sendPushNotificationToAllUsers } from './push-notifications/send-push-notification.service';
 import { getWorkoutPushNotificationMessage } from '@/utils/get-workout-push-notification-message.util';
+import { Timestamp } from 'firebase/firestore';
 
 export class SubmitWorkoutService {
   private userUid: string;
@@ -27,7 +28,7 @@ export class SubmitWorkoutService {
         data: this.getUpdateUserPayload({ user, exercises }),
       });
 
-      await this.sendPushNotification({ user, exercises });
+      // await this.sendPushNotification({ user, exercises });
     } catch (error) {
       console.error('SubmitWorkoutService - Error submitting workout', error);
       throw error;
@@ -62,7 +63,7 @@ export class SubmitWorkoutService {
     exercises: UserWorkoutExercise[];
   }): Partial<StrongerTogetherDbUser> {
     const { workouts: existingWorkouts = [] } = user;
-    const workout = { exercises, timestamp: new Date() };
+    const workout = { exercises, timestamp: Timestamp.now() };
     return {
       workouts: [...existingWorkouts, workout],
     };

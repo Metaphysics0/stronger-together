@@ -1,4 +1,7 @@
-import { getExerciseTypeToRepCountSuffix } from '@/utils/exercise-type-formatter.util';
+import {
+  exerciseTypeToName,
+  getExerciseTypeToRepCountSuffix,
+} from '@/utils/exercise-type-formatter.util';
 import { UserWorkoutExercise } from '@/types/models/user-workout.type';
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
@@ -56,7 +59,7 @@ export function getWorkoutPushNotificationMessage({
   };
 }
 
-function getSingleExercisePushNotificationMessage({
+export function getSingleExercisePushNotificationMessage({
   userDisplayName,
   exercise,
 }: {
@@ -67,7 +70,7 @@ function getSingleExercisePushNotificationMessage({
   return `${userDisplayName} just did ${friendlyExerciseName}!`;
 }
 
-function getFriendlyExerciseName({
+export function getFriendlyExerciseName({
   exerciseName,
   count,
 }: {
@@ -75,7 +78,8 @@ function getFriendlyExerciseName({
   count: number;
 }) {
   const countUnit = getExerciseTypeToRepCountSuffix({ exerciseName, count });
-  return `${count} ${countUnit} ${exerciseName}`;
+  const friendlyExerciseName = exerciseTypeToName[exerciseName].toLowerCase();
+  return `${count} ${countUnit} ${friendlyExerciseName}`;
 }
 
 interface GetWorkoutPushNotificationMessageParams {

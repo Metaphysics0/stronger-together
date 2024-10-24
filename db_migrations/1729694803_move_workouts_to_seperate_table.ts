@@ -6,6 +6,7 @@ import {
   deleteDoc,
   deleteField,
   addDoc,
+  Timestamp,
 } from 'firebase/firestore';
 import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { UserWorkout } from '@/types/models/user-workout.type';
@@ -22,7 +23,7 @@ export async function up({ db }: { db: Firestore }) {
       for (const workout of userData.workouts) {
         const newWorkout: UserWorkout & { user_id: string } = {
           user_id: userId,
-          timestamp: new Date(),
+          timestamp: Timestamp.now(),
           exercises: workout?.exercises ?? [],
           notes: workout?.notes ?? '',
         };
