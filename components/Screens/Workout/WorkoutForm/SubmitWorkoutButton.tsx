@@ -22,10 +22,7 @@ export default function SubmitWorkoutButton({
       });
       toastSuccess('Workout submitted, great job!');
       await service.submit({
-        workout: {
-          ...workout,
-          timestamp: new Date(),
-        },
+        workout: { ...workout, timestamp: new Date() },
       });
     } catch (error) {
       toastError('Error submitting workout 💥');

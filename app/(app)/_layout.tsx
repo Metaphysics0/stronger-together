@@ -1,9 +1,5 @@
 import { Redirect, Tabs } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  TabBarIcon,
-  TabBarIconFontAwesome,
-} from '@/components/Tabs/TabBarIcon';
 import { useSession } from '@/providers/SessionProvider';
 import { Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -19,7 +15,8 @@ import {
 } from '@/services/db.service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useContactsStore } from '@/hooks/stores/useContactsStore';
-import { FontAwesome } from '@expo/vector-icons';
+import { TabMenuItem } from '@/components/Tabs/TabMenuItem';
+import { TAB_MENU_ITEMS } from '@/constants/tab-menu.constant';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -90,47 +87,27 @@ export default function TabLayout() {
           headerShown: false,
         }}
       >
-        <Tabs.Screen
-          name="index"
-          options={{
-            tabBarLabelStyle: {
-              fontFamily: 'Nunito-Bold',
-            },
-            title: 'Workout',
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIconFontAwesome name="person-running" color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="feed"
-          options={{
-            title: 'Feed',
-            tabBarIcon: ({ color, focused }) => (
-              <FontAwesome
-                name="group"
-                size={24}
-                color={color}
-                style={{ marginBottom: -3 }}
-              />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: 'Profile',
-            tabBarLabelStyle: {
-              fontFamily: 'Nunito-Bold',
-            },
-            tabBarIcon: ({ color, focused }) =>
-              focused ? (
-                <TabBarIcon name="person-circle" color={color} />
-              ) : (
-                <TabBarIcon name="person-circle-outline" color={color} />
+        {TAB_MENU_ITEMS.map((item) => (
+          <Tabs.Screen
+            key={item.name}
+            name={item.name}
+            options={{
+              title: item.title,
+              tabBarLabelStyle: {
+                fontFamily: 'Nunito-Bold',
+              },
+              tabBarIcon: ({ color, focused }) => (
+                <TabMenuItem
+                  iconComponent={item.iconComponent}
+                  iconName={item.iconName}
+                  focusedIconName={item.focusedIconName}
+                  color={color}
+                  focused={focused}
+                />
               ),
-          }}
-        />
+            }}
+          />
+        ))}
       </Tabs>
     </GestureHandlerRootView>
   );

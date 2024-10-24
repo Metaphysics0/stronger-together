@@ -1,8 +1,8 @@
-import {
-  exerciseTypeToName,
-  getExerciseTypeToRepCountSuffix,
-} from '@/utils/exercise-type-formatter.util';
+import { getExerciseTypeToRepCountSuffix } from '@/utils/exercise-type-formatter.util';
 import { UserWorkoutExercise } from '@/types/models/user-workout.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+
+const NOTIFICATION_TITLE = 'Stronger Together';
 
 export function getWorkoutPushNotificationMessage({
   userDisplayName,
@@ -11,6 +11,16 @@ export function getWorkoutPushNotificationMessage({
   userDisplayName: string;
   exercises: UserWorkoutExercise[];
 }) {
+  if (exercises.length === 1) {
+    return {
+      title: NOTIFICATION_TITLE,
+      body: getSingleExercisePushNotificationMessage({
+        userDisplayName,
+        exercise: exercises[0],
+      }),
+    };
+  }
+
   const messages = [
     `${userDisplayName} just crushed an epic workout!`,
     `${userDisplayName} is on fire! They just completed a killer session!`,
@@ -28,13 +38,7 @@ export function getWorkoutPushNotificationMessage({
   if (exercises.length > 0) {
     const randomExercise =
       exercises[Math.floor(Math.random() * exercises.length)];
-    const exerciseName = exerciseTypeToName[randomExercise.exerciseName];
-    const count = randomExercise.count || 0;
-    const countUnit = getExerciseTypeToRepCountSuffix({
-      exerciseName: randomExercise.exerciseName,
-      count,
-    });
-    const friendlyExerciseName = `${count} ${countUnit} ${exerciseName}`;
+    const friendlyExerciseName = getFriendlyExerciseName(randomExercise);
 
     messages.push(
       `${userDisplayName} just did an insane workout, with ${friendlyExerciseName}!`,
@@ -50,6 +54,28 @@ export function getWorkoutPushNotificationMessage({
     title: 'Stronger Together',
     body: randomMessage,
   };
+}
+
+function getSingleExercisePushNotificationMessage({
+  userDisplayName,
+  exercise,
+}: {
+  userDisplayName: string;
+  exercise: UserWorkoutExercise;
+}) {
+  const friendlyExerciseName = getFriendlyExerciseName(exercise);
+  return `${userDisplayName} just did ${friendlyExerciseName}!`;
+}
+
+function getFriendlyExerciseName({
+  exerciseName,
+  count,
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) {
+  const countUnit = getExerciseTypeToRepCountSuffix({ exerciseName, count });
+  return `${count} ${countUnit} ${exerciseName}`;
 }
 
 interface GetWorkoutPushNotificationMessageParams {
