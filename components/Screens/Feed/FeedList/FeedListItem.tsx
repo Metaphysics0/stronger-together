@@ -7,6 +7,7 @@ import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type
 import { PLACEHOLDER_PROFILE_IMAGE_URL } from '@/constants/placeholder-image-url.constant';
 import { getTimestampForFeedListItem } from '@/utils/date/get-timestamp-for-feed-list-item.util';
 import { getFriendlyExerciseName } from '@/utils/get-workout-push-notification-message.util';
+import { useSession } from '@/providers/SessionProvider';
 
 interface FeedListItemProps {
   workout: UserWorkout;
@@ -19,6 +20,10 @@ export default function FeedListItem({
   user,
   onLike,
 }: FeedListItemProps) {
+  const { session: currentUserId } = useSession();
+
+  const isLiked = workout.likedUserIds?.includes(currentUserId!);
+
   return (
     <View style={styles.container}>
       <Image
@@ -43,7 +48,11 @@ export default function FeedListItem({
             .join(', ')}
         </Text>
         <TouchableOpacity onPress={onLike} style={styles.likeButton}>
-          <FontAwesome name="heart-o" size={20} color="#007AFF" />
+          <FontAwesome
+            name={isLiked ? 'heart' : 'heart-o'}
+            size={20}
+            color={isLiked ? '#FF0000' : '#007AFF'}
+          />
           <Text style={styles.likeCount}>
             {workout.likedUserIds?.length || 0}
           </Text>
