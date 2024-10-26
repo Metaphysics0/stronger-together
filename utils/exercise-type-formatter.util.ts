@@ -1,6 +1,7 @@
 import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 const MAX_TIME_BASED_EXERCISE_INPUT_DURATION = 60 * 4;
+const MAX_REPS_COUNT = 1000;
 
 export const exerciseTypeToScore: Record<ExerciseType, number> = {
   [ExerciseType.BURPEES]: 3,
@@ -31,11 +32,11 @@ export const exerciseTypeToName: Record<ExerciseType, string> = {
 };
 
 export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
-  [ExerciseType.BURPEES]: 300,
-  [ExerciseType.PUSH_UPS]: 300,
-  [ExerciseType.PULL_UPS]: 300,
-  [ExerciseType.SQUATS]: 300,
-  [ExerciseType.SIT_UPS]: 300,
+  [ExerciseType.BURPEES]: MAX_REPS_COUNT,
+  [ExerciseType.PUSH_UPS]: MAX_REPS_COUNT,
+  [ExerciseType.PULL_UPS]: MAX_REPS_COUNT,
+  [ExerciseType.SQUATS]: MAX_REPS_COUNT,
+  [ExerciseType.SIT_UPS]: MAX_REPS_COUNT,
   [ExerciseType.RUNNING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
   [ExerciseType.CYCLING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
   [ExerciseType.BOXING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
@@ -70,7 +71,7 @@ export const getRepsCountText = ({
   count: number;
 }) => {
   if (exerciseName === ExerciseType.COLD_SHOWER) {
-    return `${count}`;
+    return `${count} shower`;
   }
 
   if (isTimeBasedExercise(exerciseName)) {

@@ -12,7 +12,12 @@ import { useSession } from '@/providers/SessionProvider';
 import { useLikeMutation } from '@/hooks/tanstack/useLikeWorkoutMutation';
 
 export default function FeedListContainer() {
-  const { data: workouts, isLoading: isLoadingWorkouts } = useQuery({
+  const {
+    data: workouts,
+    isLoading: isLoadingWorkouts,
+    refetch: refetchWorkouts,
+    isRefetching: isRefetchingWorkouts,
+  } = useQuery({
     queryKey: ['allWorkoutsSortedByTimestamp'],
     queryFn: getAllWorkoutsSortedByTimestamp,
   });
@@ -48,6 +53,8 @@ export default function FeedListContainer() {
       <FlatList
         data={sortedWorkouts}
         keyExtractor={(item) => item.timestamp.toMillis().toString()}
+        onRefresh={() => refetchWorkouts()}
+        refreshing={isRefetchingWorkouts}
         renderItem={({ item: workout }) => {
           const user = users?.find((u) => u.uid === workout.userId);
           if (!user) return null;

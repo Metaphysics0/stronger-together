@@ -84,11 +84,6 @@ export class LikeWorkoutService {
       data: { workouts: updatedWorkouts },
     });
 
-    console.log(
-      'LIKED UPDATED WORKOUTS',
-      JSON.stringify(updatedWorkouts, null, 2)
-    );
-
     return updatedWorkouts;
   }
 
