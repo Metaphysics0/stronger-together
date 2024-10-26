@@ -2,6 +2,7 @@ import { SubmitWorkoutService } from '@/services/submit-workout.service';
 import { toastError, toastSuccess } from '@/services/toast.service';
 import { UserWorkout } from '@/types/models/user-workout.type';
 import { getAuth } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 export default function SubmitWorkoutButton({
@@ -22,7 +23,7 @@ export default function SubmitWorkoutButton({
       });
       toastSuccess('Workout submitted, great job!');
       await service.submit({
-        workout: { ...workout, timestamp: new Date() },
+        workout: { ...workout, timestamp: Timestamp.now() },
       });
     } catch (error) {
       toastError('Error submitting workout 💥');

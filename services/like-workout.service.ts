@@ -4,14 +4,7 @@ import {
 } from '@/utils/find-matching-workout-from-user.util';
 import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { UserWorkout } from '@/types/models/user-workout.type';
-import {
-  arrayRemove,
-  arrayUnion,
-  doc,
-  updateDoc,
-  writeBatch,
-} from 'firebase/firestore';
-import { db } from '@/firebaseConfig';
+import { updateUser } from './db.service';
 
 export class LikeWorkoutService {
   async likeOrUnlikeWorkout({
@@ -51,10 +44,16 @@ export class LikeWorkoutService {
   }) {
     this.logUpdate({ workoutOwnerUser, currentUserId, action: 'unlike' });
 
-    const userRef = doc(db, 'users', workoutOwnerUser.uid);
-    await updateDoc(userRef, {
-      [`workouts.${matchingWorkout.index}.likedUserIds`]:
-        arrayRemove(currentUserId),
+    const updatedWorkouts = this.getUpdatedWorkouts({
+      workoutOwnerUser,
+      matchingWorkout,
+      currentUserId,
+      action: 'unlike',
+    });
+
+    await updateUser({
+      uid: workoutOwnerUser.uid,
+      data: { workouts: updatedWorkouts },
     });
   }
 
@@ -69,15 +68,17 @@ export class LikeWorkoutService {
   }) {
     this.logUpdate({ workoutOwnerUser, currentUserId, action: 'like' });
 
-    const userRef = doc(db, 'users', workoutOwnerUser.uid);
-    const batch = writeBatch(db);
-
-    batch.update(userRef, {
-      [`workouts.${matchingWorkout.index}.likedUserIds`]:
-        arrayUnion(currentUserId),
+    const updatedWorkouts = this.getUpdatedWorkouts({
+      workoutOwnerUser,
+      matchingWorkout,
+      currentUserId,
+      action: 'like',
     });
 
-    await batch.commit();
+    await updateUser({
+      uid: workoutOwnerUser.uid,
+      data: { workouts: updatedWorkouts },
+    });
   }
 
   private hasCurrentUserLikedWorkout({
@@ -89,6 +90,38 @@ export class LikeWorkoutService {
   }) {
     return (workout.likedUserIds || []).includes(currentUserId);
   }
+
+  private getUpdatedWorkouts({
+    workoutOwnerUser,
+    matchingWorkout,
+    currentUserId,
+    action,
+  }: {
+    workoutOwnerUser: StrongerTogetherDbUser;
+    matchingWorkout: MatchingUserWorkout;
+    currentUserId: string;
+    action: 'like' | 'unlike';
+  }) {
+    const likedUserIds =
+      action === 'like'
+        ? this.arrayUnion(matchingWorkout.workout.likedUserIds, currentUserId)
+        : this.arrayRemove(matchingWorkout.workout.likedUserIds, currentUserId);
+
+    const workoutWithUpdatedLikedUserIds = {
+      ...matchingWorkout.workout,
+      likedUserIds,
+    };
+
+    return workoutOwnerUser.workouts.map((workout, index) =>
+      index === matchingWorkout.index ? workoutWithUpdatedLikedUserIds : workout
+    );
+  }
+
+  private arrayUnion = (array: string[] | undefined, value: string) =>
+    array ? [...array, value] : [value];
+
+  private arrayRemove = (array: string[] | undefined, value: string) =>
+    array ? array.filter((id) => id !== value) : [];
 
   private logUpdate({
     workoutOwnerUser,

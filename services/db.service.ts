@@ -147,18 +147,15 @@ export async function getAllWorkoutsSortedByTimestamp(): Promise<
 > {
   try {
     const users = await getAllUsers();
-    console.log(
-      'user ids',
-      users.map((user) => user.uid)
-    );
 
-    const allWorkouts = users.flatMap((user) =>
-      user?.workouts?.map((workout) => ({
+    const allWorkouts = users.flatMap((user) => {
+      console.log('USER', user);
+      return (user?.workouts || []).map((workout) => ({
         ...workout,
         userId: user.uid,
         userDisplayName: user.displayName,
-      }))
-    );
+      }));
+    });
 
     return allWorkouts.sort(
       (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis()
