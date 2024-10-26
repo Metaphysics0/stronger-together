@@ -1,48 +1,88 @@
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
-import { getRandomElementInArray } from './array/get-random-element-in-array.util';
+import {
+  exerciseTypeToName,
+  getExerciseTypeToRepCountSuffix,
+} from '@/utils/exercise-type-formatter.util';
+import { UserWorkoutExercise } from '@/types/models/user-workout.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
-export function getWorkoutPushNotificationMessageParams(
-  params: GetWorkoutPushNotificationMessageParams
-) {
+const NOTIFICATION_TITLE = 'Stronger Together';
+
+export function getWorkoutPushNotificationMessage({
+  userDisplayName,
+  exercises,
+}: {
+  userDisplayName: string;
+  exercises: UserWorkoutExercise[];
+}) {
+  if (exercises.length === 1) {
+    return {
+      title: NOTIFICATION_TITLE,
+      body: getSingleExercisePushNotificationMessage({
+        userDisplayName,
+        exercise: exercises[0],
+      }),
+    };
+  }
+
+  const messages = [
+    `${userDisplayName} just crushed an epic workout!`,
+    `${userDisplayName} is on fire! They just completed a killer session!`,
+    `Workout beast mode: ${userDisplayName} edition!`,
+    `${userDisplayName} is making gains and taking names!`,
+    `Another day, another awesome workout for ${userDisplayName}!`,
+    `${userDisplayName} is unstoppable! Check out their latest workout!`,
+    `Fitness goals? ${userDisplayName} is smashing them!`,
+    `${userDisplayName} just leveled up their fitness game!`,
+    `Sweat, determination, and ${userDisplayName} - a perfect combo!`,
+    `${userDisplayName} is redefining what it means to work hard!`,
+  ];
+
+  // Add exercise-specific messages
+  if (exercises.length > 0) {
+    const randomExercise =
+      exercises[Math.floor(Math.random() * exercises.length)];
+    const friendlyExerciseName = getFriendlyExerciseName(randomExercise);
+
+    messages.push(
+      `${userDisplayName} just did an insane workout, with ${friendlyExerciseName}!`,
+      `${userDisplayName} is a superhero, and did ${friendlyExerciseName} in their workout!`,
+      `Incredible! ${userDisplayName} crushed ${friendlyExerciseName} like it was nothing!`,
+      `${userDisplayName} is on a roll with ${friendlyExerciseName}! Can you keep up?`
+    );
+  }
+
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
   return {
     title: 'Stronger Together',
-    body: getRandomWorkoutPushNotificationMessage(params),
+    body: randomMessage,
   };
 }
 
-function getRandomWorkoutPushNotificationMessage({
+export function getSingleExercisePushNotificationMessage({
   userDisplayName,
   exercise,
+}: {
+  userDisplayName: string;
+  exercise: UserWorkoutExercise;
+}) {
+  const friendlyExerciseName = getFriendlyExerciseName(exercise);
+  return `${userDisplayName} just did ${friendlyExerciseName}!`;
+}
+
+export function getFriendlyExerciseName({
+  exerciseName,
   count,
-}: GetWorkoutPushNotificationMessageParams) {
-  const exerciseName = exerciseTypeToName[exercise]
-    .replace(' (minutes)', '')
-    .toLowerCase();
-  const isTimeBasedExercise =
-    exercise === ExerciseType.BOXING || exercise === ExerciseType.CYCLING;
-  const countUnit = isTimeBasedExercise ? 'minutes of' : '';
-
-  const friendlyExerciseName = countUnit + ' ' + exerciseName;
-
-  const messageBodies = [
-    `${userDisplayName} just crushed ${count} ${friendlyExerciseName}!`,
-    `Wow! ${userDisplayName} completed ${count} ${friendlyExerciseName}. Impressive!`,
-    `${userDisplayName} is on fire! ${count} ${friendlyExerciseName} done!`,
-    `Look at ${userDisplayName} go! ${count} ${friendlyExerciseName} in the books.`,
-    `${userDisplayName} is making gains with ${count} ${friendlyExerciseName}!`,
-    `${count} ${friendlyExerciseName}?? ${userDisplayName} is unstoppable!`,
-    `${userDisplayName} just raised the bar with ${count} ${friendlyExerciseName}.`,
-    `Incredible effort by ${userDisplayName}: ${count} ${friendlyExerciseName} completed!`,
-    `${userDisplayName} is putting in work: ${count} ${friendlyExerciseName} done!`,
-    `${count} ${friendlyExerciseName} from the one and only ${userDisplayName}`,
-    `Are you really going to let ${userDisplayName} beat you? ${count} ${friendlyExerciseName}!`,
-  ];
-
-  return getRandomElementInArray(messageBodies);
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) {
+  const countUnit = getExerciseTypeToRepCountSuffix({ exerciseName, count });
+  const friendlyExerciseName = exerciseTypeToName[exerciseName].toLowerCase();
+  return `${count} ${countUnit} ${friendlyExerciseName}`;
 }
 
 interface GetWorkoutPushNotificationMessageParams {
   userDisplayName: string;
-  exercise: ExerciseType;
-  count: number;
+  exercises: UserWorkoutExercise[];
 }

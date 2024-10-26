@@ -1,5 +1,6 @@
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
+import _ from 'lodash';
 
 export function getUserScore(user: StrongerTogetherUser) {
-  return user.workouts.reduce((acc, curr) => acc + curr.count, 0);
+  return _.sumBy(user.workouts, 'count');
 }

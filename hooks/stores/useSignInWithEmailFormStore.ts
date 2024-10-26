@@ -1,27 +1,43 @@
 import { create } from 'zustand';
 
 interface SignInFormState {
-  isSignUpWithEmailFormActive: boolean;
-  isSignInWithEmailFormActive: boolean;
-  setIsSignUpWithEmailFormActive: (
-    isSignUpWithEmailFormActive: boolean
+  formActiveStates: {
+    signUp: boolean;
+    signIn: boolean;
+  };
+  setFormActiveState: (
+    formActiveState: 'signUp' | 'signIn',
+    isActive: boolean
   ) => void;
-  setIsSignInWithEmailFormActive: (
-    isSignInWithEmailFormActive: boolean
-  ) => void;
-  clearSignInWithEmailFormState: () => void;
+  setSignInFormActiveState: () => void;
+  setSignUpFormActiveState: () => void;
+  clearFormActiveState: () => void;
 }
 
 export const useSignInWithEmailFormStore = create<SignInFormState>((set) => ({
-  isSignUpWithEmailFormActive: false,
-  isSignInWithEmailFormActive: false,
-  setIsSignUpWithEmailFormActive: (isSignUpWithEmailFormActive) =>
-    set({ isSignUpWithEmailFormActive }),
-  setIsSignInWithEmailFormActive: (isSignInWithEmailFormActive) =>
-    set({ isSignInWithEmailFormActive }),
-  clearSignInWithEmailFormState: () =>
+  formActiveStates: {
+    signUp: false,
+    signIn: false,
+  },
+  setFormActiveState: (
+    formActiveState: 'signUp' | 'signIn',
+    isActive: boolean
+  ) =>
+    set((state) => ({
+      formActiveStates: {
+        ...state.formActiveStates,
+        [formActiveState]: isActive,
+      },
+    })),
+  setSignInFormActiveState: () =>
+    set({ formActiveStates: { signUp: false, signIn: true } }),
+  setSignUpFormActiveState: () =>
+    set({ formActiveStates: { signUp: true, signIn: false } }),
+  clearFormActiveState: () =>
     set({
-      isSignUpWithEmailFormActive: false,
-      isSignInWithEmailFormActive: false,
+      formActiveStates: {
+        signUp: false,
+        signIn: false,
+      },
     }),
 }));

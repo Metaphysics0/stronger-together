@@ -10,9 +10,15 @@ npm-debug.*
 *.orig.*
 web-build/
 
+.env
+.env.staging
+.env.production
 
 credentials.json
-.env
+
+eas.json
+
+build-.*
 
 # macOS
 .DS_Store

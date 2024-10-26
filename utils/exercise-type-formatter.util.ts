@@ -1,0 +1,101 @@
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+
+const MAX_TIME_BASED_EXERCISE_INPUT_DURATION = 60 * 4;
+const MAX_REPS_COUNT = 1000;
+
+export const exerciseTypeToScore: Record<ExerciseType, number> = {
+  [ExerciseType.BURPEES]: 3,
+  [ExerciseType.PUSH_UPS]: 1,
+  [ExerciseType.PULL_UPS]: 2,
+  [ExerciseType.SQUATS]: 1,
+  [ExerciseType.SIT_UPS]: 1,
+  [ExerciseType.RUNNING]: 1,
+  [ExerciseType.CYCLING]: 1,
+  [ExerciseType.BOXING]: 1,
+  [ExerciseType.WALKING]: 1,
+  [ExerciseType.MEDITATION]: 100,
+  [ExerciseType.COLD_SHOWER]: 100,
+};
+
+export const exerciseTypeToName: Record<ExerciseType, string> = {
+  [ExerciseType.BURPEES]: 'Burpees',
+  [ExerciseType.PUSH_UPS]: 'Push Ups',
+  [ExerciseType.PULL_UPS]: 'Pull Ups',
+  [ExerciseType.SQUATS]: 'Squats',
+  [ExerciseType.SIT_UPS]: 'Sit Ups',
+  [ExerciseType.RUNNING]: 'Running 🏃‍♂️',
+  [ExerciseType.CYCLING]: 'Cycling 🚴‍♂️',
+  [ExerciseType.BOXING]: 'Boxing 🥊',
+  [ExerciseType.WALKING]: 'Walking 🚶‍♂️',
+  [ExerciseType.MEDITATION]: 'Meditation 🧘‍♂️',
+  [ExerciseType.COLD_SHOWER]: 'Cold Shower 🥶🚿',
+};
+
+export const exerciseTypeToMaxRepsCount: Record<ExerciseType, number> = {
+  [ExerciseType.BURPEES]: MAX_REPS_COUNT,
+  [ExerciseType.PUSH_UPS]: MAX_REPS_COUNT,
+  [ExerciseType.PULL_UPS]: MAX_REPS_COUNT,
+  [ExerciseType.SQUATS]: MAX_REPS_COUNT,
+  [ExerciseType.SIT_UPS]: MAX_REPS_COUNT,
+  [ExerciseType.RUNNING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.CYCLING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.BOXING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.WALKING]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+  [ExerciseType.COLD_SHOWER]: 1,
+  [ExerciseType.MEDITATION]: MAX_TIME_BASED_EXERCISE_INPUT_DURATION,
+};
+
+export const getExerciseTypeToRepCountSuffix = ({
+  exerciseName,
+  count,
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) =>
+  exerciseTypeToRepCountSuffix[exerciseName] ?? (count > 1 ? 'reps' : 'rep');
+
+export const isTimeBasedExercise = (exerciseName: ExerciseType) =>
+  [
+    ExerciseType.RUNNING,
+    ExerciseType.CYCLING,
+    ExerciseType.WALKING,
+    ExerciseType.MEDITATION,
+    ExerciseType.BOXING,
+  ].includes(exerciseName);
+
+export const getRepsCountText = ({
+  exerciseName,
+  count,
+}: {
+  exerciseName: ExerciseType;
+  count: number;
+}) => {
+  if (exerciseName === ExerciseType.COLD_SHOWER) {
+    return `${count} shower`;
+  }
+
+  if (isTimeBasedExercise(exerciseName)) {
+    if (count >= 60) {
+      const hours = Math.floor(count / 60);
+      const minutes = count % 60;
+      if (minutes === 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else {
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min`;
+      }
+    } else {
+      return `${count} min`;
+    }
+  }
+  return `${count} ${getExerciseTypeToRepCountSuffix({ exerciseName, count })}`;
+};
+
+export const exerciseTypeToRepCountSuffix: Partial<
+  Record<ExerciseType, string>
+> = {
+  [ExerciseType.RUNNING]: 'min',
+  [ExerciseType.CYCLING]: 'min',
+  [ExerciseType.WALKING]: 'min',
+  [ExerciseType.MEDITATION]: 'min',
+  [ExerciseType.BOXING]: 'min',
+};

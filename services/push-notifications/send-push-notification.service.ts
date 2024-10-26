@@ -17,6 +17,9 @@ export async function sendPushNotificationToAllUsers({
     .map((user) => user.expoPushToken)
     .filter(Boolean) as string[];
 
+  console.log(
+    `sendPushNotificationToAllUsers - sending push notification to ${pushTokens.length} users`
+  );
   await sendPushNotification({ expoPushToken: pushTokens, title, body, data });
 }
 
@@ -32,8 +35,6 @@ export async function sendPushNotification({
   data?: Record<string, string>;
 }) {
   const message = { title, body, data, to: expoPushToken, sound: 'default' };
-
-  console.log('sending push notification', message);
 
   try {
     await fetch('https://exp.host/--/api/v2/push/send', {

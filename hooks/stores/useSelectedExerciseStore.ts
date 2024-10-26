@@ -1,16 +1,15 @@
-import { AVAILABLE_EXERCISES } from '@/constants/available-exercises.constant';
-import { ExerciseType } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 import { create } from 'zustand';
 
 interface ExerciseState {
-  exerciseName: string;
+  exerciseName: ExerciseType;
   repsCount: number;
   setExerciseName: (name: ExerciseType) => void;
   setRepsCount: (count: number) => void;
 }
 
 export const useExerciseStore = create<ExerciseState>((set) => ({
-  exerciseName: AVAILABLE_EXERCISES[0].name,
+  exerciseName: Object.values(ExerciseType)[0],
   repsCount: 1,
   setExerciseName: (exerciseName) => set({ exerciseName }),
   setRepsCount: (repsCount) => set({ repsCount }),

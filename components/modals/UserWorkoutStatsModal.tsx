@@ -1,6 +1,5 @@
 import React from 'react';
-import { useUserStatsModalStore } from '@/hooks/stores/useUserStatsModalStore';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { useUserStatsModalStore } from '@/hooks/stores/modals/useUserStatsModalStore';
 import {
   Modal,
   View,
@@ -10,17 +9,16 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
+import { exerciseTypeToName } from '@/utils/exercise-type-formatter.util';
 
-interface UserWorkoutStatsModalProps {
-  user: StrongerTogetherUser;
-}
-
-export default function UserWorkoutStatsModal({
-  user,
-}: UserWorkoutStatsModalProps) {
-  const { isUserStatsModalActive, setIsUserStatsModalActive } =
+export default function UserWorkoutStatsModal() {
+  const { isUserStatsModalActive, user, setIsUserStatsModalActive } =
     useUserStatsModalStore();
+
+  if (!user) {
+    return null;
+  }
 
   const calculateTotalWorkouts = () => {
     const totals: Record<ExerciseType, number> = {
@@ -31,10 +29,14 @@ export default function UserWorkoutStatsModal({
       [ExerciseType.SIT_UPS]: 0,
       [ExerciseType.BOXING]: 0,
       [ExerciseType.CYCLING]: 0,
+      [ExerciseType.WALKING]: 0,
+      [ExerciseType.RUNNING]: 0,
     };
 
     user.workouts.forEach((workout) => {
-      totals[workout.exercise] += workout.count;
+      workout.exercises.forEach((exercise) => {
+        totals[exercise.exercise] += exercise.repsCount;
+      });
     });
 
     return totals;
@@ -47,7 +49,12 @@ export default function UserWorkoutStatsModal({
       animationType="slide"
       transparent={true}
       visible={isUserStatsModalActive}
-      onRequestClose={() => setIsUserStatsModalActive(false)}
+      onRequestClose={() =>
+        setIsUserStatsModalActive({
+          isUserStatsModalActive: false,
+          user: undefined,
+        })
+      }
     >
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
@@ -60,7 +67,12 @@ export default function UserWorkoutStatsModal({
             </View>
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setIsUserStatsModalActive(false)}
+              onPress={() =>
+                setIsUserStatsModalActive({
+                  isUserStatsModalActive: false,
+                  user: undefined,
+                })
+              }
             >
               <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>

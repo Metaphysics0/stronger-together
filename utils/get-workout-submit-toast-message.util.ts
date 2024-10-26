@@ -1,5 +1,6 @@
-import { ExerciseType, exerciseTypeToName } from '@/types/exercise.type';
-import { getRandomElementInArray } from './array/get-random-element-in-array.util';
+import _ from 'lodash';
+import { exerciseTypeToName } from './exercise-type-formatter.util';
+import { ExerciseType } from '@/types/enums/exercise-type.enum';
 
 export function getWorkoutSubmitToastMessage({
   exercise,
@@ -23,5 +24,5 @@ export function getWorkoutSubmitToastMessage({
     `Boom! ${repsCount} ${friendlyExerciseName} in the books. You're a machine! 🤖`,
   ];
 
-  return getRandomElementInArray(messages);
+  return _.sample(messages);
 }

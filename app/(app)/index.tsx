@@ -1,21 +1,19 @@
-import { ExercisePicker } from '@/components/WorkoutForm/ExercisePicker';
-import { RepsCountPicker } from '@/components/WorkoutForm/RepsCountPicker';
-import { SubmitWorkoutButton } from '@/components/WorkoutForm/SubmitWorkoutButton';
-import { View } from 'react-native';
+import React from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import WorkoutContainer from '@/components/Screens/Workout/Container';
 
-export default function Index() {
+export default function WorkoutPage() {
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingHorizontal: 35,
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <ExercisePicker />
-      <RepsCountPicker />
-      <SubmitWorkoutButton />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <WorkoutContainer />
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+  },
+});

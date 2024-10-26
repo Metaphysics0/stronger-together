@@ -1,29 +1,27 @@
 import { Redirect, Tabs } from 'expo-router';
-import React, { ComponentProps, useState } from 'react';
-import {
-  TabBarIcon,
-  TabBarIconFontAwesome,
-} from '@/components/navigation/TabBarIcon';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSession } from '@/providers/SessionProvider';
 import { Text } from 'react-native';
-import { useRef, useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import { usePushNotificationStore } from '@/hooks/stores/usePushNotificationStore';
 import { registerForPushNotificationsAsync } from '@/services/push-notifications/register-push-notifications.service';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Group } from '@/types/group.type';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import { Group } from '@/types/models/group.type';
+import { StrongerTogetherUser } from '@/types/models/stronger-together-user.type';
 import {
   getAllUsers,
   getGroups,
   updateUserPushToken,
 } from '@/services/db.service';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useContactsStore } from '@/hooks/stores/useContactsStore';
+import { TabMenuItem } from '@/components/Tabs/TabMenuItem';
+import { TAB_MENU_ITEMS } from '@/constants/tab-menu.constant';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
   const { setExpoPushToken } = usePushNotificationStore();
+  const { setContacts } = useContactsStore();
   const queryClient = useQueryClient();
 
   const [notification, setNotification] = useState<
@@ -39,13 +37,12 @@ export default function TabLayout() {
         if (session && expoPushToken) {
           await updateUserPushToken({ uid: session, expoPushToken });
         }
-      } catch (error: any) {
+      } catch (error) {
         console.log('setupPushNotifications error', error);
       }
     }
 
     setupPushNotifications();
-
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
@@ -64,7 +61,7 @@ export default function TabLayout() {
 
   const groupsWithFullMembers = groups?.map((group) => ({
     ...group,
-    members: group.members.map(
+    members: (group.members || []).map(
       (memberId) =>
         // @ts-ignore
         users?.find((user) => user.uid === memberId) || memberId
@@ -78,64 +75,40 @@ export default function TabLayout() {
   }
 
   if (!session) {
+    console.log('NO SESSION');
     return <Redirect href="/sign-in" />;
   }
 
-  const ROUTES: {
-    name: string;
-    icon: ComponentProps<typeof Ionicons>['name'];
-    path: string;
-    isFontAwesome?: boolean;
-  }[] = [
-    {
-      name: 'Workout',
-      icon: 'person-running' as ComponentProps<typeof FontAwesome6>['name'],
-      isFontAwesome: true,
-      path: 'index',
-    },
-    {
-      name: 'Groups',
-      icon: 'people',
-      path: 'groups',
-    },
-    {
-      name: 'Leaderboard',
-      icon: 'ribbon',
-      path: 'leaderboard',
-    },
-    {
-      name: 'Profile',
-      icon: 'person-circle',
-      path: 'profile',
-    },
-  ];
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#0a7ea4',
-        headerShown: false,
-      }}
-    >
-      {ROUTES.map((route) => (
-        <Tabs.Screen
-          key={route.name}
-          name={route.path}
-          options={{
-            title: route.name,
-            tabBarIcon: ({ color, focused }) =>
-              route.isFontAwesome ? (
-                <TabBarIconFontAwesome name={route.icon} color={color} />
-              ) : (
-                <TabBarIcon
-                  // @ts-ignore
-                  name={focused ? route.icon : `${route.icon}-outline`}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#007AFF',
+          headerShown: false,
+        }}
+      >
+        {TAB_MENU_ITEMS.map((item) => (
+          <Tabs.Screen
+            key={item.name}
+            name={item.name}
+            options={{
+              title: item.title,
+              tabBarLabelStyle: {
+                fontFamily: 'Nunito-Bold',
+              },
+              tabBarIcon: ({ color, focused }) => (
+                <TabMenuItem
+                  iconComponent={item.iconComponent}
+                  iconName={item.iconName}
+                  focusedIconName={item.focusedIconName}
                   color={color}
+                  focused={focused}
                 />
               ),
-          }}
-        />
-      ))}
-    </Tabs>
+            }}
+          />
+        ))}
+      </Tabs>
+    </GestureHandlerRootView>
   );
 }

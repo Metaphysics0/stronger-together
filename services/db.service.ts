@@ -1,5 +1,8 @@
 import { db } from '@/firebaseConfig';
-import { StrongerTogetherUser } from '@/types/stronger-together-user.type';
+import {
+  StrongerTogetherDbUser,
+  StrongerTogetherUser,
+} from '@/types/models/stronger-together-user.type';
 import {
   collection,
   doc,
@@ -9,7 +12,9 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { toastError } from './toast.service';
-import { Group } from '@/types/group.type';
+import { CreateGroupFormState, Group } from '@/types/models/group.type';
+import { uploadImageFromDevice } from './upload-image.service';
+import { UserWorkout } from '@/types/models/user-workout.type';
 
 export async function createUser({
   uid,
@@ -47,14 +52,28 @@ export async function updateUserPushToken({
   await updateUser({ uid, data: { expoPushToken } });
 }
 
-export async function getUser({ uid }: { uid: string }) {
+export async function getUser({
+  uid,
+}: {
+  uid: string;
+}): Promise<StrongerTogetherDbUser | null> {
   try {
     const snapshot = await getDoc(doc(db, 'users', uid));
-    return snapshot.data();
+    return snapshot.data() as StrongerTogetherDbUser | null;
   } catch (error) {
     console.error('error getting user', error);
     return null;
   }
+}
+
+export async function getUserOrThrow({
+  uid,
+}: {
+  uid: string;
+}): Promise<StrongerTogetherDbUser> {
+  const user = await getUser({ uid });
+  if (!user) throw new Error('User not found');
+  return user;
 }
 
 export async function getAllUsers(): Promise<
@@ -92,6 +111,57 @@ export async function getGroups(): Promise<Group[]> {
     return snapshot.docs.map((doc) => doc.data()) as Group[];
   } catch (error) {
     console.error('error getting groups', error);
+    return [];
+  }
+}
+
+export async function createGroup(group: CreateGroupFormState) {
+  const groupData: Group = {
+    description: group.description,
+    groupName: group.groupName,
+    visibility: group.visibility,
+    members: [],
+    groupId: '',
+    imageUrl: '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  const groupRef = doc(collection(db, 'groups'));
+  const groupId = groupRef.id;
+
+  if (group.image) {
+    const storageRef = await uploadImageFromDevice({
+      path: `groups/${groupId}/config`,
+      imageUri: group.image,
+    });
+    if (storageRef) {
+      groupData.imageUrl = storageRef.fullPath;
+    }
+  }
+
+  await setDoc(groupRef, groupData);
+}
+
+export async function getAllWorkoutsSortedByTimestamp(): Promise<
+  (UserWorkout & { userId: string; userDisplayName: string })[]
+> {
+  try {
+    const users = await getAllUsers();
+
+    const allWorkouts = users.flatMap((user) => {
+      return (user?.workouts || []).map((workout) => ({
+        ...workout,
+        userId: user.uid,
+        userDisplayName: user.displayName,
+      }));
+    });
+
+    return allWorkouts.sort(
+      (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis()
+    );
+  } catch (error) {
+    console.error('error getting all workouts', error);
+    toastError('Error getting workouts!');
     return [];
   }
 }
