@@ -5,6 +5,7 @@ import {
 import { StrongerTogetherDbUser } from '@/types/models/stronger-together-user.type';
 import { UserWorkout } from '@/types/models/user-workout.type';
 import { updateUser } from './db.service';
+import { uniq } from 'lodash';
 
 export class LikeWorkoutService {
   async likeOrUnlikeWorkout({
@@ -15,20 +16,21 @@ export class LikeWorkoutService {
     workout: UserWorkout;
     workoutOwnerUser: StrongerTogetherDbUser;
     currentUserId: string;
-  }) {
+  }): Promise<UserWorkout[]> {
     const matchingWorkout = findMatchingWorkoutFromUser({
       workout,
       user: workoutOwnerUser,
     });
-    if (!matchingWorkout) return;
+    if (!matchingWorkout) {
+      throw new Error('No matching workout found');
+    }
 
     const hasCurrentUserLikedWorkout = this.hasCurrentUserLikedWorkout({
       workout,
       currentUserId,
     });
 
-    // TEST THE DB UPDATES + FIRESTORE OUTPUT
-    hasCurrentUserLikedWorkout
+    return hasCurrentUserLikedWorkout
       ? await this.unlike({ workoutOwnerUser, matchingWorkout, currentUserId })
       : await this.like({ workoutOwnerUser, matchingWorkout, currentUserId });
   }
@@ -55,6 +57,8 @@ export class LikeWorkoutService {
       uid: workoutOwnerUser.uid,
       data: { workouts: updatedWorkouts },
     });
+
+    return updatedWorkouts;
   }
 
   private async like({
@@ -79,6 +83,13 @@ export class LikeWorkoutService {
       uid: workoutOwnerUser.uid,
       data: { workouts: updatedWorkouts },
     });
+
+    console.log(
+      'LIKED UPDATED WORKOUTS',
+      JSON.stringify(updatedWorkouts, null, 2)
+    );
+
+    return updatedWorkouts;
   }
 
   private hasCurrentUserLikedWorkout({
@@ -118,7 +129,7 @@ export class LikeWorkoutService {
   }
 
   private arrayUnion = (array: string[] | undefined, value: string) =>
-    array ? [...array, value] : [value];
+    array ? uniq([...array, value]) : [value];
 
   private arrayRemove = (array: string[] | undefined, value: string) =>
     array ? array.filter((id) => id !== value) : [];

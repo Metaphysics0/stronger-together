@@ -8,8 +8,8 @@ import {
 import FeedListItem from './FeedListItem';
 import { UserWorkout } from '@/types/models/user-workout.type';
 import Text from '@/components/common/Text';
-import { LikeWorkoutService } from '@/services/like-workout.service';
 import { useSession } from '@/providers/SessionProvider';
+import { useLikeMutation } from '@/hooks/tanstack/useLikeWorkoutMutation';
 
 export default function FeedListContainer() {
   const { data: workouts, isLoading: isLoadingWorkouts } = useQuery({
@@ -23,35 +23,16 @@ export default function FeedListContainer() {
   });
 
   const { session: currentUserId } = useSession();
+  const likeMutation = useLikeMutation(currentUserId!, users);
 
-  const handleLike = async ({
+  const handleLike = ({
     workout,
     workoutOwnerUserId,
   }: {
     workout: UserWorkout;
     workoutOwnerUserId: string;
   }) => {
-    if (!currentUserId) {
-      console.warn(
-        'handleLike - Unable to like workout, no current user id in session'
-      );
-      return;
-    }
-
-    const workoutOwnerUser = users?.find((u) => u.uid === workoutOwnerUserId);
-    if (!workoutOwnerUser) {
-      console.warn(
-        'handleLike - Unable to like workout, no workout owner user found'
-      );
-      return;
-    }
-
-    const likeWorkoutService = new LikeWorkoutService();
-    await likeWorkoutService.likeOrUnlikeWorkout({
-      workout,
-      workoutOwnerUser,
-      currentUserId,
-    });
+    likeMutation.mutate({ workout, workoutOwnerUserId });
   };
 
   if (isLoadingWorkouts || isLoadingUsers) {

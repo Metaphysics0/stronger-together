@@ -149,7 +149,6 @@ export async function getAllWorkoutsSortedByTimestamp(): Promise<
     const users = await getAllUsers();
 
     const allWorkouts = users.flatMap((user) => {
-      console.log('USER', user);
       return (user?.workouts || []).map((workout) => ({
         ...workout,
         userId: user.uid,
