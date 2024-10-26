@@ -27,7 +27,7 @@ export class SubmitWorkoutService {
         data: this.getUpdateUserPayload({ user, workout }),
       });
 
-      // await this.sendPushNotification({ user, exercises });
+      await this.sendPushNotification({ user, exercises: workout.exercises });
     } catch (error) {
       console.error('SubmitWorkoutService - Error submitting workout', error);
       throw error;
