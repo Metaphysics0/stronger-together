@@ -1,3 +1,4 @@
+import { CreateGroupButton } from '@/components/Screens/Groups/CreateGroupButton';
 import {
   Entypo,
   FontAwesome,
@@ -11,6 +12,13 @@ export const TAB_MENU_ITEMS: TabMenuItem[] = [
     title: 'Workout',
     iconComponent: FontAwesome6,
     iconName: 'person-running',
+  },
+  {
+    name: 'groups',
+    title: 'Groups',
+    iconComponent: FontAwesome,
+    iconName: 'group',
+    headerRight: CreateGroupButton,
   },
   {
     name: 'feed',
@@ -32,4 +40,5 @@ export interface TabMenuItem {
   iconComponent: typeof FontAwesome | typeof Ionicons | typeof Entypo;
   iconName: string;
   focusedIconName?: string;
+  headerRight?: React.ComponentType<any>;
 }
