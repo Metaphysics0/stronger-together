@@ -67,20 +67,22 @@ export default function CreateGroupForm() {
           <FontAwesome name="camera" size={24} color="#3B82F6" />
         )}
       </TouchableOpacity>
-      <TextInput
-        style={{ ...styles.input, marginBottom: 10 }}
-        value={formState.groupName}
-        onChangeText={(text) => updateFormState('groupName', text)}
-        placeholder="Enter group name"
-        placeholderTextColor="#9ca3af"
-      />
-      <TextInput
-        style={styles.input}
-        value={formState.description}
-        onChangeText={(text) => updateFormState('description', text)}
-        placeholder="Enter group description"
-        placeholderTextColor="#9ca3af"
-      />
+      <View style={styles.textInputContainer}>
+        <TextInput
+          style={{ ...styles.input, marginBottom: 10 }}
+          value={formState.groupName}
+          onChangeText={(text) => updateFormState('groupName', text)}
+          placeholder="Enter group name"
+          placeholderTextColor="#9ca3af"
+        />
+        <TextInput
+          style={styles.input}
+          value={formState.description}
+          onChangeText={(text) => updateFormState('description', text)}
+          placeholder="Enter group description"
+          placeholderTextColor="#9ca3af"
+        />
+      </View>
       <View style={styles.visibilityContainer}>
         <Text>Public</Text>
         <Switch
@@ -102,6 +104,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '70%',
     padding: 16,
+    borderWidth: 1,
+    borderColor: '#94b8ff',
+    borderRadius: 10,
   },
   iconContainer: {
     width: 50,
@@ -114,6 +119,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   image: { width: 50, height: 50, borderRadius: 100 },
+  textInputContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
   input: {
     color: 'black',
     fontSize: 16,

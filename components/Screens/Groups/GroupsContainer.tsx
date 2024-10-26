@@ -5,7 +5,7 @@ import { getGroups } from '@/services/db.service';
 import { GroupListItem } from './GroupListItem';
 import { Group } from '@/types/models/group.type';
 
-export default function GroupContainer() {
+export default function GroupsContainer() {
   const [searchQuery, setSearchQuery] = useState('');
   const { data: groups } = useQuery({
     queryKey: ['groupsWithFullMembers'],
