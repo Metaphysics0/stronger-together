@@ -96,6 +96,9 @@ export default function TabLayout() {
               tabBarLabelStyle: {
                 fontFamily: 'Nunito-Bold',
               },
+              headerShown: !!item.headerRight,
+              headerRight: () =>
+                item.headerRight ? <item.headerRight /> : null,
               tabBarIcon: ({ color, focused }) => (
                 <TabMenuItem
                   iconComponent={item.iconComponent}
