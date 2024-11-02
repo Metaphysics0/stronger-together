@@ -1,10 +1,11 @@
 import React from 'react';
 import { TabMenuItem as TabMenuItemType } from '@/constants/tab-menu.constant';
 
-interface TabMenuItemProps {
-  iconComponent: TabMenuItemType['iconComponent'];
-  iconName: TabMenuItemType['iconName'];
-  focusedIconName?: TabMenuItemType['focusedIconName'];
+interface TabMenuItemProps
+  extends Pick<
+    TabMenuItemType,
+    'iconComponent' | 'iconName' | 'focusedIconName'
+  > {
   color: string;
   focused: boolean;
   size?: number;
@@ -18,18 +19,18 @@ export function TabMenuItem({
   focused,
   size = 28,
 }: TabMenuItemProps) {
-  const sharedProps = { color, size, style: { marginTop: 4 } };
+  const props = {
+    color,
+    size,
+    style: { marginTop: 4 },
+    strokeWidth: 1,
+  };
 
   if (focused && focusedIconName) {
-    return (
-      <Icon
-        // @ts-ignore
-        name={focusedIconName}
-        {...sharedProps}
-      />
-    );
+    // @ts-ignore
+    return <Icon name={focusedIconName} {...props} />;
   }
 
   // @ts-ignore
-  return <Icon name={iconName} {...sharedProps} />;
+  return <Icon name={iconName} {...props} />;
 }

@@ -102,14 +102,9 @@ export default function TabLayout() {
                 <LucideTabMenuIcon
                   iconName={item.iconComponent}
                   focusedIconName={item.focusedIconName}
+                  isFocused={focused}
+                  color={color}
                 />
-                // <TabMenuItem
-                //   iconComponent={item.iconComponent}
-                //   iconName={item.iconName}
-                //   focusedIconName={item.focusedIconName}
-                //   color={color}
-                //   focused={focused}
-                // />
               ),
             }}
           />
