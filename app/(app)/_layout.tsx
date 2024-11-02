@@ -15,8 +15,8 @@ import {
 } from '@/services/db.service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useContactsStore } from '@/hooks/stores/useContactsStore';
-import { TabMenuItem } from '@/components/Tabs/TabMenuItem';
 import { TAB_MENU_ITEMS } from '@/constants/tab-menu.constant';
+import { LucideTabMenuIcon } from '@/components/Tabs/LucideTabMenuIcon';
 
 export default function TabLayout() {
   const { session, isLoading } = useSession();
@@ -75,7 +75,6 @@ export default function TabLayout() {
   }
 
   if (!session) {
-    console.log('NO SESSION');
     return <Redirect href="/sign-in" />;
   }
 
@@ -100,13 +99,17 @@ export default function TabLayout() {
               headerRight: () =>
                 item.headerRight ? <item.headerRight /> : null,
               tabBarIcon: ({ color, focused }) => (
-                <TabMenuItem
-                  iconComponent={item.iconComponent}
-                  iconName={item.iconName}
+                <LucideTabMenuIcon
+                  iconName={item.iconComponent}
                   focusedIconName={item.focusedIconName}
-                  color={color}
-                  focused={focused}
                 />
+                // <TabMenuItem
+                //   iconComponent={item.iconComponent}
+                //   iconName={item.iconName}
+                //   focusedIconName={item.focusedIconName}
+                //   color={color}
+                //   focused={focused}
+                // />
               ),
             }}
           />

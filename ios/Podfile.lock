@@ -1492,8 +1492,6 @@ PODS:
     - ComputableLayout (~> 0.7)
     - DGSwiftUtilities (~> 0.17)
     - ExpoModulesCore
-  - ReactNativeUiLib (4.3.2):
-    - React
   - RNCAsyncStorage (1.24.0):
     - React-Core
   - RNCPicker (2.8.1):
@@ -1655,7 +1653,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeIosContextMenu (from `../node_modules/react-native-ios-context-menu`)
   - ReactNativeIosUtilities (from `../node_modules/react-native-ios-utilities`)
-  - ReactNativeUiLib (from `../node_modules/react-native-ui-lib`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -1845,8 +1842,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ios-context-menu"
   ReactNativeIosUtilities:
     :path: "../node_modules/react-native-ios-utilities"
-  ReactNativeUiLib:
-    :path: "../node_modules/react-native-ui-lib"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
@@ -1954,7 +1949,6 @@ SPEC CHECKSUMS:
   ReactCommon: f7da14a8827b72704169a48c929bcde802698361
   ReactNativeIosContextMenu: e5f972174bd78ab3a552bd6ee4745762ffaa42b3
   ReactNativeIosUtilities: 638290fbfaa093c1b50d1f926715d77cabcae759
-  ReactNativeUiLib: acf5e70a64140d6f38a969978f090c16862c2d3d
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCPicker: 0b6860a6b208d4046227d2f626ad0722f99a969c
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7

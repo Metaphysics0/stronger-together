@@ -1,44 +1,41 @@
 import { CreateGroupButton } from '@/components/Screens/Groups/CreateGroupButton';
 import {
-  Entypo,
-  FontAwesome,
-  FontAwesome6,
-  Ionicons,
-} from '@expo/vector-icons';
+  MessagesSquare,
+  Dumbbell,
+  Users,
+  User,
+  type LucideIcon,
+} from 'lucide-react-native';
 
 export const TAB_MENU_ITEMS: TabMenuItem[] = [
   {
     name: 'index',
     title: 'Workout',
-    iconComponent: FontAwesome6,
-    iconName: 'person-running',
-  },
-  {
-    name: 'groups',
-    title: 'Groups',
-    iconComponent: FontAwesome,
-    iconName: 'group',
-    headerRight: CreateGroupButton,
+    iconComponent: Dumbbell,
   },
   {
     name: 'feed',
     title: 'Feed',
-    iconComponent: Entypo,
-    iconName: 'list',
+    iconComponent: MessagesSquare,
+  },
+  {
+    name: 'groups',
+    title: 'Groups',
+    iconComponent: Users,
+    headerRight: CreateGroupButton,
   },
   {
     name: 'profile',
     title: 'Profile',
-    iconComponent: Ionicons,
-    iconName: 'person-circle',
+    iconComponent: User,
   },
 ];
 
 export interface TabMenuItem {
   name: string;
   title: string;
-  iconComponent: typeof FontAwesome | typeof Ionicons | typeof Entypo;
-  iconName: string;
+  iconComponent: LucideIcon;
+  iconName?: string;
   focusedIconName?: string;
   headerRight?: React.ComponentType<any>;
 }
