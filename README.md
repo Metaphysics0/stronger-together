@@ -1,5 +1,29 @@
 # Stronger Together
 
+**Stronger Together** is a collaborative fitness app designed to foster motivation and accountability through social connections. The app's standout feature allows users to log their exercises, which then sends real-time notifications to friends, creating a supportive community of fitness enthusiasts.
+
+## Key Features
+
+- **Social Workout Logging**: Record your exercises with details like reps and sets
+- **Real-time Friend Notifications**: When you complete a workout, friends receive motivational push notifications
+- **Activity Feed**: View a chronological feed of friends' workouts and achievements
+- **Workout Likes and Reactions**: Engage with friends' activities through likes
+- **User Profiles**: Track your progress and workout history
+
+## Technology Stack
+
+- **Frontend**: React Native with Expo framework
+- **UI Libraries**: React Native UI Lib, React Native Reanimated, React Native Gesture Handler
+- **State Management**: Zustand and React Query (TanStack Query)
+- **Backend**: Firebase (Authentication, Firestore, Storage)
+- **Push Notifications**: Expo Notifications
+- **Navigation**: Expo Router
+- **Authentication**: Firebase Authentication with Google Sign-in integration
+- **TypeScript**: Used throughout for type safety and improved developer experience
+- **Deployment**: EAS (Expo Application Services)
+
+This project demonstrates expertise in mobile app development, real-time notifications, social features implementation, and cloud integration. It showcases the ability to create a polished, feature-rich application that combines fitness tracking with social engagement to enhance user motivation.
+
 ## Development
 
 Getting Started:
